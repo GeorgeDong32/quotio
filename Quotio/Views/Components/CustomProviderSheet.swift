@@ -81,15 +81,9 @@ struct CustomProviderSheet: View {
             loadProviderData()
         }
         .alert("customProviders.validationError".localized(), isPresented: $showValidationAlert) {
-            Button("action.ok".localized(), role: .cancel) {
-                testError = nil
-            }
+            Button("action.ok".localized(), role: .cancel) {}
         } message: {
-            if let error = testError {
-                Text(error)
-            } else {
-                Text(validationErrors.joined(separator: "\n"))
-            }
+            Text(validationErrors.joined(separator: "\n"))
         }
         .alert("customProviders.testFailed".localized(), isPresented: $showTestFailureAlert) {
             Button("customProviders.goBack".localized(), role: .cancel) {
@@ -814,8 +808,11 @@ struct CustomProviderSheet: View {
     }
     
     private func saveProvider() {
-        // Clear previous errors
+        // Clear previous errors and reset alert states
         testError = nil
+        showValidationAlert = false
+        showTestFailureAlert = false
+        pendingProvider = nil
         
         // Convert selected model IDs to ModelMapping
         let selectedModelMappings = selectedModelIds.compactMap { modelId -> ModelMapping? in

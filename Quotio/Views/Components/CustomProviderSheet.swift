@@ -26,6 +26,7 @@ struct CustomProviderSheet: View {
     @State private var showValidationAlert = false
     @State private var isTestingConnection = false
     @State private var testError: String?
+    @State private var saveTask: Task<Void, Never>?
     
     @State private var showTestFailureAlert = false
     @State private var pendingProvider: CustomProvider?
@@ -808,6 +809,9 @@ struct CustomProviderSheet: View {
     }
     
     private func saveProvider() {
+        // Cancel previous save task if still running
+        saveTask?.cancel()
+
         // Clear previous errors and reset alert states
         testError = nil
         showValidationAlert = false
@@ -856,11 +860,12 @@ struct CustomProviderSheet: View {
         
         // Test connection before saving
         isTestingConnection = true
-        
-        Task {
+
+        saveTask = Task {
             do {
                 let success = try await testConnection(provider: newProvider)
                 await MainActor.run {
+                    guard !Task.isCancelled else { return }
                     isTestingConnection = false
                     if success {
                         onSave(newProvider)
@@ -869,6 +874,7 @@ struct CustomProviderSheet: View {
                 }
             } catch {
                 await MainActor.run {
+                    guard !Task.isCancelled else { return }
                     isTestingConnection = false
                     testError = error.localizedDescription
                     pendingProvider = newProvider

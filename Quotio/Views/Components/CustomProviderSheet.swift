@@ -23,13 +23,15 @@ struct CustomProviderSheet: View {
     @State private var isEnabled: Bool = true
     
     @State private var validationErrors: [String] = []
-    @State private var showValidationAlert = false
     @State private var isTestingConnection = false
-    @State private var testError: String?
     @State private var saveTask: Task<Void, Never>?
-    
-    @State private var showTestFailureAlert = false
-    @State private var pendingProvider: CustomProvider?
+
+    // Alert state: single source of truth for sheet alerts
+    enum AlertMode: Equatable {
+        case validation(errors: [String])
+        case testFailed(error: String, provider: CustomProvider)
+    }
+    @State private var alertMode: AlertMode?
 
     // Model fetching state
     @State private var availableModels: [AvailableModel] = []
@@ -81,26 +83,37 @@ struct CustomProviderSheet: View {
         .onAppear {
             loadProviderData()
         }
-        .alert("customProviders.validationError".localized(), isPresented: $showValidationAlert) {
-            Button("action.ok".localized(), role: .cancel) {}
-        } message: {
-            Text(validationErrors.joined(separator: "\n"))
-        }
-        .alert("customProviders.testFailed".localized(), isPresented: $showTestFailureAlert) {
-            Button("customProviders.goBack".localized(), role: .cancel) {
-                testError = nil
-                pendingProvider = nil
-            }
-            Button("customProviders.saveAnyway".localized()) {
-                if let provider = pendingProvider {
-                    onSave(provider)
-                    pendingProvider = nil
-                    dismiss()
+        .alert(
+            alertMode == .testFailed(error: "", provider: CustomProvider(name: "", type: .openaiCompatibility))
+                ? "customProviders.testFailed".localized()
+                : "customProviders.validationError".localized(),
+            isPresented: .init(
+                get: { alertMode != nil },
+                set: { if !$0 { alertMode = nil } }
+            )
+        ) {
+            switch alertMode {
+            case .validation:
+                Button("action.ok".localized(), role: .cancel) {}
+            case .testFailed:
+                Button("customProviders.goBack".localized(), role: .cancel) {}
+                Button("customProviders.saveAnyway".localized()) {
+                    if case let .testFailed(_, provider) = alertMode {
+                        onSave(provider)
+                        dismiss()
+                    }
                 }
+            case nil:
+                EmptyView()
             }
         } message: {
-            if let error = testError {
+            switch alertMode {
+            case let .validation(errors):
+                Text(errors.joined(separator: "\n"))
+            case let .testFailed(error, _):
                 Text("\(error)\n\("customProviders.saveAnywayHint".localized())")
+            case nil:
+                Text("")
             }
         }
     }
@@ -812,11 +825,8 @@ struct CustomProviderSheet: View {
         // Cancel previous save task if still running
         saveTask?.cancel()
 
-        // Clear previous errors and reset alert states
-        testError = nil
-        showValidationAlert = false
-        showTestFailureAlert = false
-        pendingProvider = nil
+        // Clear previous alert state
+        alertMode = nil
         
         // Convert selected model IDs to ModelMapping
         let selectedModelMappings = selectedModelIds.compactMap { modelId -> ModelMapping? in
@@ -854,7 +864,7 @@ struct CustomProviderSheet: View {
         validationErrors = CustomProviderService.shared.validateProvider(newProvider)
         
         if !validationErrors.isEmpty {
-            showValidationAlert = true
+            alertMode = .validation(errors: validationErrors)
             return
         }
         
@@ -876,9 +886,7 @@ struct CustomProviderSheet: View {
                 await MainActor.run {
                     guard !Task.isCancelled else { return }
                     isTestingConnection = false
-                    testError = error.localizedDescription
-                    pendingProvider = newProvider
-                    showTestFailureAlert = true
+                    alertMode = .testFailed(error: error.localizedDescription, provider: newProvider)
                 }
             }
         }

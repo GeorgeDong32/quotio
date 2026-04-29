@@ -27,6 +27,9 @@ struct CustomProviderSheet: View {
     @State private var isTestingConnection = false
     @State private var testError: String?
     
+    @State private var showTestFailureAlert = false
+    @State private var pendingProvider: CustomProvider?
+
     // Model fetching state
     @State private var availableModels: [AvailableModel] = []
     @State private var selectedModelIds: Set<String> = []
@@ -86,6 +89,23 @@ struct CustomProviderSheet: View {
                 Text(error)
             } else {
                 Text(validationErrors.joined(separator: "\n"))
+            }
+        }
+        .alert("customProviders.testFailed".localized(), isPresented: $showTestFailureAlert) {
+            Button("customProviders.goBack".localized(), role: .cancel) {
+                testError = nil
+                pendingProvider = nil
+            }
+            Button("customProviders.saveAnyway".localized()) {
+                if let provider = pendingProvider {
+                    onSave(provider)
+                    pendingProvider = nil
+                    dismiss()
+                }
+            }
+        } message: {
+            if let error = testError {
+                Text("\(error)\n\("customProviders.saveAnywayHint".localized())")
             }
         }
     }
@@ -737,7 +757,7 @@ struct CustomProviderSheet: View {
         case .openaiCompatibility, .codexCompatibility:
             request.setValue("Bearer \(firstKey.apiKey)", forHTTPHeaderField: "Authorization")
         case .claudeCompatibility:
-            request.setValue("Bearer \(firstKey.apiKey)", forHTTPHeaderField: "Authorization")
+            request.setValue(firstKey.apiKey, forHTTPHeaderField: "x-api-key")
             request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
         case .geminiCompatibility:
             var components = URLComponents(url: modelsURL, resolvingAgainstBaseURL: false)
@@ -854,7 +874,8 @@ struct CustomProviderSheet: View {
                 await MainActor.run {
                     isTestingConnection = false
                     testError = error.localizedDescription
-                    showValidationAlert = true
+                    pendingProvider = newProvider
+                    showTestFailureAlert = true
                 }
             }
         }
@@ -884,7 +905,7 @@ struct CustomProviderSheet: View {
         case .openaiCompatibility, .codexCompatibility:
             request.setValue("Bearer \(firstKey.apiKey)", forHTTPHeaderField: "Authorization")
         case .claudeCompatibility:
-            request.setValue("Bearer \(firstKey.apiKey)", forHTTPHeaderField: "Authorization")
+            request.setValue(firstKey.apiKey, forHTTPHeaderField: "x-api-key")
             request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
         case .geminiCompatibility:
             // Gemini uses query parameter for API key

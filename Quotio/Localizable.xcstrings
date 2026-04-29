@@ -5202,6 +5202,70 @@
         }
       }
     },
+    "customProviders.goBack" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go Back"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "返回修改"
+          }
+        }
+      }
+    },
+    "customProviders.saveAnyway" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Anyway"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仍然保存"
+          }
+        }
+      }
+    },
+    "customProviders.saveAnywayHint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can still save this provider."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你仍然可以保存此供应商配置。"
+          }
+        }
+      }
+    },
+    "customProviders.testFailed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connection Test Failed"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连接测试失败"
+          }
+        }
+      }
+    },
     "customProviders.validationError" : {
       "extractionState" : "stale",
       "localizations" : {

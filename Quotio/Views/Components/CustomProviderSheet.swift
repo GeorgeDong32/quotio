@@ -84,9 +84,12 @@ struct CustomProviderSheet: View {
             loadProviderData()
         }
         .alert(
-            alertMode == .testFailed(error: "", provider: CustomProvider(name: "", type: .openaiCompatibility))
-                ? "customProviders.testFailed".localized()
-                : "customProviders.validationError".localized(),
+            {
+                if case .testFailed = alertMode {
+                    return "customProviders.testFailed".localized()
+                }
+                return "customProviders.validationError".localized()
+            }(),
             isPresented: .init(
                 get: { alertMode != nil },
                 set: { if !$0 { alertMode = nil } }

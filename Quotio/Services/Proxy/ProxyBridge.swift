@@ -28,6 +28,10 @@ struct FallbackContext: Sendable {
     let attempts: [FallbackAttempt]
     let triedSanitization: Bool
 
+    // When true, skip writing route cache even if fallback succeeds.
+    // Set when fallback is triggered by HTTP 400 (request-level error).
+    let suppressRouteCacheWrite: Bool
+
     /// Whether this request has fallback enabled
     nonisolated var hasFallback: Bool { !fallbackEntries.isEmpty }
 
@@ -43,7 +47,8 @@ struct FallbackContext: Sendable {
             originalBody: originalBody,
             wasLoadedFromCache: false,
             attempts: attempts,
-            triedSanitization: false
+            triedSanitization: false,
+            suppressRouteCacheWrite: suppressRouteCacheWrite
         )
     }
 
@@ -56,7 +61,8 @@ struct FallbackContext: Sendable {
             originalBody: originalBody,
             wasLoadedFromCache: wasLoadedFromCache,
             attempts: attempts + [attempt],
-            triedSanitization: triedSanitization
+            triedSanitization: triedSanitization,
+            suppressRouteCacheWrite: suppressRouteCacheWrite
         )
     }
 
@@ -69,7 +75,8 @@ struct FallbackContext: Sendable {
             originalBody: originalBody,
             wasLoadedFromCache: wasLoadedFromCache,
             attempts: attempts,
-            triedSanitization: true
+            triedSanitization: true,
+            suppressRouteCacheWrite: suppressRouteCacheWrite
         )
     }
 
@@ -87,7 +94,8 @@ struct FallbackContext: Sendable {
         originalBody: "",
         wasLoadedFromCache: false,
         attempts: [],
-        triedSanitization: false
+        triedSanitization: false,
+        suppressRouteCacheWrite: false
     )
 }
 
@@ -522,7 +530,8 @@ final class ProxyBridge {
             originalBody: body,
             wasLoadedFromCache: wasLoadedFromCache,
             attempts: attempts,
-            triedSanitization: false
+            triedSanitization: false,
+            suppressRouteCacheWrite: false
         )
     }
 
@@ -859,17 +868,34 @@ final class ProxyBridge {
                         updatedContext = fallbackContext
                     }
                     let nextContext = updatedContext.next()
-                    if let nextEntry = nextContext.currentEntry,
-                       let virtualModelName = nextContext.virtualModelName {
+                    // Suppress route cache write when fallback was triggered by HTTP 400
+                    // (request-level error, not provider-level outage)
+                    let finalContext: FallbackContext
+                    if case .httpStatus(400) = reason {
+                        finalContext = FallbackContext(
+                            virtualModelName: nextContext.virtualModelName,
+                            fallbackEntries: nextContext.fallbackEntries,
+                            currentIndex: nextContext.currentIndex,
+                            originalBody: nextContext.originalBody,
+                            wasLoadedFromCache: nextContext.wasLoadedFromCache,
+                            attempts: nextContext.attempts,
+                            triedSanitization: nextContext.triedSanitization,
+                            suppressRouteCacheWrite: true
+                        )
+                    } else {
+                        finalContext = nextContext
+                    }
+                    if let nextEntry = finalContext.currentEntry,
+                       let virtualModelName = finalContext.virtualModelName {
 
                         // Update route state for UI display (cache is only updated on success)
                         Task { @MainActor in
                             let settings = FallbackSettingsManager.shared
                             settings.updateRouteState(
                                 virtualModelName: virtualModelName,
-                                entryIndex: nextContext.currentIndex,
+                                entryIndex: finalContext.currentIndex,
                                 entry: nextEntry,
-                                totalEntries: nextContext.fallbackEntries.count
+                                totalEntries: finalContext.fallbackEntries.count
                             )
                         }
 
@@ -888,7 +914,7 @@ final class ProxyBridge {
                             metadata: metadata,
                             targetPort: targetPort,
                             targetHost: targetHost,
-                            fallbackContext: nextContext
+                            fallbackContext: finalContext
                         )
                     }
                     return
@@ -1015,11 +1041,13 @@ final class ProxyBridge {
             // 1. Response is successful (HTTP 2xx)
             // 2. Fallback was actually triggered (currentIndex > 0)
             // 3. Entry was NOT loaded from cache (wasLoadedFromCache == false)
+            // 4. Route cache write is NOT suppressed (e.g. 400-triggered fallback)
             let settings = FallbackSettingsManager.shared
             if let statusCode = capturedStatusCode, (200..<300).contains(statusCode),
                settings.isRouteCachingEnabled,
                fallbackContext.currentIndex > 0,
                !fallbackContext.wasLoadedFromCache,
+               !fallbackContext.suppressRouteCacheWrite,
                let virtualModelName = fallbackContext.virtualModelName,
                let currentEntry = fallbackContext.currentEntry {
                 settings.setCachedEntryId(for: virtualModelName, entryId: currentEntry.id)

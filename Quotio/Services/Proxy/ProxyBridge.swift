@@ -888,15 +888,17 @@ final class ProxyBridge {
                     if let nextEntry = finalContext.currentEntry,
                        let virtualModelName = finalContext.virtualModelName {
 
-                        // Update route state for UI display (cache is only updated on success)
-                        Task { @MainActor in
-                            let settings = FallbackSettingsManager.shared
-                            settings.updateRouteState(
-                                virtualModelName: virtualModelName,
-                                entryIndex: finalContext.currentIndex,
-                                entry: nextEntry,
-                                totalEntries: finalContext.fallbackEntries.count
-                            )
+                        // Update route state for UI display (skip for 400-triggered fallbacks)
+                        if !finalContext.suppressRouteCacheWrite {
+                            Task { @MainActor in
+                                let settings = FallbackSettingsManager.shared
+                                settings.updateRouteState(
+                                    virtualModelName: virtualModelName,
+                                    entryIndex: finalContext.currentIndex,
+                                    entry: nextEntry,
+                                    totalEntries: finalContext.fallbackEntries.count
+                                )
+                            }
                         }
 
                         let nextBody = self.replaceModelInBody(fallbackContext.originalBody, with: nextEntry.modelId)

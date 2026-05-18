@@ -2,26 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <!-- Sparkle Auto-Update Configuration -->
-    <key>SUFeedURL</key>
-    <string>https://github.com/nguyenphutrong/quotio/releases/latest/download/appcast.xml</string>
-    
-    <key>SUPublicEDKey</key>
-    <string>HBpWFjUcNUuuZfdxhVlw2Mc87IT8tj1C68rufluZ0M4=</string>
-    
-    <key>SUEnableAutomaticChecks</key>
-    <true/>
-    
-    <key>SUScheduledCheckInterval</key>
-    <integer>86400</integer>
-    
     <!-- App Info -->
     <key>LSMinimumSystemVersion</key>
     <string>14.0</string>
-    
+
     <key>NSHumanReadableCopyright</key>
     <string>Copyright © 2025 Quotio. All rights reserved.</string>
-    
+
     <!-- URL Scheme -->
     <key>CFBundleURLTypes</key>
     <array>

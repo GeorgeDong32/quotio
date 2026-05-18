@@ -26,10 +26,6 @@ export NOTARIZATION_KEYCHAIN_PROFILE="${NOTARIZATION_KEYCHAIN_PROFILE:-quotio-no
 # GitHub
 export GITHUB_REPO="nguyenphutrong/quotio"
 
-# Sparkle
-export SPARKLE_PRIVATE_KEY_PATH="${PROJECT_DIR}/.sparkle_private_key"
-export APPCAST_PATH="${RELEASE_DIR}/appcast.xml"
-
 # =============================================================================
 # Terminal Detection & Colors
 # =============================================================================

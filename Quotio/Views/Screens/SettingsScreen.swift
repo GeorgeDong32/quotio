@@ -1016,48 +1016,6 @@ struct RefreshCadenceSettingsSection: View {
     }
 }
 
-// MARK: - Update Settings Section
-
-struct UpdateSettingsSection: View {
-    @AppStorage("autoCheckUpdates") private var autoCheckUpdates = true
-    
-    #if canImport(Sparkle)
-    private let updaterService = UpdaterService.shared
-    #endif
-    
-    var body: some View {
-        Section {
-            #if canImport(Sparkle)
-            Toggle("settings.autoCheckUpdates".localized(), isOn: $autoCheckUpdates)
-                .onChange(of: autoCheckUpdates) { _, newValue in
-                    updaterService.automaticallyChecksForUpdates = newValue
-                }
-            
-            HStack {
-                Text("settings.lastChecked".localized())
-                Spacer()
-                if let date = updaterService.lastUpdateCheckDate {
-                    Text(date, style: .relative)
-                        .foregroundStyle(.secondary)
-                } else {
-                    Text("settings.never".localized())
-                        .foregroundStyle(.secondary)
-                }
-            }
-            
-            Button("settings.checkNow".localized()) {
-                updaterService.checkForUpdates()
-            }
-            .disabled(!updaterService.canCheckForUpdates)
-            #else
-            Text("settings.version".localized() + ": " + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"))
-            #endif
-        } header: {
-            Label("settings.updates".localized(), systemImage: "arrow.down.circle")
-        }
-    }
-}
-
 // MARK: - Proxy Update Settings Section
 
 struct ProxyUpdateSettingsSection: View {
@@ -1928,7 +1886,6 @@ struct AboutTab: View {
 struct AboutScreen: View {
     @State private var showCopiedToast = false
     @State private var isHoveringVersion = false
-    @State private var updaterService = UpdaterService.shared
     
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -1971,11 +1928,6 @@ struct AboutScreen: View {
                     .transition(.opacity)
             }
         }
-        .onAppear {
-            #if canImport(Sparkle)
-            updaterService.initializeIfNeeded()
-            #endif
-        }
         .navigationTitle("nav.about".localized())
     }
     
@@ -2001,8 +1953,8 @@ struct AboutScreen: View {
                     .frame(width: 160, height: 160)
                     .blur(radius: 40)
                 
-                // App Icon - uses observable currentAppIcon from UpdaterService
-                if let appIcon = UpdaterService.shared.currentAppIcon {
+                // App Icon
+                if let appIcon = NSImage(named: "AppIconImage") {
                     Image(nsImage: appIcon)
                         .resizable()
                         .frame(width: 96, height: 96)
@@ -2057,8 +2009,6 @@ struct AboutScreen: View {
     
     private var updatesSection: some View {
         VStack(spacing: 12) {
-            AboutUpdateCard()
-            
             if OperatingModeManager.shared.isLocalProxyMode {
                 AboutProxyUpdateCard()
             }
@@ -2191,98 +2141,6 @@ struct VersionBadge: View {
 }
 
 // MARK: - About Update Card
-
-struct AboutUpdateCard: View {
-    @AppStorage("autoCheckUpdates") private var autoCheckUpdates = true
-    @State private var isHovered = false
-    
-    #if canImport(Sparkle)
-    private let updaterService = UpdaterService.shared
-    #endif
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            cardHeader(
-                title: "settings.updates".localized(),
-                systemImage: "arrow.down.circle",
-                color: .blue
-            )
-            
-            #if canImport(Sparkle)
-            HStack {
-                Text("settings.autoCheckUpdates".localized())
-                    .font(.subheadline)
-                Spacer()
-                Toggle("", isOn: $autoCheckUpdates)
-                    .toggleStyle(.switch)
-                    .controlSize(.small)
-                    .onChange(of: autoCheckUpdates) { _, newValue in
-                        updaterService.automaticallyChecksForUpdates = newValue
-                    }
-            }
-            
-            HStack {
-                Text("settings.updateChannel.receiveBeta".localized())
-                    .font(.subheadline)
-                Spacer()
-                Toggle("", isOn: Binding(
-                    get: { updaterService.updateChannel == .beta },
-                    set: { newValue in
-                        updaterService.updateChannel = newValue ? .beta : .stable
-                    }
-                ))
-                    .toggleStyle(.switch)
-                    .controlSize(.small)
-            }
-            
-            Divider()
-
-            HStack {
-                Text("settings.lastChecked".localized())
-                Spacer()
-                if let date = updaterService.lastUpdateCheckDate {
-                    Text(date, style: .relative)
-                        .foregroundStyle(.secondary)
-                } else {
-                    Text("settings.never".localized())
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .font(.caption)
-            .foregroundStyle(.secondary)
-
-            HStack {
-                Spacer()
-
-                Button("settings.checkNow".localized()) {
-                    updaterService.checkForUpdates()
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.small)
-            }
-            #else
-            Text("settings.version".localized() + ": " + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"))
-                .font(.caption)
-            #endif
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(nsColor: .controlBackgroundColor))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(
-            color: .black.opacity(isHovered ? 0.08 : 0.04),
-            radius: isHovered ? 8 : 4,
-            x: 0,
-            y: isHovered ? 2 : 1
-        )
-        .scaleEffect(isHovered ? 1.01 : 1.0)
-        .onHover { hovering in
-            withAnimation(.easeInOut(duration: 0.2)) {
-                isHovered = hovering
-            }
-        }
-    }
-}
 
 // MARK: - About Proxy Update Card
 

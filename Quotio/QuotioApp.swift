@@ -6,9 +6,6 @@
 import AppKit
 import SwiftUI
 import ServiceManagement
-#if canImport(Sparkle)
-import Sparkle
-#endif
 
 // MARK: - App Bootstrap (Singleton for headless initialization)
 
@@ -77,10 +74,6 @@ final class AppBootstrap {
 
         // Load data in background (includes proxy auto-start if enabled)
         await viewModel.initialize()
-
-        #if canImport(Sparkle)
-        UpdaterService.shared.checkForUpdatesInBackground()
-        #endif
     }
 
     func updateStatusBar() {
@@ -269,15 +262,6 @@ struct QuotioApp: App {
         .defaultSize(width: 1000, height: 700)
         .commands {
             CommandGroup(replacing: .newItem) { }
-
-            #if canImport(Sparkle)
-            CommandGroup(after: .appInfo) {
-                Button("Check for Updates...") {
-                    UpdaterService.shared.checkForUpdates()
-                }
-                .disabled(!UpdaterService.shared.canCheckForUpdates)
-            }
-            #endif
         }
     }
 }

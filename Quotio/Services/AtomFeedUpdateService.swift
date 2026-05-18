@@ -47,14 +47,9 @@ final class AtomFeedUpdateService {
 
     static let shared = AtomFeedUpdateService()
 
-    // MARK: - Feed URLs
-
-    private static let quotioFeedURL = "https://github.com/nguyenphutrong/quotio/releases.atom"
-
     // MARK: - Cache Keys
 
     private static let cliProxyCacheKey = "atomFeedCache_cliproxy"
-    private static let quotioCacheKey = "atomFeedCache_quotio"
 
     // MARK: - Polling Configuration
 
@@ -154,52 +149,6 @@ final class AtomFeedUpdateService {
 
         case .error(let error):
             NSLog("[AtomFeedUpdateService] CLIProxy feed error: \(error.localizedDescription)")
-            return (nil, false)
-        }
-    }
-
-    /// Check for Quotio app updates using Atom feed.
-    /// This is a lightweight pre-check before Sparkle does its full update cycle.
-    func checkForQuotioUpdate(currentVersion: String?) async -> (latestVersion: String?, isNewRelease: Bool) {
-        let result = await fetchAtomFeed(
-            url: Self.quotioFeedURL,
-            cacheKey: Self.quotioCacheKey
-        )
-
-        switch result {
-        case .updated(let entries, let etag):
-            guard let latest = entries.first else {
-                return (nil, false)
-            }
-
-            saveCacheState(
-                cacheKey: Self.quotioCacheKey,
-                etag: etag,
-                latestVersion: latest.version
-            )
-
-            let isNewer: Bool
-            if let current = currentVersion {
-                isNewer = isNewerVersion(latest.version, than: current)
-            } else {
-                isNewer = true
-            }
-            return (latest.version, isNewer)
-
-        case .notModified:
-            if let cached = loadCacheState(cacheKey: Self.quotioCacheKey) {
-                let isNewer: Bool
-                if let current = currentVersion {
-                    isNewer = isNewerVersion(cached.latestVersion, than: current)
-                } else {
-                    isNewer = true
-                }
-                return (cached.latestVersion, isNewer)
-            }
-            return (nil, false)
-
-        case .error(let error):
-            NSLog("[AtomFeedUpdateService] Quotio feed error: \(error.localizedDescription)")
             return (nil, false)
         }
     }

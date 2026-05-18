@@ -30,7 +30,7 @@ mkdir -p "${RELEASE_DIR}"
 print_step 1 2 "Creating ZIP"
 start_step_timer "zip"
 
-start_spinner "Creating Sparkle ZIP..."
+start_spinner "Creating ZIP..."
 ditto -c -k --keepParent "$APP_TO_PACKAGE" "$FINAL_ZIP"
 stop_spinner
 

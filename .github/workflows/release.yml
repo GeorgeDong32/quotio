@@ -97,17 +97,7 @@ jobs:
           ./scripts/package.sh
 
       # ===========================================
-      # 8. Generate Appcast with Sparkle signing
-      # ===========================================
-      - name: Generate Appcast
-        env:
-          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
-        run: |
-          chmod +x ./scripts/generate-appcast-ci.sh
-          ./scripts/generate-appcast-ci.sh
-
-      # ===========================================
-      # 9. Create tag (for workflow_dispatch)
+      # 8. Create tag (for workflow_dispatch)
       # ===========================================
       - name: Create tag
         if: github.event_name == 'workflow_dispatch'
@@ -129,7 +119,6 @@ jobs:
           files: |
             build/release/*.dmg
             build/release/*.zip
-            build/release/appcast.xml
           generate_release_notes: true
           append_body: true
           body: |
@@ -143,31 +132,6 @@ jobs:
             > xattr -cr /Applications/Quotio.app
             > ```
           prerelease: ${{ steps.version.outputs.IS_PRERELEASE == 'true' }}
-
-      # ===========================================
-      # 11. Update latest stable release with merged appcast
-      # ===========================================
-      - name: Update latest stable appcast
-        if: steps.version.outputs.IS_PRERELEASE == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Get the latest stable release tag
-          LATEST_STABLE=$(gh release list --exclude-pre-releases --limit 1 --json tagName -q '.[0].tagName')
-          
-          if [ -n "$LATEST_STABLE" ]; then
-            echo "Updating appcast on latest stable release: $LATEST_STABLE"
-            
-            # Delete old appcast from stable release
-            gh release delete-asset "$LATEST_STABLE" appcast.xml --yes 2>/dev/null || true
-            
-            # Upload merged appcast to stable release
-            gh release upload "$LATEST_STABLE" build/release/appcast.xml --clobber
-            
-            echo "Updated appcast.xml on $LATEST_STABLE with merged entries"
-          else
-            echo "No stable release found to update"
-          fi
 
       - name: Commit changes
         run: |

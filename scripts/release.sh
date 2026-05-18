@@ -28,7 +28,7 @@ else
     NEW_VERSION=$(get_version)
 fi
 
-TOTAL_STEPS=5
+TOTAL_STEPS=4
 RELEASE_TYPE="Release"
 [[ "$IS_BETA" == true ]] && RELEASE_TYPE="Beta Release"
 
@@ -66,14 +66,7 @@ start_step_timer "package"
 
 log_success "Packaging completed ($(get_step_duration "package"))"
 
-print_step 4 $TOTAL_STEPS "Generating Appcast"
-start_step_timer "appcast"
-
-"${SCRIPT_DIR}/generate-appcast.sh" >/dev/null 2>&1
-
-log_success "Appcast generated ($(get_step_duration "appcast"))"
-
-print_step 5 $TOTAL_STEPS "Creating GitHub Release"
+print_step 4 $TOTAL_STEPS "Creating GitHub Release"
 start_step_timer "github"
 
 TAG_NAME="v${NEW_VERSION}"
@@ -98,7 +91,6 @@ fi
 RELEASE_FILES=""
 [ -f "$DMG_FILE" ] && RELEASE_FILES="$RELEASE_FILES $DMG_FILE"
 [ -f "$ZIP_FILE" ] && RELEASE_FILES="$RELEASE_FILES $ZIP_FILE"
-[ -f "$APPCAST_PATH" ] && RELEASE_FILES="$RELEASE_FILES $APPCAST_PATH"
 
 RELEASE_FLAGS=""
 [[ "$IS_BETA" == true ]] && RELEASE_FLAGS="--prerelease"

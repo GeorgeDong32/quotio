@@ -26,6 +26,8 @@ struct CustomProviderSheet: View {
     @State private var showValidationAlert = false
     @State private var isTestingConnection = false
     @State private var testError: String?
+    // Provider data ready for forced save after test failure
+    @State private var pendingSaveProvider: CustomProvider?
     
     // Model fetching state
     @State private var availableModels: [AvailableModel] = []
@@ -78,8 +80,19 @@ struct CustomProviderSheet: View {
             loadProviderData()
         }
         .alert("customProviders.validationError".localized(), isPresented: $showValidationAlert) {
-            Button("action.ok".localized(), role: .cancel) {
-                testError = nil
+            if testError != nil {
+                // Test connection failed — offer forced save option
+                Button("action.cancel".localized(), role: .cancel) {
+                    testError = nil
+                    pendingSaveProvider = nil
+                }
+                Button("action.saveAnyway".localized()) {
+                    saveAndDismiss()
+                }
+            } else {
+                Button("action.ok".localized(), role: .cancel) {
+                    testError = nil
+                }
             }
         } message: {
             if let error = testError {
@@ -883,12 +896,14 @@ struct CustomProviderSheet: View {
         
         // Test connection before saving
         isTestingConnection = true
-        
+        pendingSaveProvider = newProvider
+
         Task {
             do {
                 let success = try await testConnection(provider: newProvider)
                 await MainActor.run {
                     isTestingConnection = false
+                    pendingSaveProvider = nil
                     if success {
                         onSave(newProvider)
                         dismiss()
@@ -902,6 +917,16 @@ struct CustomProviderSheet: View {
                 }
             }
         }
+    }
+
+    /// Force-saves the pending provider and dismisses the sheet, used when user
+    /// chooses "Save Anyway" after a connection test failure.
+    private func saveAndDismiss() {
+        guard let provider = pendingSaveProvider else { return }
+        onSave(provider)
+        testError = nil
+        pendingSaveProvider = nil
+        dismiss()
     }
     
     private func testConnection(provider: CustomProvider) async throws -> Bool {

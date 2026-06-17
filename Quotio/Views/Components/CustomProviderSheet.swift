@@ -741,6 +741,149 @@ struct CustomProviderSheet: View {
         return url.appendingPathComponent(endpoint)
     }
 
+    /// Returns the alternate models endpoint by flipping the version-segment decision
+    /// used in `makeModelsURL`. Used as a 404-only fallback during save validation.
+    private func makeAlternateModelsURL(baseURL rawBaseURL: String, providerType: CustomProviderType) -> URL? {
+        let normalizedBaseURL = normalizedBaseURL(rawBaseURL, for: providerType)
+        guard let url = URL(string: normalizedBaseURL) else { return nil }
+
+        let endpoint = baseURLIncludesVersion(url.path) ? "v1/models" : "models"
+        return url.appendingPathComponent(endpoint)
+    }
+
+    /// Outcome of a single models-endpoint probe attempt. Surfaces raw HTTP status
+    /// and body so callers can render their own error messages without duplicating
+    /// the HTTP plumbing. `transportError` represents a network-layer failure
+    /// (DNS, TLS, timeout) that never produced a status code.
+    private enum ModelsProbeOutcome {
+        case success(HTTPURLResponse, Data)
+        case notFound(HTTPURLResponse, Data)
+        case other(HTTPURLResponse, Data)
+        case transportError(Error)
+    }
+
+    /// Unified result of `probeModelsEndpoint`. The two 404 cases let callers tell
+    /// whether the alternate was tried (and failed) versus whether the primary
+    /// was the only 404. `fetchModelsFromAPI` uses `primaryNotFound` to show its
+    /// banner immediately; `testConnection` collapses both into a single
+    /// `endpointNotFound` throw.
+    private enum ModelsProbeResult {
+        /// Either attempt returned 2xx.
+        case success(HTTPURLResponse, Data)
+        /// Primary returned 404; alternate probe was issued and also returned 404.
+        case primaryNotFound(HTTPURLResponse, Data)
+        /// Primary returned 401/403; alternate not attempted.
+        case unauthorized(HTTPURLResponse, Data)
+        /// Primary returned a non-404 non-auth status; alternate not attempted.
+        case serverError(HTTPURLResponse, Data)
+        /// Network layer failure (DNS, TLS, timeout, etc.); alternate not attempted.
+        case transportError(Error)
+    }
+
+    /// Probe the models endpoint with the canonical URL, retrying the alternate
+    /// URL only on HTTP 404. All other statuses (200, 401/403, 5xx, etc.) are
+    /// returned from the primary attempt without fallback.
+    private func probeModelsEndpoint(
+        primary: URL,
+        alternate: URL,
+        requestBuilder: @escaping (URL) -> URLRequest
+    ) async -> ModelsProbeResult {
+        let primaryRequest = requestBuilder(primary)
+        let primaryOutcome = await performModelsRequest(primaryRequest)
+
+        switch primaryOutcome {
+        case .success(let response, let data):
+            return .success(response, data)
+        case .notFound(let response, let data):
+            let alternateRequest = requestBuilder(alternate)
+            let alternateOutcome = await performModelsRequest(alternateRequest)
+            switch alternateOutcome {
+            case .success(let altResponse, let altData):
+                return .success(altResponse, altData)
+            case .notFound(let altResponse, let altData):
+                return .primaryNotFound(altResponse, altData)
+            case .other(let altResponse, let altData):
+                // Alternate resolved but with a non-2xx non-404 code — treat as a
+                // server error so the user sees the real upstream status.
+                return .serverError(altResponse, altData)
+            case .transportError(let error):
+                return .transportError(error)
+            }
+        case .other(let response, let data):
+            switch response.statusCode {
+            case 401, 403:
+                return .unauthorized(response, data)
+            default:
+                return .serverError(response, data)
+            }
+        case .transportError(let error):
+            return .transportError(error)
+        }
+    }
+
+    /// Single HTTP GET against `URLSession.shared`. Network errors are captured
+    /// as `transportError` so the caller's switch is exhaustive.
+    private func performModelsRequest(_ request: URLRequest) async -> ModelsProbeOutcome {
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let httpResponse = response as? HTTPURLResponse else {
+                // Defensive: URLSession data tasks always return HTTPURLResponse
+                // for http(s) requests. Treat any other case as a transport error
+                // rather than fabricating a fake response.
+                let error = URLError(.badServerResponse)
+                return .transportError(error)
+            }
+            switch httpResponse.statusCode {
+            case 200..<300:
+                return .success(httpResponse, data)
+            case 404:
+                return .notFound(httpResponse, data)
+            default:
+                return .other(httpResponse, data)
+            }
+        } catch {
+            return .transportError(error)
+        }
+    }
+
+    /// Builds a models-endpoint request for any URL — used by `probeModelsEndpoint`
+    /// for both the primary and alternate attempts, so a non-canonical base URL
+    /// is probed consistently on both paths. Custom headers run *after* the
+    /// provider-set auth headers and therefore override them (pre-existing
+    /// behavior, called out so a future maintainer doesn't "fix" it by accident).
+    private func buildModelsRequest(
+        for url: URL,
+        providerType: CustomProviderType,
+        apiKey: String,
+        headers: [CustomHeader]
+    ) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.timeoutInterval = 15
+
+        switch providerType {
+        case .openaiCompatibility, .codexCompatibility:
+            request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        case .claudeCompatibility:
+            request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+            request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
+        case .geminiCompatibility:
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+            components?.queryItems = [URLQueryItem(name: "key", value: apiKey)]
+            if let newURL = components?.url {
+                request.url = newURL
+            }
+        case .glmCompatibility:
+            request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        }
+
+        for header in headers {
+            request.setValue(header.value, forHTTPHeaderField: header.key)
+        }
+
+        return request
+    }
+
     private func baseURLIncludesVersion(_ path: String) -> Bool {
         guard let lastSegment = path.split(separator: "/").last else { return false }
         return isVersionPathSegment(lastSegment)
@@ -762,75 +905,63 @@ struct CustomProviderSheet: View {
             modelFetchError = "Enter an API key first"
             return
         }
-        
-        let effectiveBaseURL = baseURL.isEmpty 
+
+        let effectiveBaseURL = baseURL.isEmpty
             ? (providerType.defaultBaseURL ?? "")
             : normalizedBaseURL(baseURL, for: providerType)
-        
-        guard let modelsURL = makeModelsURL(baseURL: effectiveBaseURL, providerType: providerType) else {
+
+        guard let modelsURL = makeModelsURL(baseURL: effectiveBaseURL, providerType: providerType),
+              let alternateURL = makeAlternateModelsURL(baseURL: effectiveBaseURL, providerType: providerType) else {
             modelFetchError = "Invalid base URL"
             return
         }
 
-        var request = URLRequest(url: modelsURL)
-        request.httpMethod = "GET"
-        request.timeoutInterval = 15
-        
-        // Set authorization header based on provider type
-        switch providerType {
-        case .openaiCompatibility, .codexCompatibility:
-            request.setValue("Bearer \(firstKey.apiKey)", forHTTPHeaderField: "Authorization")
-        case .claudeCompatibility:
-            request.setValue("Bearer \(firstKey.apiKey)", forHTTPHeaderField: "Authorization")
-            request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
-        case .geminiCompatibility:
-            var components = URLComponents(url: modelsURL, resolvingAgainstBaseURL: false)
-            components?.queryItems = [URLQueryItem(name: "key", value: firstKey.apiKey)]
-            if let newURL = components?.url {
-                request.url = newURL
-            }
-        case .glmCompatibility:
-            request.setValue("Bearer \(firstKey.apiKey)", forHTTPHeaderField: "Authorization")
+        // The request builder is reused by the helper for the alternate URL too;
+        // Gemini's `?key=` query is re-derived from the URL the helper hands in,
+        // so the query is correct on both attempts.
+        // Capture into locals first so the closure does not implicitly capture
+        // @MainActor-isolated view state, then delegate to the shared builder.
+        let capturedProviderType = providerType
+        let capturedAPIKey = firstKey.apiKey
+        let capturedHeaders = headers
+        let requestBuilder: (URL) -> URLRequest = { url in
+            buildModelsRequest(
+                for: url,
+                providerType: capturedProviderType,
+                apiKey: capturedAPIKey,
+                headers: capturedHeaders
+            )
         }
-        
-        // Add custom headers
-        for header in headers {
-            request.setValue(header.value, forHTTPHeaderField: header.key)
-        }
-        
+
         isLoadingModels = true
         modelFetchError = nil
-        
+
         Task {
-            do {
-                let (data, response) = try await URLSession.shared.data(for: request)
-                
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    await MainActor.run {
-                        isLoadingModels = false
-                        modelFetchError = "Invalid response"
+            let result = await probeModelsEndpoint(primary: modelsURL, alternate: alternateURL, requestBuilder: requestBuilder)
+
+            await MainActor.run {
+                isLoadingModels = false
+
+                switch result {
+                case .success(_, let data):
+                    do {
+                        let modelsResponse = try JSONDecoder().decode(ModelsListResponse.self, from: data)
+                        let fetchedModels = modelsResponse.allModels.map { $0.toAvailableModel() }
+                        availableModels = fetchedModels.sorted { $0.name < $1.name }
+                    } catch {
+                        modelFetchError = "Failed to fetch models: \(error.localizedDescription)"
                     }
-                    return
-                }
-                
-                guard httpResponse.statusCode == 200 else {
-                    await MainActor.run {
-                        isLoadingModels = false
-                        modelFetchError = "Failed to fetch models: HTTP \(httpResponse.statusCode)"
-                    }
-                    return
-                }
-                
-                let modelsResponse = try JSONDecoder().decode(ModelsListResponse.self, from: data)
-                let fetchedModels = modelsResponse.allModels.map { $0.toAvailableModel() }
-                
-                await MainActor.run {
-                    isLoadingModels = false
-                    availableModels = fetchedModels.sorted { $0.name < $1.name }
-                }
-            } catch {
-                await MainActor.run {
-                    isLoadingModels = false
+                case .primaryNotFound(let response, _):
+                    // Show the canonical first-attempt status immediately so the
+                    // user can see what went wrong, regardless of whether the
+                    // alternate path would have succeeded (save flow handles that).
+                    modelFetchError = "Failed to fetch models: HTTP \(response.statusCode)"
+                case .unauthorized(let response, _):
+                    modelFetchError = "Failed to fetch models: HTTP \(response.statusCode)"
+                case .serverError(let response, let data):
+                    let message = String(data: data, encoding: .utf8) ?? "Unknown error"
+                    modelFetchError = "Failed to fetch models: HTTP \(response.statusCode) (\(message))"
+                case .transportError(let error):
                     modelFetchError = "Failed to fetch models: \(error.localizedDescription)"
                 }
             }
@@ -908,60 +1039,47 @@ struct CustomProviderSheet: View {
         guard let firstKey = provider.apiKeys.first else {
             throw CustomProviderTestError.noAPIKey
         }
-        
-        let effectiveBaseURL = provider.baseURL.isEmpty 
+
+        let effectiveBaseURL = provider.baseURL.isEmpty
             ? (provider.type.defaultBaseURL ?? "")
             : provider.baseURL
-        
-        guard let modelsURL = makeModelsURL(baseURL: effectiveBaseURL, providerType: provider.type) else {
+
+        guard let modelsURL = makeModelsURL(baseURL: effectiveBaseURL, providerType: provider.type),
+              let alternateURL = makeAlternateModelsURL(baseURL: effectiveBaseURL, providerType: provider.type) else {
             throw CustomProviderTestError.invalidURL
         }
 
-        var request = URLRequest(url: modelsURL)
-        request.httpMethod = "GET"
-        request.timeoutInterval = 15
-        
-        // Set authorization header based on provider type
-        switch provider.type {
-        case .openaiCompatibility, .codexCompatibility:
-            request.setValue("Bearer \(firstKey.apiKey)", forHTTPHeaderField: "Authorization")
-        case .claudeCompatibility:
-            request.setValue("Bearer \(firstKey.apiKey)", forHTTPHeaderField: "Authorization")
-            request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
-        case .geminiCompatibility:
-            // Gemini uses query parameter for API key
-            var components = URLComponents(url: modelsURL, resolvingAgainstBaseURL: false)
-            components?.queryItems = [URLQueryItem(name: "key", value: firstKey.apiKey)]
-            if let newURL = components?.url {
-                request.url = newURL
-            }
-        case .glmCompatibility:
-            request.setValue("Bearer \(firstKey.apiKey)", forHTTPHeaderField: "Authorization")
+        // Build a request for any URL — the helper passes either the primary or
+        // the alternate, both shaped the same way (headers, query, custom headers).
+        // Capture into locals first so the closure does not implicitly capture
+        // @MainActor-isolated view state, then delegate to the shared builder.
+        let capturedProviderType = provider.type
+        let capturedAPIKey = firstKey.apiKey
+        let capturedHeaders = provider.headers
+        let result = await probeModelsEndpoint(primary: modelsURL, alternate: alternateURL) { url in
+            buildModelsRequest(
+                for: url,
+                providerType: capturedProviderType,
+                apiKey: capturedAPIKey,
+                headers: capturedHeaders
+            )
         }
-        
-        // Add custom headers if any
-        for header in provider.headers {
-            request.setValue(header.value, forHTTPHeaderField: header.key)
-        }
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw CustomProviderTestError.invalidResponse
-        }
-        
-        switch httpResponse.statusCode {
-        case 200..<300:
+
+        switch result {
+        case .success:
             return true
-        case 401, 403:
-            throw CustomProviderTestError.unauthorized
-        case 404:
+        case .primaryNotFound:
             throw CustomProviderTestError.endpointNotFound
-        default:
-            if let errorMessage = String(data: data, encoding: .utf8) {
-                throw CustomProviderTestError.serverError(httpResponse.statusCode, errorMessage)
-            }
-            throw CustomProviderTestError.serverError(httpResponse.statusCode, "Unknown error")
+        case .unauthorized:
+            throw CustomProviderTestError.unauthorized
+        case .serverError(let response, let data):
+            let errorMessage = String(data: data, encoding: .utf8) ?? "Unknown error"
+            throw CustomProviderTestError.serverError(response.statusCode, errorMessage)
+        case .transportError(let error):
+            // Network-layer failure (DNS, TLS, timeout). Surface with a clear
+            // prefix so the user can tell it apart from an upstream HTTP 5xx,
+            // while still keeping the existing error enum unchanged.
+            throw CustomProviderTestError.serverError(0, "Network error: \(error.localizedDescription)")
         }
     }
 }

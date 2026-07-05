@@ -2,9 +2,7 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="screenshots/menu_bar_dark.png" />
-    <source media="(prefers-color-scheme: light)" srcset="screenshots/menu_bar.png" />
-    <img alt="Quotio Banner" src="screenshots/menu_bar.png" height="600" />
+    <img alt="Quotio Banner" src="screenshots/menu_bar.png" width="720" />
   </picture>
 </p>
 
@@ -191,9 +189,7 @@ Go to **Agents** tab → Select an installed agent → Click **Configure** → C
 
 ### Menu Bar
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/menu_bar_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/menu_bar.png" />
-  <img alt="Menu Bar" src="screenshots/menu_bar.png" height="600" />
+  <img alt="Menu Bar" src="screenshots/menu_bar.png" width="720" />
 </picture>
 
 ## 🤝 Contributing

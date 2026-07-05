@@ -15,13 +15,13 @@ GitHub Actions will automatically:
 2. Create DMG and ZIP
 3. Sign appcast with Sparkle
 4. Create GitHub Release
-5. Commit version bump back to master
+5. Commit version bump back to the source branch
 
-### Option 2: Use Quick Release Script
+### Option 2: Use Local Release Script
 ```bash
-./scripts/quick-release.sh 0.5.0           # Release 0.5.0
-./scripts/quick-release.sh 0.5.0-beta-1    # Release beta
-./scripts/quick-release.sh patch           # Bump patch and release
+./scripts/release.sh 0.5.0           # Release 0.5.0
+./scripts/release.sh 0.5.0-beta-1    # Release beta
+./scripts/release.sh patch           # Bump patch and release
 ```
 
 ### Option 3: Manual Trigger from GitHub UI
@@ -90,7 +90,7 @@ git push origin v0.5.0
 5. Creates ZIP and DMG packages
 6. Signs appcast with Sparkle
 7. Creates GitHub Release with assets
-8. Commits version changes back to master
+8. Commits version changes back to the source branch
 
 ### Local Release (Fallback)
 
@@ -106,8 +106,8 @@ git push origin v0.5.0
 ## Beta/Pre-release
 
 ```bash
-./scripts/quick-release.sh 1.2.0-beta-1    # First beta
-./scripts/quick-release.sh 1.2.0-beta-2    # Second beta
+./scripts/release.sh 1.2.0-beta-1    # First beta
+./scripts/release.sh 1.2.0-beta-2    # Second beta
 ```
 
 Beta releases:
@@ -122,7 +122,6 @@ Beta releases:
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/quick-release.sh` | Interactive release helper (tag + push) |
 | `scripts/bump-version.sh` | Update version in project |
 | `scripts/build.sh` | Build release archive |
 | `scripts/package.sh` | Create ZIP and DMG |

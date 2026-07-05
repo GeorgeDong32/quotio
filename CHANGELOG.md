@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Synced upstream v0.20.0: menubar provider tabs (#423), Codex quota analytics (#426), Antigravity quota summary (#427), CLI build/deploy scripts (#425), `scripts/verify.sh`.
+
+### Changed
+
+- **update**: Removed Sparkle auto-update framework and Quotio app update UI (fork customization; CLI Proxy update check retained).
+- **provider**: Allow saving custom providers when connection test fails (Save Anyway).
+- **fallback**: HTTP 400-triggered route fallback is request-scoped only; route cache and UI route state are not updated.
+
+## [0.20.0] - 2026-07-04
+
+## [0.19.0] - 2026-07-04
+
+## [0.18.0] - 2026-06-03
+
 ## [0.17.1] - 2026-05-11
 
 ## [0.17.0] - 2026-05-05

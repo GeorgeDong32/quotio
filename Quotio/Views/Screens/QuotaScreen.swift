@@ -377,7 +377,7 @@ private struct ProviderQuotaView: View {
             if !existingKeys.contains(key) {
                 accounts.append(AccountInfo(
                     key: key,
-                    email: directAuthEmailsByKey[key] ?? key,
+                    email: data.accountDisplayName ?? directAuthEmailsByKey[key] ?? key,
                     status: "active",
                     statusColor: .green,
                     authFile: nil,
@@ -866,25 +866,68 @@ private struct AccountQuotaCardV2: View {
     
     @ViewBuilder
     private func standardContentByStyle(data: ProviderQuotaData) -> some View {
+        let meterModels = data.models.filter { !$0.isStandaloneMetric }
+        let standaloneModels = data.models.filter(\.isStandaloneMetric)
+        let factorySections = provider == .factoryDroid
+            ? FactoryDroidQuotaSection.sections(from: meterModels)
+            : []
+
+        VStack(spacing: 12) {
+            if !factorySections.isEmpty {
+                ForEach(factorySections) { section in
+                    VStack(alignment: .leading, spacing: 8) {
+                        FactoryDroidQuotaSectionHeader(title: section.title)
+                        meterContentByStyle(models: section.models)
+                    }
+                }
+            } else if !meterModels.isEmpty {
+                meterContentByStyle(models: meterModels)
+            }
+
+            ForEach(standaloneModels) { model in
+                StandaloneMetricRow(model: model)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func meterContentByStyle(models: [ModelQuota]) -> some View {
         switch displayStyle {
         case .lowestBar:
-            StandardLowestBarLayout(models: data.models)
+            StandardLowestBarLayout(models: models)
         case .ring:
-            StandardRingLayout(models: data.models)
+            StandardRingLayout(models: models)
         case .card:
             VStack(spacing: 12) {
-                ForEach(data.models) { model in
+                ForEach(models) { model in
                     UsageRowV2(
                         name: model.displayName,
                         icon: nil,
                         usedPercent: model.usedPercentage,
                         used: model.used,
                         limit: model.limit,
+                        formattedUsage: model.presentation == nil ? nil : model.formattedUsage,
                         resetTime: model.formattedResetTime,
                         tooltip: model.tooltip
                     )
                 }
             }
+        }
+    }
+}
+
+private struct FactoryDroidQuotaSectionHeader: View {
+    let title: String
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Text(title)
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
+            Rectangle()
+                .fill(Color.primary.opacity(0.08))
+                .frame(height: 1)
         }
     }
 }
@@ -1531,6 +1574,7 @@ private struct UsageRowV2: View {
     let usedPercent: Double
     let used: Int?
     let limit: Int?
+    let formattedUsage: String?
     let resetTime: String
     let tooltip: String?
     
@@ -1567,7 +1611,12 @@ private struct UsageRowV2: View {
                 
                 Spacer()
                 
-                if let used = used {
+                if let formattedUsage {
+                    Text(formattedUsage)
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
+                        .monospacedDigit()
+                } else if let used = used {
                     if let limit = limit, limit > 0 {
                         Text(String(used) + "/" + String(limit))
                             .font(.caption)
@@ -1608,6 +1657,26 @@ private struct UsageRowV2: View {
                 .frame(height: 6)
             }
         }
+    }
+}
+
+private struct StandaloneMetricRow: View {
+    let model: ModelQuota
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Text(model.displayName)
+                .font(.subheadline)
+                .fontWeight(.medium)
+            Spacer()
+            Text(model.formattedUsage ?? "—")
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
+                .monospacedDigit()
+        }
+        .padding(.vertical, 2)
+        .help(model.tooltip ?? "")
     }
 }
 

@@ -19,6 +19,10 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
     case kiro = "kiro"
     case copilot = "github-copilot"
     case cursor = "cursor"
+    case factoryDroid = "factory-droid"
+    case devin = "devin"
+    case grok = "grok"
+    case openRouter = "openrouter"
     case trae = "trae"
     case glm = "glm"
     case warp = "warp"
@@ -37,8 +41,12 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
         case .kiro: return "Kiro"
         case .copilot: return "GitHub Copilot"
         case .cursor: return "Cursor"
+        case .factoryDroid: return "Factory Droid"
+        case .devin: return "Devin"
+        case .grok: return "Grok"
+        case .openRouter: return "OpenRouter"
         case .trae: return "Trae"
-        case .glm: return "GLM"
+        case .glm: return "Z.ai"
         case .warp: return "Warp"
         }
     }
@@ -55,6 +63,10 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
         case .kiro: return "cloud.fill"
         case .copilot: return "chevron.left.forwardslash.chevron.right"
         case .cursor: return "cursorarrow.rays"
+        case .factoryDroid: return "cpu"
+        case .devin: return "bolt.horizontal.circle"
+        case .grok: return "xmark.circle"
+        case .openRouter: return "point.3.connected.trianglepath.dotted"
         case .trae: return "cursorarrow.rays"
         case .glm: return "brain"
         case .warp: return "terminal.fill"
@@ -74,6 +86,10 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
         case .kiro: return "kiro"
         case .copilot: return "copilot"
         case .cursor: return "cursor"
+        case .factoryDroid: return "factory-droid"
+        case .devin: return "devin"
+        case .grok: return "grok"
+        case .openRouter: return "openrouter"
         case .trae: return "trae"
         case .glm: return "glm"
         case .warp: return "warp"
@@ -92,6 +108,10 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
         case .kiro: return Color(hex: "9046FF") ?? .purple
         case .copilot: return Color(hex: "238636") ?? .green
         case .cursor: return Color(hex: "00D4AA") ?? .teal
+        case .factoryDroid: return Color(hex: "238636") ?? .green
+        case .devin: return Color(hex: "6C5CE7") ?? .purple
+        case .grok: return .primary
+        case .openRouter: return Color(hex: "6B5CFF") ?? .purple
         case .trae: return Color(hex: "00B4D8") ?? .cyan
         case .glm: return Color(hex: "3B82F6") ?? .blue
         case .warp: return Color(hex: "01E5FF") ?? .cyan
@@ -110,6 +130,7 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
         case .kiro: return ""  // Uses CLI-based auth like Copilot
         case .copilot: return ""
         case .cursor: return ""  // Uses browser session
+        case .factoryDroid, .devin, .grok, .openRouter: return ""
         case .trae: return ""  // Uses browser session
         case .glm: return ""
         case .warp: return ""
@@ -129,6 +150,10 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
         case .kiro: return "K"
         case .copilot: return "CP"
         case .cursor: return "CR"
+        case .factoryDroid: return "FD"
+        case .devin: return "D"
+        case .grok: return "X"
+        case .openRouter: return "OR"
         case .trae: return "TR"
         case .glm: return "G"
         case .warp: return "W"
@@ -149,6 +174,7 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
         case .iflow: return "iflow-menubar"
         case .vertex: return "vertex-menubar"
         case .cursor: return "cursor-menubar"
+        case .factoryDroid, .devin, .grok, .openRouter: return nil
         case .trae: return "trae-menubar"
         case .glm: return "glm-menubar"
         case .warp: return "warp-menubar"
@@ -158,7 +184,7 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
     /// Whether this provider supports quota tracking in quota-only mode
     var supportsQuotaOnlyMode: Bool {
         switch self {
-        case .claude, .codex, .cursor, .gemini, .antigravity, .copilot, .trae, .glm, .warp, .kiro:
+        case .claude, .codex, .cursor, .factoryDroid, .gemini, .antigravity, .copilot, .devin, .grok, .openRouter, .trae, .glm, .warp, .kiro:
             return true
         case .qwen, .iflow, .vertex:
             return false
@@ -200,17 +226,17 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
     /// GLM is excluded because it should only be added via Custom Providers
     var supportsManualAuth: Bool {
         switch self {
-        case .cursor, .trae, .glm:
-            return false  // GLM: only via Custom Providers; Cursor/Trae: only reads from local app database
+        case .cursor, .trae, .devin, .grok, .glm:
+            return false  // API-key providers: Custom Providers; Cursor/Trae: local app databases
         default:
             return true
         }
     }
 
-    /// Whether this provider uses API key authentication (stored in CustomProviderService)
+    /// Whether this provider uses API key authentication
     var usesAPIKeyAuth: Bool {
         switch self {
-        case .glm, .warp:
+        case .glm, .warp, .factoryDroid, .openRouter:
             return true
         default:
             return false
@@ -220,12 +246,52 @@ nonisolated enum AIProvider: String, CaseIterable, Codable, Identifiable {
     /// Whether this provider is quota-tracking only (not a real provider that can route requests)
     var isQuotaTrackingOnly: Bool {
         switch self {
-        case .cursor, .trae, .warp:
+        case .cursor, .trae, .factoryDroid, .devin, .grok, .openRouter, .warp:
             return true  // Only for tracking usage, not a provider
         default:
             return false
         }
     }
+
+    /// Whether the Local Proxy dashboard can route this provider through its setup flow.
+    var supportsLocalProxySetup: Bool {
+        supportsManualAuth && !isQuotaTrackingOnly
+    }
+}
+
+// MARK: - Quota Metric Presentation
+
+/// Optional typed value for quota rows that are not plain percentages.
+/// Existing snapshots omit this field and continue to render through ModelQuota.percentage.
+nonisolated enum QuotaMetricUnit: String, Codable, Sendable, Equatable {
+    case usd
+    case credits
+    case requests
+    case searches
+
+    func format(_ value: Double) -> String {
+        switch self {
+        case .usd:
+            return value.formatted(.currency(code: "USD").precision(.fractionLength(0...2)))
+        case .credits:
+            return String.localizedStringWithFormat("quota.metric.unit.credits".localizedStatic(), value)
+        case .requests:
+            return String.localizedStringWithFormat("quota.metric.unit.requests".localizedStatic(), value)
+        case .searches:
+            return String.localizedStringWithFormat("quota.metric.unit.searches".localizedStatic(), value)
+        }
+    }
+}
+
+nonisolated enum QuotaAmountSemantics: String, Codable, Sendable, Equatable {
+    case balance
+    case spent
+}
+
+nonisolated enum QuotaMetricPresentation: Codable, Sendable, Equatable {
+    case progress(used: Double, limit: Double, unit: QuotaMetricUnit)
+    case amount(value: Double, unit: QuotaMetricUnit, semantics: QuotaAmountSemantics)
+    case status(text: String)
 }
 
 // MARK: - Proxy Status

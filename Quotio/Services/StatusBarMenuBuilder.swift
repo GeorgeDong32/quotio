@@ -222,7 +222,8 @@ final class StatusBarMenuBuilder {
 
     private func accountsForProvider(_ provider: AIProvider) -> [(email: String, data: ProviderQuotaData)] {
         guard let quotas = viewModel.providerQuotas[provider] else { return [] }
-        return quotas.map { ($0.key, $0.value) }.sorted { $0.email < $1.email }
+        return quotas.map { ($0.value.accountDisplayName ?? $0.key, $0.value) }
+            .sorted { $0.email < $1.email }
     }
 
     // MARK: - Header Item
@@ -1005,29 +1006,61 @@ private struct MenuAccountCardView: View {
             if isAntigravity {
                 return antigravityGroups.map { ModelBadgeData(name: $0.name, percentage: $0.percentage, resetTime: $0.resetTime) }
             } else {
-                return data.models.map { ModelBadgeData(name: $0.displayName, percentage: $0.percentage, resetTime: $0.resetTime) }
+                return data.models.filter { !$0.isStandaloneMetric }.map {
+                    ModelBadgeData(name: $0.displayName, percentage: $0.percentage, resetTime: $0.resetTime)
+                }
             }
         }()
+        let standaloneModels = isAntigravity ? [] : data.models.filter(\.isStandaloneMetric)
+        let factorySections = provider == .factoryDroid
+            ? FactoryDroidQuotaSection.sections(from: data.models.filter { !$0.isStandaloneMetric })
+            : []
         
-        let displayStyle = settings.quotaDisplayStyle
-        
-        return Group {
-            if models.isEmpty {
+        return VStack(spacing: 8) {
+            if models.isEmpty && standaloneModels.isEmpty {
                 Text("dashboard.noQuotaData".localized())
                     .font(.caption)
                     .foregroundStyle(.tertiary)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.vertical, 8)
-            } else if displayStyle == .lowestBar {
-                // Modern Lowest Bar: Big highlighted row for bottleneck, others compact
-                LowestBarLayout(models: models)
-            } else if displayStyle == .ring {
-                // Ring Grid
-                RingGridLayout(models: models)
-            } else {
-                // Standard Card Grid (Bars)
-                CardGridLayout(models: models)
+            } else if !factorySections.isEmpty {
+                ForEach(factorySections) { section in
+                    VStack(alignment: .leading, spacing: 6) {
+                        FactoryDroidMenuSectionHeader(title: section.title)
+                        quotaLayout(models: section.models.map {
+                            ModelBadgeData(name: $0.displayName, percentage: $0.percentage, resetTime: $0.resetTime)
+                        })
+                    }
+                }
+            } else if !models.isEmpty {
+                quotaLayout(models: models)
             }
+
+            ForEach(standaloneModels) { model in
+                HStack(spacing: 8) {
+                    Text(model.displayName)
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Text(model.formattedUsage ?? "—")
+                        .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                        .foregroundStyle(.primary)
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 5)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func quotaLayout(models: [ModelBadgeData]) -> some View {
+        switch settings.quotaDisplayStyle {
+        case .lowestBar:
+            LowestBarLayout(models: models)
+        case .ring:
+            RingGridLayout(models: models)
+        case .card:
+            CardGridLayout(models: models)
         }
     }
     
@@ -1081,6 +1114,21 @@ private struct MenuAccountCardView: View {
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter.string(from: date)
+    }
+}
+
+private struct FactoryDroidMenuSectionHeader: View {
+    let title: String
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Text(title)
+                .font(.system(size: 9, weight: .semibold, design: .rounded))
+                .foregroundStyle(.secondary)
+            Rectangle()
+                .fill(Color.primary.opacity(0.08))
+                .frame(height: 1)
+        }
     }
 }
 
@@ -2333,19 +2381,19 @@ private struct MenuModelDetailView: View {
                     .foregroundStyle(.tertiary)
             }
 
-            if displayStyle != .ring {
+            if !model.isStandaloneMetric && displayStyle != .ring {
                 Text(String(format: "%.0f%% %@", displayPercent, displayMode.suffixKey.localized()))
                     .font(.system(size: 10, weight: .semibold, design: .rounded))
                     .foregroundStyle(statusColor)
             }
 
-            if model.formattedResetTime != "—" && !model.formattedResetTime.isEmpty {
+            if !model.isStandaloneMetric && model.formattedResetTime != "—" && !model.formattedResetTime.isEmpty {
                 Text(model.formattedResetTime)
                     .font(.system(size: 9, design: .rounded))
                     .foregroundStyle(.tertiary)
             }
 
-            if displayStyle == .ring {
+            if !model.isStandaloneMetric && displayStyle == .ring {
                 RingProgressView(percent: displayPercent, size: 14, lineWidth: 2, tint: statusColor)
             }
         }
@@ -2433,7 +2481,11 @@ private extension AIProvider {
         case .iflow: return "iFlow"
         case .vertex: return "Vertex"
         case .kiro: return "Kiro"
-        case .glm: return "GLM"
+        case .factoryDroid: return "Factory Droid"
+        case .devin: return "Devin"
+        case .grok: return "Grok"
+        case .openRouter: return "OpenRouter"
+        case .glm: return "Z.ai"
         case .warp: return "Warp"
         }
     }

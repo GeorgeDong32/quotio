@@ -401,6 +401,9 @@ actor MonitorAccountDiscovery {
         accounts.append(contentsOf: discoverGeminiFile())
         accounts.append(contentsOf: discoverCopilotFiles())
         accounts.append(contentsOf: discoverKiroFile())
+        accounts.append(contentsOf: discoverFactoryDroidCredential())
+        accounts.append(contentsOf: discoverDevinCredential())
+        accounts.append(contentsOf: discoverGrokCredentials())
         let antigravityDatabase = MonitorIdentity.expand("~/Library/Application Support/Antigravity/User/globalStorage/state.vscdb")
         if let token = try? await AntigravityDatabaseService().getCurrentTokenInfo(),
            token.accessToken?.nilIfBlank != nil || token.refreshToken?.nilIfBlank != nil {
@@ -412,6 +415,46 @@ actor MonitorAccountDiscovery {
             ))
         }
         return accounts
+    }
+
+    private func discoverFactoryDroidCredential() -> [MonitorAccount] {
+        guard let credential = FactoryDroidCredentialReader.load() else { return [] }
+        return [FactoryDroidQuotaFetcher.localAccount(for: credential)]
+    }
+
+    private func discoverDevinCredential() -> [MonitorAccount] {
+        let credentialsPath = MonitorIdentity.expand(DevinQuotaFetcher.credentialsPath)
+        if let text = try? String(contentsOfFile: credentialsPath, encoding: .utf8),
+           DevinQuotaFetcher.parseCredentialsTOML(text) != nil {
+            return [.make(
+                provider: .devin,
+                accountKey: "Devin",
+                source: .nativeCredential,
+                credentialReference: credentialsPath
+            )]
+        }
+
+        let databasePath = MonitorIdentity.expand(DevinQuotaFetcher.stateDBPath)
+        guard DevinQuotaFetcher.loadAppCredential(path: databasePath) != nil else { return [] }
+        return [.make(
+            provider: .devin,
+            accountKey: "Devin",
+            source: .localIDE,
+            credentialReference: databasePath
+        )]
+    }
+
+    private func discoverGrokCredentials() -> [MonitorAccount] {
+        let path = MonitorIdentity.expand(GrokQuotaFetcher.authPath)
+        return GrokQuotaFetcher.loadCandidates(path: path).map { candidate in
+            .make(
+                provider: .grok,
+                accountKey: candidate.entryKey,
+                displayName: candidate.displayName,
+                source: .nativeCredential,
+                credentialReference: path + "#" + candidate.entryKey
+            )
+        }
     }
 
     private func discoverCodexFiles(aliases: [String: String]) -> [MonitorAccount] {
@@ -519,15 +562,17 @@ actor MonitorRefreshCoordinator {
     }
 
     func bootstrap() async -> MonitorRefreshBatch {
-        MonitorRefreshBatch(
-            accounts: await discovery.discover(),
-            quotas: await snapshots.load(),
+        let quotas = await snapshots.load()
+        return MonitorRefreshBatch(
+            accounts: await discoverAccounts(merging: quotas),
+            quotas: quotas,
             issues: issues
         )
     }
 
     func discoverAccounts(merging quotas: [AIProvider: [String: ProviderQuotaData]] = [:]) async -> [MonitorAccount] {
         var accounts = await discovery.discover()
+        accounts = Self.applyingQuotaDisplayNames(accounts, quotas: quotas)
         let disabledIDs = await discovery.disabledAccountIDs()
         let existingKeys = Set(accounts.map(\.deduplicationKey))
         var appendedKeys = existingKeys
@@ -536,13 +581,14 @@ actor MonitorRefreshCoordinator {
             let source: MonitorAccountSource
             switch provider {
             case .cursor, .trae: source = .localIDE
-            case .glm, .warp: source = .apiKey
+            case .glm, .warp, .factoryDroid, .openRouter: source = .apiKey
             default: source = .nativeCredential
             }
-            for accountKey in accountQuotas.keys {
+            for (accountKey, quota) in accountQuotas {
                 let account = Self.makeQuotaDerivedAccount(
                     provider: provider,
                     accountKey: accountKey,
+                    displayName: quota.accountDisplayName,
                     source: source,
                     disabledIDs: disabledIDs
                 )
@@ -578,12 +624,39 @@ actor MonitorRefreshCoordinator {
     nonisolated static func makeQuotaDerivedAccount(
         provider: AIProvider,
         accountKey: String,
+        displayName: String? = nil,
         source: MonitorAccountSource,
         disabledIDs: Set<String>
     ) -> MonitorAccount {
-        var account = MonitorAccount.make(provider: provider, accountKey: accountKey, source: source)
+        var account = MonitorAccount.make(
+            provider: provider,
+            accountKey: accountKey,
+            displayName: displayName,
+            source: source
+        )
         account.isDisabled = disabledIDs.contains(account.id)
         return account
+    }
+
+    nonisolated static func applyingQuotaDisplayNames(
+        _ accounts: [MonitorAccount],
+        quotas: [AIProvider: [String: ProviderQuotaData]]
+    ) -> [MonitorAccount] {
+        accounts.map { account in
+            guard let displayName = quotas[account.provider]?[account.accountKey]?.accountDisplayName else {
+                return account
+            }
+            return MonitorAccount(
+                id: account.id,
+                provider: account.provider,
+                accountKey: account.accountKey,
+                displayName: displayName,
+                source: account.source,
+                credentialReference: account.credentialReference,
+                canDelete: account.canDelete,
+                isDisabled: account.isDisabled
+            )
+        }
     }
 
     func refresh(
@@ -680,6 +753,7 @@ nonisolated enum SecureAtomicFileWriter {
         } else {
             try manager.moveItem(at: temporary, to: url)
         }
+        try manager.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
     }
 }
 
@@ -718,11 +792,13 @@ nonisolated enum MonitorIdentity {
 
 nonisolated enum MonitorRuntimeError: LocalizedError {
     case credentialWriteFailed
+    case invalidCredential
     case symbolicLinkRefused
 
     var errorDescription: String? {
         switch self {
         case .credentialWriteFailed: "Could not save the Monitor credential in Keychain."
+        case .invalidCredential: "The Monitor credential file is invalid."
         case .symbolicLinkRefused: "Refusing to write credentials through a symbolic link."
         }
     }

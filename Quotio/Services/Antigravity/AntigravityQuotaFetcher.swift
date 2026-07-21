@@ -129,6 +129,9 @@ nonisolated struct ModelQuota: Codable, Identifiable, Sendable {
     let percentage: Double
     let resetTime: String
 
+    /// Typed value for currency/count/status rows. Nil keeps the legacy percentage presentation.
+    var presentation: QuotaMetricPresentation?
+
     // Optional usage details for providers that support it (e.g., Cursor)
     var used: Int?
     var limit: Int?
@@ -136,6 +139,26 @@ nonisolated struct ModelQuota: Codable, Identifiable, Sendable {
 
     // Optional tooltip message (e.g., Warp bonus userFacingMessage)
     var tooltip: String?
+
+    init(
+        name: String,
+        percentage: Double,
+        resetTime: String,
+        presentation: QuotaMetricPresentation? = nil,
+        used: Int? = nil,
+        limit: Int? = nil,
+        remaining: Int? = nil,
+        tooltip: String? = nil
+    ) {
+        self.name = name
+        self.percentage = percentage
+        self.resetTime = resetTime
+        self.presentation = presentation
+        self.used = used
+        self.limit = limit
+        self.remaining = remaining
+        self.tooltip = tooltip
+    }
 
     var id: String { name }
 
@@ -155,11 +178,30 @@ nonisolated struct ModelQuota: Codable, Identifiable, Sendable {
 
     /// Formatted usage string like "150/2000" or "150 used"
     var formattedUsage: String? {
+        if let presentation {
+            switch presentation {
+            case .progress(let used, let limit, let unit):
+                return unit.format(used) + " / " + unit.format(limit)
+            case .amount(let value, let unit, let semantics):
+                let key = semantics == .balance ? "quota.metric.balanceValue" : "quota.metric.spentValue"
+                return String(format: key.localizedStatic(), unit.format(value))
+            case .status(let text):
+                return text
+            }
+        }
         guard let used = used else { return nil }
         if let limit = limit, limit > 0 {
             return "\(used)/\(limit)"
         }
         return "\(used) used"
+    }
+
+    var isStandaloneMetric: Bool {
+        guard let presentation else { return false }
+        switch presentation {
+        case .amount, .status: return true
+        case .progress: return false
+        }
     }
 
     var modelGroup: AntigravityModelGroup? {
@@ -228,6 +270,35 @@ nonisolated struct ModelQuota: Codable, Identifiable, Sendable {
         case "windsurf-usage": return "Usage"
         // Warp quota names
         case "warp-usage": return "warp.credits.label".localizedStatic()
+        // Z.ai / GLM Coding Plan
+        case "zai-session": return "quota.metric.session".localizedStatic()
+        case "zai-daily": return "quota.metric.daily".localizedStatic()
+        case "zai-weekly": return "quota.metric.weekly".localizedStatic()
+        case "zai-monthly": return "quota.metric.monthly".localizedStatic()
+        case "zai-web-searches": return "quota.metric.webSearches".localizedStatic()
+        // Devin
+        case "devin-daily": return "quota.metric.daily".localizedStatic()
+        case "devin-weekly": return "quota.metric.weekly".localizedStatic()
+        case "devin-extra-balance": return "quota.metric.extraBalance".localizedStatic()
+        // Grok
+        case "grok-weekly": return "quota.metric.weekly".localizedStatic()
+        case "grok-extra-usage": return "quota.metric.extraUsage".localizedStatic()
+        // Factory Droid
+        case "factory-standard-five-hour": return "factory.quota.standardFiveHour".localizedStatic()
+        case "factory-standard-weekly": return "factory.quota.standardWeekly".localizedStatic()
+        case "factory-standard-monthly": return "factory.quota.standardMonthly".localizedStatic()
+        case "factory-core-five-hour": return "factory.quota.coreFiveHour".localizedStatic()
+        case "factory-core-weekly": return "factory.quota.coreWeekly".localizedStatic()
+        case "factory-core-monthly": return "factory.quota.coreMonthly".localizedStatic()
+        case "factory-extra-balance": return "quota.metric.extraBalance".localizedStatic()
+        case "factory-billing-mode": return "factory.quota.billingMode".localizedStatic()
+        // OpenRouter
+        case "openrouter-credits": return "quota.metric.credits".localizedStatic()
+        case "openrouter-balance": return "quota.metric.balance".localizedStatic()
+        case "openrouter-today": return "quota.metric.today".localizedStatic()
+        case "openrouter-week": return "quota.metric.thisWeek".localizedStatic()
+        case "openrouter-month": return "quota.metric.thisMonth".localizedStatic()
+        case "openrouter-key-limit": return "quota.metric.keyLimit".localizedStatic()
         case let name where name.hasPrefix("warp-bonus-"):
             let index = Int(String(name.dropFirst("warp-bonus-".count))) ?? 0
             return "Bonus \(index + 1)"
@@ -286,6 +357,7 @@ nonisolated struct ProviderQuotaData: Codable, Sendable {
     var planType: String?
     var tokenExpiresAt: Date?  // For Kiro: token expiry time
     var analytics: QuotaAnalytics?
+    var accountDisplayName: String?
 
     init(
         models: [ModelQuota] = [],
@@ -293,7 +365,8 @@ nonisolated struct ProviderQuotaData: Codable, Sendable {
         isForbidden: Bool = false,
         planType: String? = nil,
         tokenExpiresAt: Date? = nil,
-        analytics: QuotaAnalytics? = nil
+        analytics: QuotaAnalytics? = nil,
+        accountDisplayName: String? = nil
     ) {
         self.models = models
         self.lastUpdated = lastUpdated
@@ -301,6 +374,7 @@ nonisolated struct ProviderQuotaData: Codable, Sendable {
         self.planType = planType
         self.tokenExpiresAt = tokenExpiresAt
         self.analytics = analytics
+        self.accountDisplayName = accountDisplayName
     }
 
     /// Format token expiry time in user's local timezone

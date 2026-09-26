@@ -67,6 +67,43 @@ final class ProxyScreenModelTests: XCTestCase {
         XCTAssertEqual(actions, ["initialize", "setPort:9000"])
     }
 
+    func testSettingsNavigationIncludesCLIProxyAPI() {
+        XCTAssertTrue(NavigationPage.settingsPages.contains(.proxy))
+        XCTAssertEqual(NavigationPage.proxy.settingsTitle, "CLIProxyAPI")
+    }
+
+    func testInitializationStartsOnlyWhenEnabledAndInstalled() async {
+        for (enabled, installed, running, shouldStart) in [
+            (true, true, false, true),
+            (false, true, false, false),
+            (true, false, false, false),
+            (true, true, true, false)
+        ] {
+            var snapshot = makeSnapshot()
+            snapshot.isBinaryInstalled = installed
+            snapshot.status.running = running
+            let controller = StubProxyController(snapshot: snapshot)
+            let model = ProxyScreenModel(controller: controller, initialState: snapshot)
+
+            await model.initialize(autoStart: enabled)
+
+            let actions = await controller.actions()
+            XCTAssertEqual(actions, shouldStart ? ["initialize", "start"] : ["initialize"])
+        }
+    }
+
+    func testAutoStartFailureRemainsVisible() async {
+        var snapshot = makeSnapshot()
+        snapshot.isBinaryInstalled = true
+        let controller = StubProxyController(snapshot: snapshot, startFailure: .startupFailed)
+        let model = ProxyScreenModel(controller: controller, initialState: snapshot)
+
+        await model.initialize(autoStart: true)
+
+        XCTAssertEqual(model.state.lastError, .startupFailed)
+        XCTAssertFalse(model.proxyStatus.running)
+    }
+
     private func makeSnapshot() -> ProxySnapshot {
         ProxySnapshot(
             paths: ProxyPaths(
@@ -94,8 +131,11 @@ private actor StubProxyController: ProxyControlling {
     private var value: ProxySnapshot
     private var recordedActions: [String] = []
 
-    init(snapshot: ProxySnapshot) {
+    private let startFailure: ProxyFailure?
+
+    init(snapshot: ProxySnapshot, startFailure: ProxyFailure? = nil) {
         self.value = snapshot
+        self.startFailure = startFailure
     }
 
     func snapshots() -> AsyncStream<ProxySnapshot> {
@@ -114,6 +154,7 @@ private actor StubProxyController: ProxyControlling {
 
     func start() throws {
         recordedActions.append("start")
+        if let startFailure { throw startFailure }
         value.status.running = true
         value.lifecycle = .active
     }

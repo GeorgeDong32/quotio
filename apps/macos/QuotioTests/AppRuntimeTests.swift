@@ -91,6 +91,7 @@ final class AppRuntimeTests: XCTestCase {
 @MainActor
 private final class FakeAppRuntimeServices: AppRuntimeServices {
     private lazy var dependencies = CompositionRoot.makeProduction()
+    var proxyScreenModel: ProxyScreenModel { dependencies.proxyScreenModel }
     var quotaController: QuotaFeatureController { dependencies.quotaController }
     var quotaScreenModel: QuotaScreenModel { dependencies.quotaScreenModel }
     var accountsScreenModel: AccountsScreenModel { dependencies.accountsScreenModel }

@@ -18,6 +18,14 @@ enum CompositionRoot {
             AppIdentity.migrateLegacyUserDefaults()
         }
 
+        let customProviderRepository = UserDefaultsCustomProviderRepository()
+        let customProviderTransport = URLSessionCustomProviderTransport()
+        let customProviderService = QuotioApplication.CustomProviderService(
+            repository: customProviderRepository,
+            discovery: customProviderTransport,
+            connectionTester: customProviderTransport,
+            configurationSynchronizer: FileCustomProviderConfigurationSynchronizer()
+        )
         let urlOpener = WorkspaceURLOpener()
         let applicationPlatform = AppKitApplicationPlatformAdapter()
         let pasteboard = PasteboardScreenModel(writer: MacOSPasteboardAdapter())
@@ -33,6 +41,45 @@ enum CompositionRoot {
             }
         )
         let paths = FileProxyConfigurationRepository.defaultPaths()
+        let configurationRepository = FileProxyConfigurationRepository(paths: paths)
+        let proxyController = ProxyLifecycleController(
+            paths: paths,
+            processController: ProxyProcessController(),
+            versionRepository: FileProxyVersionRepository(),
+            releaseRepository: GitHubProxyReleaseRepository(),
+            updateFeed: GitHubAtomProxyUpdateFeed(),
+            configurationRepository: configurationRepository,
+            binaryDownloader: URLSessionProxyBinaryDownloader(),
+            checksumVerifier: SHA256ProxyChecksumVerifier(),
+            managementChecker: LocalProxyManagementClient(),
+            metadataRepository: UserDefaultsProxyRuntimeMetadataRepository(),
+            preferencesRepository: UserDefaultsProxyPreferencesRepository(),
+            keyVault: ProxyManagementKeyVaultAdapter(
+                dataStore: KeychainCredentialDataStore(
+                    service: AppIdentity.keychainService(suffix: "local-management"),
+                    legacyServices: AppIdentity.legacyKeychainServices(suffix: "local-management"),
+                    canMigrateLegacy: AppIdentity.isProduction,
+                    legacyProtectedStore: legacyYubiKey
+                )
+            ),
+            configurationSupplement: CustomProviderConfigurationSupplement(
+                service: customProviderService
+            ),
+            notificationDelivery: ProxyNotificationRelay(notifications: notificationController),
+            sleeper: ContinuousSleeper(),
+            dateProvider: SystemDateProvider(),
+            installedVersionLimit: AppConstants.maxInstalledVersions
+        )
+        let proxyScreenModel = ProxyScreenModel(
+            controller: proxyController,
+            initialState: ProxySnapshot(
+                status: ProxyStatus(
+                    port: UserDefaultsProxyRuntimeMetadataRepository().loadPort()
+                ),
+                paths: paths
+            )
+        )
+
         let authFileState = UserDefaultsManagedAuthFileStateRepository()
         let providerTrackingRepository = UserDefaultsProviderTrackingPreferencesRepository()
         let quotioBackend = QuotioCLIBackend(
@@ -174,6 +221,7 @@ enum CompositionRoot {
         let statusBarManager = StatusBarManager()
         let services = ProductionAppRuntimeServices(
             quotaController: quotaController,
+            proxyScreenModel: proxyScreenModel,
             quotaScreenModel: quotaScreenModel,
             accountsScreenModel: accountsScreenModel,
             navigationScreenModel: NavigationScreenModel(),
@@ -218,6 +266,7 @@ private struct CustomProviderConfigurationSupplement: ProxyConfigurationSuppleme
 @MainActor
 private final class ProductionAppRuntimeServices: AppRuntimeServices {
     let quotaController: QuotaFeatureController
+    let proxyScreenModel: ProxyScreenModel
     let quotaScreenModel: QuotaScreenModel
     let accountsScreenModel: AccountsScreenModel
     let navigationScreenModel: NavigationScreenModel
@@ -250,6 +299,7 @@ private final class ProductionAppRuntimeServices: AppRuntimeServices {
 
     init(
         quotaController: QuotaFeatureController,
+        proxyScreenModel: ProxyScreenModel,
         quotaScreenModel: QuotaScreenModel,
         accountsScreenModel: AccountsScreenModel,
         navigationScreenModel: NavigationScreenModel,
@@ -276,6 +326,7 @@ private final class ProductionAppRuntimeServices: AppRuntimeServices {
         reconnectQuotioServer: @escaping @MainActor @Sendable () async -> Bool
     ) {
         self.quotaController = quotaController
+        self.proxyScreenModel = proxyScreenModel
         self.quotaScreenModel = quotaScreenModel
         self.accountsScreenModel = accountsScreenModel
         self.navigationScreenModel = navigationScreenModel
@@ -382,6 +433,7 @@ private final class ProductionAppRuntimeServices: AppRuntimeServices {
     }
 
     func initializeFeatures() async {
+        await proxyScreenModel.initialize(autoStart: settingsScreenModel.proxyPreferences.autoStartProxy)
         if await reconnectQuotioServer() {
             await credentialMigrationModel.migrate()
         }
@@ -397,6 +449,7 @@ private final class ProductionAppRuntimeServices: AppRuntimeServices {
     }
 
     func shutdownOAuth() async {
+        await proxyScreenModel.shutdown()
         await quotaController.shutdown()
         await quotioBackend.disconnect()
         await quotioServer.stop()

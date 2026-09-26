@@ -86,10 +86,16 @@ public final class ProxyScreenModel {
         return Self.message(for: failure)
     }
 
-    public func initialize() async {
+    public func initialize(autoStart: Bool = false) async {
         observeIfNeeded()
         await controller.initialize()
         await refreshState()
+        if autoStart, isBinaryInstalled, !proxyStatus.running {
+            do { try await start() } catch {
+                await refreshState()
+                state.lastError = (error as? ProxyFailure) ?? .startupFailed
+            }
+        }
     }
 
     public func start() async throws {

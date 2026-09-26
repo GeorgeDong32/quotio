@@ -69,6 +69,8 @@ public enum ProxyURLSessionFactory {
 }
 
 public actor GitHubProxyReleaseRepository: ProxyReleaseRepository {
+    private enum FetchFailure: Error { case rateLimited }
+
     private struct ReleaseDTO: Decodable {
         let tagName: String
         let body: String?
@@ -109,19 +111,38 @@ public actor GitHubProxyReleaseRepository: ProxyReleaseRepository {
     }
 
     public func latestRelease() async throws -> ProxyVersionInfo {
-        let release: ReleaseDTO = try await fetch(path: "releases/latest")
-        return try map(release)
+        do {
+            let release: ReleaseDTO = try await fetch(path: "releases/latest")
+            return try map(release)
+        } catch FetchFailure.rateLimited {
+            let tags = try await webReleaseTags(path: "releases/latest")
+            guard let tag = tags.first else { throw ProxyFailure.noVersionAvailable }
+            return try await webRelease(tag: tag)
+        }
     }
 
     public func release(tag: String) async throws -> ProxyVersionInfo {
         let encodedTag = tag.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? tag
-        let release: ReleaseDTO = try await fetch(path: "releases/tags/\(encodedTag)")
-        return try map(release)
+        do {
+            let release: ReleaseDTO = try await fetch(path: "releases/tags/\(encodedTag)")
+            return try map(release)
+        } catch FetchFailure.rateLimited {
+            return try await webRelease(tag: tag)
+        }
     }
 
     public func releases(limit: Int) async throws -> [ProxyVersionInfo] {
-        let releases: [ReleaseDTO] = try await fetch(path: "releases?per_page=\(limit)")
-        return releases.compactMap { try? map($0) }
+        do {
+            let releases: [ReleaseDTO] = try await fetch(path: "releases?per_page=\(limit)")
+            return releases.compactMap { try? map($0) }
+        } catch FetchFailure.rateLimited {
+            let tags = try await webReleaseTags(path: "releases")
+            var versions: [ProxyVersionInfo] = []
+            for tag in tags.prefix(max(0, limit)) {
+                versions.append(try await webRelease(tag: tag))
+            }
+            return versions
+        }
     }
 
     private func fetch<Value: Decodable>(path: String) async throws -> Value {
@@ -133,15 +154,75 @@ public actor GitHubProxyReleaseRepository: ProxyReleaseRepository {
         request.addValue("Quotio/1.0", forHTTPHeaderField: "User-Agent")
         do {
             let (data, response) = try await session.data(for: request)
-            guard let response = response as? HTTPURLResponse,
-                  response.statusCode == 200 else {
-                throw ProxyFailure.network("Failed to fetch release information")
+            guard let response = response as? HTTPURLResponse else {
+                throw ProxyFailure.network("Invalid GitHub response")
+            }
+            if response.statusCode == 429 || (response.statusCode == 403 && (
+                response.value(forHTTPHeaderField: "X-RateLimit-Remaining") == "0"
+                || response.value(forHTTPHeaderField: "Retry-After") != nil
+            )) {
+                throw FetchFailure.rateLimited
+            }
+            guard response.statusCode == 200 else {
+                throw ProxyFailure.network("GitHub release request failed (HTTP \(response.statusCode))")
             }
             return try JSONDecoder().decode(Value.self, from: data)
+        } catch let failure as FetchFailure {
+            throw failure
         } catch let failure as ProxyFailure {
             throw failure
         } catch {
             throw ProxyFailure.network(String(describing: error))
+        }
+    }
+
+    private func webPage(path: String) async throws -> String {
+        guard let url = URL(string: "https://github.com/\(repository)/\(path)") else {
+            throw ProxyFailure.network("Invalid GitHub URL")
+        }
+        var request = URLRequest(url: url)
+        request.setValue("Quotio/1.0", forHTTPHeaderField: "User-Agent")
+        let (data, response) = try await session.data(for: request)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw ProxyFailure.network("Failed to fetch GitHub release page")
+        }
+        return String(decoding: data, as: UTF8.self)
+    }
+
+    private func webReleaseTags(path: String) async throws -> [String] {
+        let html = try await webPage(path: path)
+        let prefix = NSRegularExpression.escapedPattern(for: "/\(repository)/releases/expanded_assets/")
+        let tags = try captures(prefix + #"([^"<>\s/]+)"#, in: html)
+        var seen: Set<String> = []
+        let unique = tags.filter { seen.insert($0).inserted }
+        guard !unique.isEmpty else { throw ProxyFailure.noVersionAvailable }
+        return unique
+    }
+
+    private func webRelease(tag: String) async throws -> ProxyVersionInfo {
+        let encodedTag = tag.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? tag
+        let html = try await webPage(path: "releases/expanded_assets/\(encodedTag)")
+        let prefix = "/\(repository)/releases/download/\(encodedTag)/"
+        var assets: [AssetDTO] = []
+        // ponytail: GitHub asset-row markup; replace parser if GitHub changes this structure.
+        for row in html.components(separatedBy: "</li>") {
+            let pattern = #"href="("# + NSRegularExpression.escapedPattern(for: prefix) + #"[^"<>\s]+)""#
+            guard let path = try captures(pattern, in: row).first else { continue }
+            let digest = try captures(#"(sha256:[a-fA-F0-9]{64})(?![a-fA-F0-9])"#, in: row).first
+            assets.append(AssetDTO(
+                name: String(path.dropFirst(prefix.count)),
+                browserDownloadURL: "https://github.com" + path,
+                digest: digest,
+                size: 0
+            ))
+        }
+        return try map(ReleaseDTO(tagName: tag, body: nil, assets: assets))
+    }
+
+    private func captures(_ pattern: String, in text: String) throws -> [String] {
+        let regex = try NSRegularExpression(pattern: pattern)
+        return regex.matches(in: text, range: NSRange(text.startIndex..., in: text)).compactMap {
+            Range($0.range(at: 1), in: text).map { String(text[$0]) }
         }
     }
 

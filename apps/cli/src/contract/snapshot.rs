@@ -257,10 +257,8 @@ fn metric_group(
     let id = window.metric_id.as_deref()?;
     let (group, period) = if let Some(period) = id.strip_prefix("factory-standard-") {
         ("Standard", period)
-    } else if let Some(period) = id.strip_prefix("factory-core-") {
-        ("Core", period)
     } else {
-        return None;
+        ("Core", id.strip_prefix("factory-core-")?)
     };
     let name = match period {
         "five-hour" => "5 hours",

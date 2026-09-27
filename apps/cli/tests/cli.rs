@@ -25,12 +25,14 @@ impl Drop for ConfigFile {
     fn drop(&mut self) {
         let _ = std::fs::remove_file(&self.0);
         let _ = std::fs::remove_dir_all(self.0.with_extension("cache"));
+        let _ = std::fs::remove_dir_all(self.0.with_extension("home"));
     }
 }
 fn run(args: &[&str], config: &ConfigFile) -> Output {
     Command::new(env!("CARGO_BIN_EXE_quotio"))
         .args(args)
         .env_clear()
+        .env("HOME", config.0.with_extension("home"))
         .env("QUOTIO_CACHE_DIR", config.0.with_extension("cache"))
         .arg("--no-saved-accounts")
         .arg("--config")

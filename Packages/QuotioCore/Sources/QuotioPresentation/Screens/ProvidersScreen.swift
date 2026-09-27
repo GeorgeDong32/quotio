@@ -32,7 +32,7 @@ struct ProvidersScreen: View {
     @State private var showAddProviderPopover = false
     @State private var switchingAccount: AccountRowData?
     @State private var showNativePermissionError = false
-    
+
     // MARK: - Computed Properties
     
     /// Providers that can be added manually
@@ -422,7 +422,7 @@ struct ProvidersScreen: View {
             Label("providers.nativePermission.title".localized(), systemImage: "key.fill")
         }
     }
-    
+
     private func permissions(for provider: QuotaProvider) -> [NativeSourcePermission] {
         modeManager.isMonitorMode ? accounts.nativeSourcePermissions.filter { $0.provider == provider } : []
     }

@@ -24,20 +24,20 @@ struct QuotioApp: App {
             if AppEnvironment.isRunningUnitTests {
                 EmptyView()
             } else {
-                configured(RootNavigationView())
-                    .task {
-                        await runtime.initializeIfNeeded()
-                        showOnboarding = runtime.needsOnboarding
-                    }
-                    .sheet(isPresented: $showOnboarding) {
-                        OnboardingFlow { mode in
-                            Task {
-                                await runtime.completeOnboarding(mode: mode)
+                configured(
+                    RootNavigationView()
+                        .sheet(isPresented: $showOnboarding) {
+                            OnboardingFlow { mode in
+                                Task {
+                                    await runtime.completeOnboarding(mode: mode)
+                                }
                             }
                         }
-                        .environment(runtime.providerImageModel)
-                        .environment(runtime.accountsScreenModel)
-                    }
+                )
+                .task {
+                    await runtime.initializeIfNeeded()
+                    showOnboarding = runtime.needsOnboarding
+                }
             }
         }
         .defaultSize(width: 900, height: 640)

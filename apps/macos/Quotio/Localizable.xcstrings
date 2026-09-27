@@ -1,6 +1,300 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "onboarding.completion.attentionHint" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You can fix these later from each provider’s page in this window." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Vous pourrez corriger cela plus tard depuis la page de chaque fournisseur dans cette fenêtre." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bạn có thể xử lý sau trong trang của từng provider ở cửa sổ này." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "你可以稍后在此窗口中各提供商的页面进行处理。" } }
+      }
+    },
+    "onboarding.completion.readyCount" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "Quota is ready for %d provider" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "Quota is ready for %d providers" } }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "Quota prêt pour %d fournisseur" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "Quota prêt pour %d fournisseurs" } }
+            }
+          }
+        },
+        "vi" : {
+          "variations" : {
+            "plural" : {
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "Đã có quota của %d provider" } }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "已获取 %d 个提供商的配额" } }
+            }
+          }
+        }
+      }
+    },
+    "onboarding.completion.loadingCount" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "Loading quota for %d provider" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "Loading quota for %d providers" } }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "Chargement du quota pour %d fournisseur" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "Chargement du quota pour %d fournisseurs" } }
+            }
+          }
+        },
+        "vi" : {
+          "variations" : {
+            "plural" : {
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "Đang tải quota của %d provider" } }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "正在加载 %d 个提供商的配额" } }
+            }
+          }
+        }
+      }
+    },
+    "onboarding.welcome.connect.title" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Connect your providers" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Connectez vos fournisseurs" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Kết nối provider" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "连接提供商" } }
+      }
+    },
+    "onboarding.welcome.connect.detail" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Use logins already on this Mac, or sign in with a browser or API key." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Utilisez les connexions déjà présentes sur ce Mac, ou connectez-vous avec le navigateur ou une clé API." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Dùng đăng nhập có sẵn trên máy Mac này, hoặc đăng nhập bằng trình duyệt hay API key." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "使用此 Mac 上已有的登录，或通过浏览器或 API 密钥登录。" } }
+      }
+    },
+    "onboarding.welcome.access.title" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Grant access when asked" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Autorisez l’accès si nécessaire" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Cấp quyền khi được hỏi" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "按需授予访问权限" } }
+      }
+    },
+    "onboarding.welcome.access.detail" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Some logins are stored in the Keychain. Quotio reads them only after you allow it." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Certaines connexions sont stockées dans le trousseau. Quotio ne les lit qu’après votre autorisation." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Một số đăng nhập nằm trong Keychain. Quotio chỉ đọc sau khi bạn cho phép." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "部分登录信息存储在钥匙串中。只有在你允许后，Quotio 才会读取。" } }
+      }
+    },
+    "onboarding.welcome.quota.title" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Watch your quota" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Suivez votre quota" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Theo dõi quota" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "查看配额" } }
+      }
+    },
+    "onboarding.welcome.quota.detail" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remaining quota and reset times appear in the menu bar and refresh automatically." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Le quota restant et les heures de réinitialisation s’affichent dans la barre des menus et s’actualisent automatiquement." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Quota còn lại và thời điểm reset hiện trên thanh menu và tự làm mới." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "剩余配额和重置时间显示在菜单栏中，并自动刷新。" } }
+      }
+    },
+    "onboarding.step.connect" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Connect" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Connexion" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Kết nối" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "连接" } }
+      }
+    },
+    "onboarding.step.access" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Access" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Accès" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Cấp quyền" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "授权" } }
+      }
+    },
+    "onboarding.step.quota" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Quota" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Quota" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Quota" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "配额" } }
+      }
+    },
+    "onboarding.progress.accessibility" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Step %1$d of %2$d: %3$@" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Étape %1$d sur %2$d : %3$@" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bước %1$d/%2$d: %3$@" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "第 %1$d 步，共 %2$d 步：%3$@" } }
+      }
+    },
+    "onboarding.providers.found" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "On this Mac" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Sur ce Mac" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Trên máy Mac này" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此 Mac 上" } }
+      }
+    },
+    "onboarding.providers.noneFound" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No logins found yet. Sign in to a provider’s CLI or app, then scan again." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucune connexion trouvée pour l’instant. Connectez-vous à la CLI ou à l’app d’un fournisseur, puis analysez à nouveau." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Chưa tìm thấy đăng nhập nào. Đăng nhập vào CLI hoặc ứng dụng của provider rồi quét lại." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "尚未找到登录。请先登录提供商的 CLI 或应用，然后重新扫描。" } }
+      }
+    },
+    "onboarding.providers.scanning" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Scanning" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Analyse en cours" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đang quét" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在扫描" } }
+      }
+    },
+    "onboarding.providers.signIn" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign in to another provider" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Se connecter à un autre fournisseur" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đăng nhập provider khác" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "登录其他提供商" } }
+      }
+    },
+    "onboarding.providers.signInFooter" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Browser sign-ins and API keys are saved in Quotio’s Keychain." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Les connexions par navigateur et les clés API sont enregistrées dans le trousseau de Quotio." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đăng nhập qua trình duyệt và API key được lưu trong Keychain của Quotio." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "浏览器登录和 API 密钥保存在 Quotio 的钥匙串中。" } }
+      }
+    },
+    "onboarding.access.title" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Grant access" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Autoriser l’accès" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Cấp quyền" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "授予访问权限" } }
+      }
+    },
+    "onboarding.access.subtitle" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Some logins are protected by the Keychain. Approve them once so Quotio can read quota." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Certaines connexions sont protégées par le trousseau. Autorisez-les une fois pour que Quotio puisse lire le quota." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Một số đăng nhập được Keychain bảo vệ. Cho phép một lần để Quotio đọc được quota." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "部分登录受钥匙串保护。授权一次后，Quotio 即可读取配额。" } }
+      }
+    },
+    "onboarding.access.pending" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Waiting for access" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "En attente d’autorisation" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đang chờ cấp quyền" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "等待授权" } }
+      }
+    },
+    "onboarding.access.done" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Quotio can read every login it found." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Quotio peut lire toutes les connexions trouvées." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Quotio đã đọc được mọi đăng nhập tìm thấy." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Quotio 可以读取找到的所有登录。" } }
+      }
+    },
+    "onboarding.access.hint" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "macOS asks you to confirm. Choose Always Allow so Quotio can refresh in the background. You can skip this and grant access later from each provider in Settings." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "macOS vous demande de confirmer. Choisissez Toujours autoriser pour que Quotio puisse actualiser en arrière-plan. Vous pouvez passer cette étape et autoriser l’accès plus tard depuis chaque fournisseur dans Réglages." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "macOS sẽ hỏi xác nhận. Chọn Luôn cho phép để Quotio làm mới ở chế độ nền. Bạn có thể bỏ qua và cấp quyền sau trong trang từng provider ở Cài đặt." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "macOS 会请求确认。选择“始终允许”，Quotio 才能在后台刷新。你也可以跳过此步骤，稍后在设置中为各个提供商授权。" } }
+      }
+    },
+    "onboarding.completion.connected" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Providers" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Fournisseurs" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Provider" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提供商" } }
+      }
+    },
+    "onboarding.completion.empty" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No providers connected yet. Choose one from the sidebar whenever you’re ready." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun fournisseur connecté pour l’instant. Choisissez-en un dans la barre latérale quand vous le souhaitez." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Chưa kết nối provider nào. Chọn một provider ở thanh bên khi bạn sẵn sàng." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "尚未连接提供商。准备好后，可在边栏中选择一个。" } }
+      }
+    },
+    "onboarding.button.startMonitoring" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Start Monitoring" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Commencer le suivi" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bắt đầu theo dõi" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开始监控" } }
+      }
+    },
+    "onboarding.accountCount" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "%d account" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%d accounts" } }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "%d compte" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%d comptes" } }
+            }
+          }
+        },
+        "vi" : {
+          "variations" : {
+            "plural" : {
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%d tài khoản" } }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%d 个账户" } }
+            }
+          }
+        }
+      }
+    },
     "settings.sources.unidentifiedHelp" : {"localizations": {"en": {"stringUnit": {"state": "translated", "value": "Sign in to the provider’s app, then retry. These sources are not counted as accounts until they can be identified."}}, "vi": {"stringUnit": {"state": "translated", "value": "Đăng nhập lại trong ứng dụng của nhà cung cấp rồi thử lại. Các nguồn này chưa được tính là tài khoản vì chưa xác định được danh tính."}}, "fr": {"stringUnit": {"state": "translated", "value": "Connectez-vous dans l’application du fournisseur, puis réessayez. Ces sources ne sont pas comptées comme des comptes tant qu’elles ne sont pas identifiées."}}, "zh-Hans": {"stringUnit": {"state": "translated", "value": "请在提供商应用中登录，然后重试。在身份得到确认之前，这些来源不会计入账户数量。"}}}},
     "settings.sources.needsSignIn" : {"localizations": {"en": {"stringUnit": {"state": "translated", "value": "Sources needing sign-in"}}, "vi": {"stringUnit": {"state": "translated", "value": "Nguồn cần đăng nhập lại"}}, "fr": {"stringUnit": {"state": "translated", "value": "Sources nécessitant une connexion"}}, "zh-Hans": {"stringUnit": {"state": "translated", "value": "需要登录的来源"}}}},
     "settings.replacePinnedAccountMessage" : {"extractionState": "manual", "localizations": {"en": {"stringUnit": {"state": "translated", "value": "The menu bar is full. Choose an account to replace with %@."}}, "vi": {"stringUnit": {"state": "translated", "value": "Thanh menu đã đủ số mục. Chọn tài khoản để thay bằng %@."}}, "fr": {"stringUnit": {"state": "translated", "value": "La barre de menus est pleine. Choisissez un compte à remplacer par %@."}}, "zh-Hans": {"stringUnit": {"state": "translated", "value": "菜单栏已满。请选择要替换为 %@ 的账户。"}}}},
@@ -11405,120 +11699,31 @@
         }
       }
     },
-    "onboarding.button.openDashboard" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Settings"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrir les réglages"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mở Cài đặt"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打开设置"
-          }
-        }
-      }
-    },
     "onboarding.completion.hint" : {
       "extractionState" : "stale",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You can change this anytime in Settings"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vous pouvez modifier cela à tout moment dans les paramètres"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bạn có thể thay đổi điều này bất cứ lúc nào trong Cài đặt"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您可以随时在设置中更改"
-          }
-        }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Click the Quotio icon in the menu bar to see remaining quota and reset times." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Cliquez sur l’icône Quotio dans la barre des menus pour voir le quota restant et les heures de réinitialisation." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bấm biểu tượng Quotio trên thanh menu để xem quota còn lại và thời điểm reset." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "点击菜单栏中的 Quotio 图标，查看剩余配额和重置时间。" } }
       }
     },
     "onboarding.completion.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View quota in the menu bar and manage connections in Settings."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Consultez les quotas dans la barre des menus et gérez les connexions dans Réglages."
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xem quota trên thanh menu và quản lý kết nối trong Cài đặt."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在菜单栏查看配额，在设置中管理连接。"
-          }
-        }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Quotio keeps quota up to date in the menu bar. Manage providers anytime in this window." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Quotio tient le quota à jour dans la barre des menus. Gérez vos fournisseurs à tout moment dans cette fenêtre." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Quotio luôn cập nhật quota trên thanh menu. Bạn có thể quản lý provider trong cửa sổ này bất cứ lúc nào." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Quotio 会在菜单栏中持续更新配额。你可以随时在此窗口管理提供商。" } }
       }
     },
     "onboarding.completion.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You're All Set!"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vous êtes prêt !"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hoàn tất!"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "设置完成！"
-          }
-        }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Start watching your quota" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Commencez à suivre votre quota" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bắt đầu theo dõi quota" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开始查看配额" } }
       }
     },
     "onboarding.configureAgent" : {
@@ -11956,120 +12161,31 @@
         }
       }
     },
-    "onboarding.providers.hint" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a provider in Settings to connect or grant access."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez un fournisseur dans Réglages pour vous connecter ou autoriser l’accès."
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chọn provider trong Cài đặt để kết nối hoặc cấp quyền."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在设置中选择提供商以连接或授予访问权限。"
-          }
-        }
-      }
-    },
     "onboarding.providers.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Logins found on this Mac"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connexions trouvées sur ce Mac"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Đăng nhập tìm thấy trên máy Mac này"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在此 Mac 上找到的登录"
-          }
-        }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Quotio checks this Mac for existing logins. You can also sign in to other providers now or later." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Quotio recherche les connexions existantes sur ce Mac. Vous pouvez aussi vous connecter à d’autres fournisseurs maintenant ou plus tard." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Quotio tìm các đăng nhập có sẵn trên máy Mac này. Bạn cũng có thể đăng nhập provider khác ngay bây giờ hoặc để sau." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Quotio 会检查此 Mac 上已有的登录。你也可以现在或稍后登录其他提供商。" } }
       }
     },
     "onboarding.providers.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Detected providers"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fournisseurs détectés"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Provider đã phát hiện"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已检测到的提供商"
-          }
-        }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Connect providers" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Connecter des fournisseurs" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Kết nối provider" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "连接提供商" } }
       }
     },
     "onboarding.welcome.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your AI Coding Command Center"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre centre de commande IA pour le code"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trung tâm điều khiển AI Coding của bạn"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您的 AI 编码指挥中心"
-          }
-        }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "See how much quota your AI coding tools have left, right from the menu bar." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Voyez le quota restant de vos outils de code IA, directement dans la barre des menus." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Xem quota còn lại của các công cụ AI coding ngay trên thanh menu." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "直接在菜单栏查看 AI 编程工具的剩余配额。" } }
       }
     },
     "onboarding.welcome.title" : {
@@ -12483,9 +12599,30 @@
         }
       }
     },
-    "providers.nativePermission.antigravity" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Found an Antigravity credential saved by Gemini in Keychain. Connect to allow Quotio to read it." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Un identifiant Antigravity enregistré par Gemini a été trouvé dans le trousseau. Connectez-vous pour autoriser Quotio à le lire." } }, "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đã tìm thấy thông tin đăng nhập Antigravity do Gemini lưu trong Keychain. Kết nối để cho phép Quotio đọc." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在钥匙串中发现了 Gemini 保存的 Antigravity 凭据。连接以允许 Quotio 读取。" } } } },
-    "providers.nativePermission.claude" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Found a Claude Code credential in Keychain. Connect to allow Quotio to read it." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Un identifiant Claude Code a été trouvé dans le trousseau. Connectez-vous pour autoriser Quotio à le lire." } }, "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đã tìm thấy thông tin đăng nhập Claude Code trong Keychain. Kết nối để cho phép Quotio đọc." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在钥匙串中发现了 Claude Code 凭据。连接以允许 Quotio 读取。" } } } },
-    "providers.nativePermission.factory" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Found an encrypted Factory CLI login. Connect to allow Quotio to read its decryption key from Keychain." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Une connexion Factory CLI chiffrée a été trouvée. Connectez-vous pour autoriser Quotio à lire sa clé de déchiffrement dans le trousseau." } }, "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đã tìm thấy phiên đăng nhập Factory CLI được mã hóa. Kết nối để cho phép Quotio đọc khóa giải mã từ Keychain." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "发现了加密的 Factory CLI 登录信息。连接以允许 Quotio 从钥匙串读取解密密钥。" } } } },
+    "providers.nativePermission.antigravity" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Found an Antigravity credential saved by Gemini in Keychain. Grant access to let Quotio read it." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Un identifiant Antigravity enregistré par Gemini a été trouvé dans le trousseau. Autorisez l’accès pour que Quotio puisse le lire." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đã tìm thấy thông tin đăng nhập Antigravity do Gemini lưu trong Keychain. Cấp quyền để Quotio đọc được." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在钥匙串中发现了 Gemini 保存的 Antigravity 凭据。授予访问权限后，Quotio 即可读取。" } }
+      }
+    },
+    "providers.nativePermission.claude" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Found a Claude Code credential in Keychain. Grant access to let Quotio read it." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Un identifiant Claude Code a été trouvé dans le trousseau. Autorisez l’accès pour que Quotio puisse le lire." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đã tìm thấy thông tin đăng nhập Claude Code trong Keychain. Cấp quyền để Quotio đọc được." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在钥匙串中发现了 Claude Code 凭据。授予访问权限后，Quotio 即可读取。" } }
+      }
+    },
+    "providers.nativePermission.factory" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Found an encrypted Factory CLI login. Grant access to let Quotio read its decryption key from Keychain." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Une connexion Factory CLI chiffrée a été trouvée. Autorisez l’accès pour que Quotio puisse lire sa clé de déchiffrement dans le trousseau." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đã tìm thấy phiên đăng nhập Factory CLI được mã hóa. Cấp quyền để Quotio đọc khóa giải mã từ Keychain." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "发现了加密的 Factory CLI 登录信息。授予访问权限后，Quotio 即可从钥匙串读取解密密钥。" } }
+      }
+    },
     "providers.nativePermission.failedMessage" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Quotio could not access this provider's Keychain credential." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Quotio n’a pas pu accéder aux identifiants de ce fournisseur dans le trousseau." } }, "vi" : { "stringUnit" : { "state" : "translated", "value" : "Quotio không thể truy cập thông tin đăng nhập của nhà cung cấp này trong Keychain." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Quotio 无法访问此提供商的钥匙串凭据。" } } } },
     "providers.nativePermission.failedTitle" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Connection Failed" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Échec de la connexion" } }, "vi" : { "stringUnit" : { "state" : "translated", "value" : "Kết nối thất bại" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "连接失败" } } } },
     "providers.nativePermission.message" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Requires permission to read its Keychain credential" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Nécessite l’autorisation de lire ses identifiants dans le trousseau" } }, "vi" : { "stringUnit" : { "state" : "translated", "value" : "Cần quyền đọc thông tin đăng nhập trong Keychain" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "需要权限读取钥匙串凭据" } } } },

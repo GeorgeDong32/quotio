@@ -8,114 +8,141 @@ import QuotioDomain
 import SwiftUI
 
 struct ProviderStep: View {
+    let overview: OnboardingProviderOverview
     @Environment(AccountsScreenModel.self) private var accounts
-    @Bindable var viewModel: OnboardingViewModel
-    
+    @Environment(QuotaFeatureController.self) private var controller
+    @State private var oauthProvider: QuotaProvider?
+    @State private var apiKeyProvider: OnboardingProviderOverview.ConnectableProvider?
+
+    private var isScanning: Bool { accounts.isScanningAll || accounts.discoveringProvider != nil }
+
     var body: some View {
-        VStack(spacing: 24) {
-            headerSection
-            
-            if featuredProviders.isEmpty {
-                Text("providers.emptyState.title".localized()).foregroundStyle(.secondary)
-            } else {
-                providersGrid.frame(maxWidth: 520)
+        Form {
+            Section {
+                if overview.found.isEmpty {
+                    Text("onboarding.providers.noneFound".localized())
+                        .foregroundStyle(.secondary)
+                }
+                ForEach(overview.found) { provider in
+                    OnboardingFoundProviderRow(provider: provider)
+                }
+            } header: {
+                HStack(spacing: 8) {
+                    Text("onboarding.providers.found".localized())
+                    Spacer()
+                    if isScanning {
+                        ProgressView()
+                            .controlSize(.small)
+                            .accessibilityLabel("onboarding.providers.scanning".localized())
+                    }
+                    Button("settings.rescan".localized()) {
+                        Task {
+                            await accounts.scanAllNativeAccounts()
+                            await controller.refreshAll(force: true)
+                        }
+                    }
+                    .controlSize(.small)
+                    .disabled(!controller.canDiscoverNative || isScanning)
+                }
+            } footer: {
+                if !accounts.failedDiscoveryProviders.isEmpty {
+                    Text("settings.discoveryFailed".localized())
+                        .foregroundStyle(.orange)
+                }
             }
-            
-            hintSection
-            
+
+            if !overview.connectable.isEmpty {
+                Section {
+                    ForEach(overview.connectable) { provider in
+                        HStack(spacing: 10) {
+                            ProviderIcon(provider: provider.provider, size: 20)
+                            Text(provider.name)
+                            Spacer()
+                            connectControl(for: provider)
+                        }
+                    }
+                } header: {
+                    Text("onboarding.providers.signIn".localized())
+                } footer: {
+                    Text("onboarding.providers.signInFooter".localized())
+                }
+            }
+        }
+        .formStyle(.grouped)
+        .sheet(item: $oauthProvider) { provider in
+            OAuthSheet(provider: provider) { oauthProvider = nil }
+        }
+        .sheet(item: $apiKeyProvider) { provider in
+            MonitorAPIKeyConnectionSheet(
+                provider: provider.provider,
+                account: nil,
+                inputs: provider.inputs,
+                providerName: provider.name
+            ) { label, key, fields in
+                try await controller.saveAPIKey(provider: provider.provider, label: label, apiKey: key, fields: fields)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func connectControl(for provider: OnboardingProviderOverview.ConnectableProvider) -> some View {
+        if provider.supportsBrowserSignIn && provider.supportsAPIKey {
+            Menu("action.connect".localized()) {
+                Button("action.login".localized()) { oauthProvider = provider.provider }
+                Button("settings.addAPIKey".localized()) { apiKeyProvider = provider }
+            }
+            .fixedSize()
+            .accessibilityLabel("action.connect".localized() + ": " + provider.name)
+        } else if provider.supportsBrowserSignIn {
+            Button("action.login".localized()) { oauthProvider = provider.provider }
+                .accessibilityLabel("action.login".localized() + " " + provider.name)
+        } else {
+            Button("settings.addAPIKey".localized()) { apiKeyProvider = provider }
+                .accessibilityLabel("settings.addAPIKey".localized() + " " + provider.name)
+        }
+    }
+}
+
+struct OnboardingFoundProviderRow: View {
+    let provider: OnboardingProviderOverview.FoundProvider
+    var includesQuotaIssues = false
+
+    private var issue: OnboardingProviderOverview.FoundProvider.Issue? {
+        includesQuotaIssues ? provider.issue : provider.connectionIssue
+    }
+
+    var body: some View {
+        HStack(spacing: 10) {
+            ProviderIcon(provider: provider.id, size: 20)
+            Text(provider.name)
             Spacer()
-            
-            navigationButtons
-        }
-        .padding(40)
-    }
-    
-    private var headerSection: some View {
-        VStack(spacing: 8) {
-            Text("onboarding.providers.title".localized())
-                .font(.title2)
-                .fontWeight(.bold)
-            
-            Text("onboarding.providers.subtitle".localized())
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-        }
-    }
-    
-    private var providersGrid: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ], spacing: 12) {
-            ForEach(featuredProviders) { provider in
-                ProviderPreviewCard(provider: provider)
+            if let issue {
+                Label(issue.title, systemImage: issue.symbol)
+                    .font(.callout)
+                    .foregroundStyle(.orange)
+            } else {
+                Text(String.localizedStringWithFormat("onboarding.accountCount".localized(), provider.accountCount))
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
             }
         }
-    }
-    
-    private var featuredProviders: [QuotaProvider] {
-        Array(Set(accounts.accounts.map(\.provider)).union(accounts.nativeSourcePermissions.map(\.provider)))
-            .sorted { $0.displayName < $1.displayName }
-    }
-    
-    private var hintSection: some View {
-        HStack(spacing: 8) {
-            Image(systemName: "info.circle")
-                .foregroundStyle(.blue)
-            
-            Text("onboarding.providers.hint".localized())
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding(12)
-        .background(Color.blue.opacity(0.08))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-    }
-    
-    private var navigationButtons: some View {
-        HStack(spacing: 12) {
-            Button {
-                viewModel.goBack()
-            } label: {
-                Text("onboarding.button.back".localized())
-                    .frame(width: 100)
-            }
-            .buttonStyle(.bordered)
-            .controlSize(.large)
-            
-            Button {
-                viewModel.goNext()
-            } label: {
-                Text("onboarding.button.continue".localized())
-                    .frame(width: 140)
-            }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.large)
-        }
+        .accessibilityElement(children: .combine)
     }
 }
 
-struct ProviderPreviewCard: View {
-    let provider: QuotaProvider
-    
-    var body: some View {
-        VStack(spacing: 8) {
-            ProviderIcon(provider: provider, size: 40)
-            
-            Text(provider.displayName)
-                .font(.caption)
-                .fontWeight(.medium)
-                .lineLimit(1)
+extension OnboardingProviderOverview.FoundProvider.Issue {
+    @MainActor var title: String {
+        switch self {
+        case .permissionRequired: ConnectionState.permissionRequired.title
+        case .signInRequired: ConnectionState.reauthenticationRequired.title
+        case .quotaFailed: QuotaRefreshState.failed(nil).title
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
-        .background(Color.secondary.opacity(0.08))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
-}
 
-#Preview {
-    ProviderStep(viewModel: OnboardingViewModel())
+    var symbol: String {
+        switch self {
+        case .permissionRequired: "lock"
+        case .signInRequired, .quotaFailed: "exclamationmark.triangle"
+        }
+    }
 }

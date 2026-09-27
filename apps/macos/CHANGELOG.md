@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Manage provider accounts and their login sources from provider settings, including explicit access requests for native logins.
+- Keep account names, source selection, quota status, and refresh settings in the bundled Quotio helper. The app displays the helper's resolved results.
+
+### Changed
+
+- Account and usage clients now use the version 2 host API. Older API routes and response formats are no longer supported.
+- Existing app accounts and monitoring preferences are imported into the helper. The previous operating mode selector and YubiKey credential writes have been removed.
+- The protected account store uses a newer format and cannot be opened by older Quotio CLI versions after migration.
+
+### Fixed
+
+- Restore cached quota after restart, keep healthy accounts visible when another source fails, and preserve disabled native sources across scans.
+- Improve account names and quota details for Codex, Copilot, Devin, Factory, Antigravity, Amp, and Grok.
+
 ## [0.33.0] - 2026-09-17
 
 ## [0.32.0] - 2026-09-16

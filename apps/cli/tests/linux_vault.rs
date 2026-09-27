@@ -296,8 +296,9 @@ async fn native_reference_lifecycle(
         response: reqwest::Response,
         expected: &str,
     ) -> serde_json::Value {
-        assert_eq!(response.status(), 202);
+        let status = response.status();
         let mut op: serde_json::Value = response.json().await.unwrap();
+        assert_eq!(status, 202, "{op}");
         let id = op["id"].as_str().unwrap().to_owned();
         for _ in 0..100 {
             if op["status"] != "running" {

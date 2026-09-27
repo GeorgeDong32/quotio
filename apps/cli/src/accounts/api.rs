@@ -749,13 +749,17 @@ async fn resolved_view(
     vault: Vault,
     id: Option<String>,
 ) -> Result<crate::contract::AccountList, AccountError> {
-    tokio::task::spawn_blocking(move || {
-        let mut tx = vault.begin()?;
-        if tx.document.resolved.is_none() {
+    let mut tx = service::begin(vault.clone()).await?;
+    if tx.document.resolved.is_none() {
+        tokio::task::spawn_blocking(move || {
             tx.document.enable_resolved_accounts()?;
-            tx.commit()?;
-            tx = vault.begin()?;
-        }
+            tx.commit()
+        })
+        .await
+        .map_err(|_| AccountError::Storage)??;
+        tx = service::begin(vault).await?;
+    }
+    tokio::task::spawn_blocking(move || {
         let registry = tx.document.resolved.as_ref().expect("initialized");
         let canonical = id
             .as_deref()
@@ -1026,6 +1030,33 @@ pub async fn source_update_once(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[tokio::test]
+    async fn resolved_reads_wait_for_a_busy_vault() {
+        let dir = std::env::temp_dir().join(crate::accounts::random_string().unwrap());
+        std::fs::create_dir(&dir).unwrap();
+        let vault = Vault::new(
+            std::sync::Arc::new(super::super::vault::tests::Memory::default()),
+            dir.join("lock"),
+        );
+        let held = vault.begin().unwrap();
+        let mut read = Box::pin(resolved_list(vault.clone()));
+        assert!(
+            tokio::time::timeout(std::time::Duration::from_millis(75), &mut read)
+                .await
+                .is_err()
+        );
+        drop(held);
+        assert!(
+            tokio::time::timeout(std::time::Duration::from_secs(2), read)
+                .await
+                .unwrap()
+                .unwrap()
+                .accounts
+                .is_empty()
+        );
+        std::fs::remove_dir_all(dir).unwrap();
+    }
 
     #[tokio::test]
     async fn reauthorizing_a_source_preserves_its_account_and_disabled_state() {

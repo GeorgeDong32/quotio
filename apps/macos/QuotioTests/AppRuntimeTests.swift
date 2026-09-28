@@ -1,6 +1,7 @@
 import Foundation
 import QuotioApplication
 import QuotioDomain
+import QuotioForkExtras
 import QuotioInfrastructure
 import QuotioPresentation
 import XCTest
@@ -92,6 +93,7 @@ final class AppRuntimeTests: XCTestCase {
 private final class FakeAppRuntimeServices: AppRuntimeServices {
     private lazy var dependencies = CompositionRoot.makeProduction()
     var proxyScreenModel: ProxyScreenModel { dependencies.proxyScreenModel }
+    var fallbackScreenModel: FallbackScreenModel { dependencies.fallbackScreenModel }
     var quotaController: QuotaFeatureController { dependencies.quotaController }
     var quotaScreenModel: QuotaScreenModel { dependencies.quotaScreenModel }
     var accountsScreenModel: AccountsScreenModel { dependencies.accountsScreenModel }

@@ -218,13 +218,26 @@ tagged, committable state. Conventional commits; never commit to `master`.
 
 ## Phase 8 — Release pipeline (1–2d)
 
-- [ ] Move fork scripts to the monorepo layout; add rustup/cargo bootstrap;
-      build helper per-arch via upstream `build_cli_helper.sh`.
-- [ ] Sign + notarize: app, embedded helper, plus binary as signed resource;
-      Developer ID flow (already adapted once for #499).
-- [ ] DMG packaging + `verify-bundled-proxy.sh` in the build; version bump
-      (recommend aligning MARKETING_VERSION to the upstream base version).
-- [ ] Tag `port/phase-8-green`.
+- [x] Fork scripts ported to `apps/macos/scripts/` (build, release, package,
+  notarize, verify, verify-bundled-proxy, bump-version, debug,
+  update-changelog, config). `config.sh`'s `PROJECT_DIR = scripts/..`
+  derivation auto-adapts to the monorepo layout (apps/macos), so
+  PROJECT_FILE/Config/pbxproj references resolve unchanged.
+- [x] `verify-bundled-proxy.sh` re-pointed at
+  `Packages/QuotioForkExtras/.../PlusBinaryStore.swift` for the sha pin and
+  **verified live** against the built Debug app (sha match confirmed).
+- [x] `build.sh` gained a cargo guard (fails fast with `brew install rust`
+  hint); the Rust helper itself builds per-arch via upstream's
+  "Embed Quotio CLI" phase — no per-arch rustup targets needed for local
+  builds. `deploy-local.sh` deliberately NOT ported (installs over the
+  local app; the port must not encourage that path).
+- [x] Fixed fallout found by `verify.sh`'s test gate: FakeAppRuntimeServices
+  in AppRuntimeTests now conforms (fallbackScreenModel + QuotioForkExtras
+  import). Full app test suite: 14 passed, 1 failure = the known
+  system-locale localization test (fails on pristine baseline).
+- [ ] Release/notarize/DMG end-to-end run (needs Developer ID identity +
+  notary credentials) deferred to first real release — scripts ported
+  unchanged from the fork, exercise then. Tag `port/phase-8-green`.
 
 ## Phase 9 — QA, merge-forward, close-out (1–2d)
 

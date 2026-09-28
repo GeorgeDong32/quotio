@@ -248,6 +248,7 @@ enum CompositionRoot {
         )
         ForkPageRegistry.providers[.fallback] = { AnyView(FallbackScreen()) }
         ForkPageRegistry.providers[.requestLogs] = { AnyView(RequestLogsScreen()) }
+        ForkPageRegistry.providers[.remoteConnection] = { AnyView(RemoteConnectionScreen()) }
         let services = ProductionAppRuntimeServices(
             quotaController: quotaController,
             proxyScreenModel: proxyScreenModel,

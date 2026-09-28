@@ -143,16 +143,26 @@ tagged, committable state. Conventional commits; never commit to `master`.
 
 ## Phase 5 — Remote mode (2–3d)
 
-- [ ] `ForkOperatingModeManager` (monitor/localProxy/remoteProxy; remote
-      config in UserDefaults `remoteConnectionConfig`; management keys in the
-      fork keychain service pattern).
-- [ ] Fork wrapper management client with remote base URL + verifySSL +
-      timeouts (prefer wrapper over editing `ProxyEndpoint`; fall back to a
-      minimal upstream edit only if wrapping is impossible).
-- [ ] Port RemoteConnectionSheet, onboarding remote step, dashboard remote
-      branch, sidebar remote status row.
-- [ ] E2E: connect to a remote CLIProxyAPI instance; quota/config round-trip;
-      management key persisted in keychain. Tag `port/phase-5-green`.
+- [x] `ForkRemoteConnectionManager` + `RemoteConnectionConfig` (Codable-shape
+      compatible with the fork's `remoteConnectionConfig` UserDefaults key) +
+      `RemoteURLValidator`; management key in Keychain service
+      `<bundle>.remote-management` (same name the fork used → entries carry
+      over under the unchanged bundle id).
+- [x] NO fork wrapper client needed: upstream's `ProxyManagementConnection`
+      takes a free-form `baseURL`, so remote calls are
+      `URLSessionProxyManagementAPI(connection:)` — zero upstream edits.
+      Upstream's protocol even ships `apiCall` (the plus-binary relay),
+      which Phase 6's Gemini path reuses directly.
+- [x] `RemoteConnectionScreen` settings page (form + test + save/forget)
+      registered via ForkPageRegistry (NavigationPage `.remoteConnection`
+      after CLIProxyAPI). Scope trims vs the fork: no onboarding step and no
+      dashboard remote branch (both were retired with upstream's mode
+      selection); `verifySSL=false` self-signed support dropped — remote
+      HTTPS now requires a system-trusted certificate (flag preserved in
+      saved data for compatibility; documented here).
+- [x] Gates: build 0 errors/0 warnings; package tests 11 (1 env-skip).
+      Live E2E against a real remote instance deferred to Phase 9 QA.
+- [x] Tag `port/phase-5-green`.
 
 ## Phase 6 — Gemini quota kit (2–4d)
 

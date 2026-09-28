@@ -84,6 +84,7 @@
 /Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/AppSettingsPage.swift
 /Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/CLIProxySettingsPage.swift
 /Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/CredentialMigrationScreenModel.swift
+/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/ForkPageRegistry.swift
 /Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/IDEImportScreenModel.swift
 /Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/IDEScanSettingsManager.swift
 /Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/LoginSourceMenu.swift

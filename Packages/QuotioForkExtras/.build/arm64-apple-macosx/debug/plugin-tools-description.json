@@ -774,7 +774,23 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackScreen.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackScreenModel.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackSettingsManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackSheets.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ForkProviderIcon.swift"
         },
         {
           "kind" : "file",
@@ -798,7 +814,19 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RemoteMode/ForkRemoteConnection.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RemoteMode/RemoteConnectionScreen.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLog.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLogsScreen.swift"
         },
         {
           "kind" : "file",
@@ -838,13 +866,20 @@
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackFormatConverter.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackModels.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackProvider.swift.o",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackScreen.swift.o",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackScreenModel.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackSettingsManager.swift.o",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackSheets.swift.o",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkProviderIcon.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ProxyBridge.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkExtras.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/BridgePortMetadataRepository.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackProxyLifecycleCoordinator.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/PlusBinaryStore.swift.o",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkRemoteConnection.swift.o",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RemoteConnectionScreen.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RequestLog.swift.o",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RequestLogsScreen.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RequestTracker.swift.o"
       ],
       "otherArguments" : [
@@ -920,7 +955,23 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackScreen.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackScreenModel.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackSettingsManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackSheets.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkProviderIcon.swift.o"
         },
         {
           "kind" : "file",
@@ -944,7 +995,19 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkRemoteConnection.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RemoteConnectionScreen.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RequestLog.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RequestLogsScreen.swift.o"
         },
         {
           "kind" : "file",
@@ -962,13 +1025,20 @@
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackFormatConverter.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackModels.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackProvider.swift",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackScreen.swift",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackScreenModel.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackSettingsManager.swift",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackSheets.swift",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ForkProviderIcon.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ProxyBridge.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/BridgePortMetadataRepository.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/FallbackProxyLifecycleCoordinator.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/PlusBinaryStore.swift",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RemoteMode/ForkRemoteConnection.swift",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RemoteMode/RemoteConnectionScreen.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLog.swift",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLogsScreen.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestTracker.swift"
       ],
       "tempsPath" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build",
@@ -2338,6 +2408,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/ForkPageRegistry.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/IDEImportScreenModel.swift"
         },
         {
@@ -2503,6 +2577,7 @@
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/AppSettingsPage.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/CLIProxySettingsPage.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/CredentialMigrationScreenModel.swift.o",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/ForkPageRegistry.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/IDEImportScreenModel.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/IDEScanSettingsManager.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/LoginSourceMenu.swift.o",
@@ -2916,6 +2991,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/ForkPageRegistry.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/IDEImportScreenModel.swift.o"
         },
         {
@@ -3067,6 +3146,7 @@
         "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/AppSettingsPage.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/CLIProxySettingsPage.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/CredentialMigrationScreenModel.swift",
+        "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/ForkPageRegistry.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/IDEImportScreenModel.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/IDEScanSettingsManager.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/LoginSourceMenu.swift",
@@ -3277,13 +3357,20 @@
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackFormatConverter.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackModels.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackProvider.swift",
+      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackScreen.swift",
+      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackScreenModel.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackSettingsManager.swift",
+      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackSheets.swift",
+      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ForkProviderIcon.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ProxyBridge.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/BridgePortMetadataRepository.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/FallbackProxyLifecycleCoordinator.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/PlusBinaryStore.swift",
+      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RemoteMode/ForkRemoteConnection.swift",
+      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RemoteMode/RemoteConnectionScreen.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLog.swift",
+      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLogsScreen.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestTracker.swift",
       "-I",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/Modules",
@@ -3732,6 +3819,7 @@
       "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/AppSettingsPage.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/CLIProxySettingsPage.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/CredentialMigrationScreenModel.swift",
+      "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/ForkPageRegistry.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/IDEImportScreenModel.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/IDEScanSettingsManager.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/LoginSourceMenu.swift",
@@ -4139,7 +4227,23 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackScreen.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackScreenModel.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackSettingsManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackSheets.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ForkProviderIcon.swift"
         },
         {
           "kind" : "file",
@@ -4163,7 +4267,19 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RemoteMode/ForkRemoteConnection.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RemoteMode/RemoteConnectionScreen.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLog.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLogsScreen.swift"
         },
         {
           "kind" : "file",
@@ -4439,11 +4555,31 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackScreen.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackScreenModel.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackSettingsManager.swift.o"
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackSheets.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkExtras.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkProviderIcon.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkRemoteConnection.swift.o"
         },
         {
           "kind" : "file",
@@ -4463,7 +4599,15 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RemoteConnectionScreen.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RequestLog.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RequestLogsScreen.swift.o"
         },
         {
           "kind" : "file",
@@ -4868,6 +5012,10 @@
         {
           "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/ExperimentalBadge.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/ForkPageRegistry.swift.o"
         },
         {
           "kind" : "file",
@@ -5788,6 +5936,10 @@
         {
           "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/CredentialMigrationScreenModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/ForkPageRegistry.swift"
         },
         {
           "kind" : "file",

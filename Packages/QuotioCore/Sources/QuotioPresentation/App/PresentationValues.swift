@@ -26,6 +26,7 @@ public enum NavigationPage: String, CaseIterable, Identifiable, Sendable {
     // Fork-added pages (rendered through ForkPageRegistry).
     case fallback = "Fallback"
     case requestLogs = "Request Logs"
+    case remoteConnection = "Remote Connection"
 
     public var id: String { rawValue }
 
@@ -47,6 +48,7 @@ public enum NavigationPage: String, CaseIterable, Identifiable, Sendable {
         case .about: "info.circle"
         case .fallback: "arrow.triangle.branch"
         case .requestLogs: "list.bullet.rectangle"
+        case .remoteConnection: "point.3.connected.trianglepath.dotted"
         }
     }
 }

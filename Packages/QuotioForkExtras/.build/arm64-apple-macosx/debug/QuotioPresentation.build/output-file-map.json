@@ -604,6 +604,13 @@
     "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/CredentialMigrationScreenModel.swiftdeps",
     "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/CredentialMigrationScreenModel.dia"
   },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/ForkPageRegistry.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/ForkPageRegistry.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/ForkPageRegistry.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/ForkPageRegistry~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/ForkPageRegistry.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/ForkPageRegistry.dia"
+  },
   "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioPresentation/Settings/IDEImportScreenModel.swift": {
     "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/IDEImportScreenModel.d",
     "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioPresentation.build/IDEImportScreenModel.swift.o",

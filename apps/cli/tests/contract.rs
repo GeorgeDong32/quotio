@@ -377,6 +377,86 @@ async fn snapshot_includes_unregistered_observations_without_reading_credentials
     );
 }
 
+#[tokio::test]
+async fn snapshot_groups_local_and_registered_sources_for_the_same_provider_account() {
+    use quotio::{
+        contract::{AccountList, snapshot::project},
+        domain::{AccountOrigin, AccountRef, VerifiedIdentity},
+    };
+    let mut accounts: AccountList =
+        serde_json::from_str(include_str!("fixtures/contracts/accounts-v2.json")).unwrap();
+    accounts.accounts[0].sources.truncate(1);
+    accounts.account_redirects.clear();
+    let context = ProviderContext {
+        http: reqwest::Client::new(),
+        clock: Arc::new(Fixture),
+        credentials: Arc::new(Fixture),
+    };
+    let mut native = Provider::Mock.adapter().fetch(&context).await.unwrap();
+    native.provider.0 = "amp".into();
+    native.account.id = "same@example.com".into();
+    native.account_ref = Some(AccountRef {
+        id: "source-a".into(),
+        label: "Amp CLI login".into(),
+        origin: Some(AccountOrigin::BorrowedNative),
+    });
+    for verified in [
+        None,
+        Some(VerifiedIdentity {
+            subject: "same@example.com".into(),
+            tenant: None,
+        }),
+    ] {
+        let mut native = native.clone();
+        native.account.verified = verified;
+        let mut local = native.clone();
+        local.account_ref = Some(AccountRef {
+            id: "local".into(),
+            label: "Local login".into(),
+            origin: Some(AccountOrigin::BorrowedNative),
+        });
+        let report = UsageReport {
+            schema_version: 1,
+            generated_at: context.clock.now(),
+            providers: vec![native, local],
+            failures: vec![],
+        };
+
+        let snapshot = project(
+            accounts.clone(),
+            &report,
+            context.clock.now(),
+            time::Duration::minutes(5),
+        )
+        .unwrap();
+
+        assert_eq!(snapshot.accounts.len(), 1);
+        assert_eq!(snapshot.accounts[0].sources.len(), 2);
+    }
+
+    let mut different = native.clone();
+    different.account.id = "different@example.com".into();
+    different.account_ref = Some(AccountRef {
+        id: "local".into(),
+        label: "Local login".into(),
+        origin: Some(AccountOrigin::BorrowedNative),
+    });
+    let report = UsageReport {
+        schema_version: 1,
+        generated_at: context.clock.now(),
+        providers: vec![native, different],
+        failures: vec![],
+    };
+    let snapshot = project(
+        accounts,
+        &report,
+        context.clock.now(),
+        time::Duration::minutes(5),
+    )
+    .unwrap();
+    assert_eq!(snapshot.accounts.len(), 2);
+}
+
 #[test]
 fn failed_unregistered_probes_report_provider_issues_without_inventing_accounts() {
     use quotio::{

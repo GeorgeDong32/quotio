@@ -30,15 +30,38 @@ fn reference_matches(provider: &str, reference: Option<&AccountRef>, source: &st
         || external_id(provider, reference) == source
 }
 
+fn same_provider_account(left: &ProviderUsage, right: &ProviderUsage) -> bool {
+    if left.provider != right.provider {
+        return false;
+    }
+    match (&left.account.verified, &right.account.verified) {
+        (Some(left), Some(right)) => left == right,
+        _ => !left.account.id.trim().is_empty() && left.account.id == right.account.id,
+    }
+}
+
+fn external_source(id: String, reference: Option<&AccountRef>) -> Source {
+    Source {
+        id,
+        origin: reference
+            .and_then(|reference| reference.origin)
+            .unwrap_or(AccountOrigin::BorrowedNative),
+        kind: "external_observation".into(),
+        location: None,
+        keychain_account: None,
+        enabled: true,
+        selected: false,
+        state: ConnectionState::NotChecked,
+        refresh_owner: RefreshOwner::None,
+        issue: None,
+        actions: Vec::new(),
+    }
+}
+
 fn include_external(accounts: &mut Vec<Account>, report: &UsageReport) {
-    let observations = report.providers.iter().map(|value| {
-        (
-            value.provider.0.as_str(),
-            value.account_ref.as_ref(),
-            Some(value.account.label.as_str()),
-        )
-    });
-    for (provider, reference, label) in observations {
+    for value in &report.providers {
+        let provider = value.provider.0.as_str();
+        let reference = value.account_ref.as_ref();
         if accounts.iter().any(|account| {
             account.provider_id == provider
                 && account
@@ -48,6 +71,27 @@ fn include_external(accounts: &mut Vec<Account>, report: &UsageReport) {
         }) {
             continue;
         }
+        let registered = report.providers.iter().find_map(|candidate| {
+            let reference = candidate.account_ref.as_ref()?;
+            if reference.id == "local"
+                || reference.origin == Some(AccountOrigin::BorrowedProxy)
+                || !same_provider_account(value, candidate)
+            {
+                return None;
+            }
+            accounts.iter().position(|account| {
+                account.provider_id == provider
+                    && account
+                        .sources
+                        .iter()
+                        .any(|source| reference_matches(provider, Some(reference), &source.id))
+            })
+        });
+        let id = external_id(provider, reference);
+        if let Some(index) = registered {
+            accounts[index].sources.push(external_source(id, reference));
+            continue;
+        }
         // Registered source IDs absent from the current vault were unlinked. A late report
         // must not turn them back into unregistered accounts.
         if reference.is_some_and(|reference| {
@@ -55,11 +99,10 @@ fn include_external(accounts: &mut Vec<Account>, report: &UsageReport) {
         }) {
             continue;
         }
-        let id = external_id(provider, reference);
         accounts.push(Account {
             id: id.clone(),
             provider_id: provider.into(),
-            display_name: label
+            display_name: Some(value.account.label.as_str())
                 .filter(|label| !label.trim().is_empty())
                 .map(str::to_owned)
                 .unwrap_or_else(|| format!("{provider} account")),
@@ -72,21 +115,7 @@ fn include_external(accounts: &mut Vec<Account>, report: &UsageReport) {
             enabled: true,
             active: false,
             state: ConnectionState::NotChecked,
-            sources: vec![Source {
-                id,
-                origin: reference
-                    .and_then(|r| r.origin)
-                    .unwrap_or(AccountOrigin::BorrowedNative),
-                kind: "external_observation".into(),
-                location: None,
-                keychain_account: None,
-                enabled: true,
-                selected: false,
-                state: ConnectionState::NotChecked,
-                refresh_owner: RefreshOwner::None,
-                issue: None,
-                actions: Vec::new(),
-            }],
+            sources: vec![external_source(id, reference)],
             actions: Vec::new(),
         });
     }

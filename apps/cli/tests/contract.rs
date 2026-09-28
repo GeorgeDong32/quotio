@@ -410,6 +410,9 @@ async fn snapshot_groups_local_and_registered_sources_for_the_same_provider_acco
         let mut native = native.clone();
         native.account.verified = verified;
         let mut local = native.clone();
+        if local.account.verified.is_some() {
+            local.account.id = "provider-specific-id".into();
+        }
         local.account_ref = Some(AccountRef {
             id: "local".into(),
             label: "Local login".into(),

@@ -169,7 +169,7 @@ pub(crate) fn token_expiry(token: &str) -> i64 {
 // Factory stores its own organization ID as `external_org_id`; WorkOS uses `org_id`.
 // This is a binding check, not signature verification; Factory must accept the bearer
 // before any decoded identity is returned to the caller.
-fn token_organization(token: &str, claim: &str) -> Option<String> {
+fn token_claim(token: &str, claim: &str) -> Option<String> {
     use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
     let parts: Vec<_> = token.split('.').collect();
     if parts.len() != 3 {
@@ -263,8 +263,9 @@ pub(crate) async fn fetch_oauth_at(
     if *refresh_pending {
         return Err(AccountError::CommitUncertain);
     }
-    let token_org = token_organization(access_token, "org_id");
-    let factory_org = token_organization(access_token, "external_org_id");
+    let token_subject = token_claim(access_token, "sub");
+    let token_org = token_claim(access_token, "org_id");
+    let factory_org = token_claim(access_token, "external_org_id");
     if organization_id.as_ref().is_some_and(|requested| {
         token_org.as_ref() != Some(requested) && factory_org.as_ref() != Some(requested)
     }) {
@@ -292,7 +293,19 @@ pub(crate) async fn fetch_oauth_at(
         return Err(AccountError::QuotaForbidden);
     }
     let response: Response = http::json_response(response, context.clock.now()).await?;
-    let id = token_org.unwrap_or_else(|| "Factory Droid".into());
+    let (verified, id) = match (token_subject, factory_org) {
+        (Some(subject), Some(tenant)) => {
+            let id = format!("{subject}:{tenant}");
+            (
+                Some(VerifiedIdentity {
+                    subject,
+                    tenant: Some(tenant),
+                }),
+                id,
+            )
+        }
+        _ => (None, token_org.unwrap_or_else(|| "Factory Droid".into())),
+    };
     let windows = parse_windows(response, context.clock.now())?;
     let label = profile_email(context, endpoint, access_token)
         .await
@@ -306,8 +319,8 @@ pub(crate) async fn fetch_oauth_at(
         account_ref: None,
         provider: ProviderId("factory".into()),
         account: AccountIdentity {
-            verified: None,
-            id: id.clone(),
+            verified,
+            id,
             label,
             plan: None,
             subscription_status: None,
@@ -766,7 +779,7 @@ mod tests {
     async fn oauth_accepts_factory_external_organization_binding() {
         let credential = crate::accounts::Credential::FactoryOAuth {
             access_token: jwt(
-                serde_json::json!({"org_id":"workos-org", "external_org_id":"factory-org", "exp":4102444800_i64}),
+                serde_json::json!({"sub":"factory-user", "org_id":"workos-org", "external_org_id":"factory-org", "exp":4102444800_i64}),
             ),
             refresh_token: String::new(),
             organization_id: Some("factory-org".into()),
@@ -780,7 +793,14 @@ mod tests {
         let usage = fetch_oauth_at(&http::fixture::context(), &credential, &endpoint)
             .await
             .unwrap();
-        assert_eq!(usage.account.id, "workos-org");
+        assert_eq!(usage.account.id, "factory-user:factory-org");
+        assert_eq!(
+            usage.account.verified,
+            Some(crate::domain::VerifiedIdentity {
+                subject: "factory-user".into(),
+                tenant: Some("factory-org".into()),
+            })
+        );
         assert_eq!(server.await.unwrap().len(), 1);
     }
     #[tokio::test]

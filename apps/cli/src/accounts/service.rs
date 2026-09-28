@@ -946,9 +946,10 @@ impl ProviderAdapter for ManagedProvider {
                 Credential::CodexOAuth { account_id, .. } => account_id.clone(),
                 credential => serde_json::to_string(credential).ok()?,
             };
-            // Refresh older observations once so repaired native naming is persisted.
+            // Refresh older observations once after provider-specific identity repairs.
             let identity_version = match self.provider {
                 Provider::Amp => "resolved-amp-identity-v3",
+                Provider::Factory => "resolved-factory-identity-v3",
                 Provider::Catalog("copilot") => "resolved-copilot-identity-v3",
                 Provider::Catalog("grok") => "resolved-grok-identity-v3",
                 _ => "resolved-identity-v2",

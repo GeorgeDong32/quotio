@@ -170,6 +170,8 @@ final class UserDefaultsPreferenceRepositoriesTests: XCTestCase {
         let appShell = UserDefaultsAppShellPreferencesRepository(defaults: defaults).load()
 
         XCTAssertEqual(menu, MenuBarPreferences())
+        XCTAssertEqual(menu.colorMode, .monochrome)
+        XCTAssertEqual(menu.quotaDisplayMode, .remaining)
         XCTAssertEqual(refresh, RefreshPreferences())
         XCTAssertEqual(warmup, WarmupPreferences())
         XCTAssertEqual(appearance, AppearancePreferences())

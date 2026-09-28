@@ -27,3 +27,27 @@ cargo test --manifest-path apps/cli/Cargo.toml --locked --all-features
 Use `v*` tags for macOS releases and `cli-v*` tags for CLI releases. Preserve
 both imported histories; never rewrite shared history or reuse one product's tag
 namespace for the other.
+
+## Fork addendum (port/upstream-monorepo)
+
+This fork (GeorgeDong32/quotio) tracks upstream and adds fork-only features
+that live in `Packages/QuotioForkExtras/` — model-fallback routing
+(ProxyBridge + coordinator wrapping the upstream lifecycle controller),
+request logging, remote CLIProxyAPI connection, and Gemini CLI quota.
+Rules that keep future upstream merges cheap:
+
+- Fork-owned code goes in `Packages/QuotioForkExtras` (or app-target wiring
+  in `apps/macos/Quotio/App/CompositionRoot.swift`); avoid scattering fork
+  logic into upstream files. Fork page registration goes through
+  `ForkPageRegistry` (Presentation seam).
+- Upstream-file edits are bounded to the seam list documented in
+  `openspec/changes/port-to-upstream-monorepo/design.md`.
+- Identity: bundle id is `dev.quotio.desktop` and counts as production
+  (AppIdentity); Sparkle/PostHog are intentionally absent (no-op adapters).
+- The app runs the bundled `cli-proxy-api-plus` binary (version+sha pinned
+  in `PlusBinaryStore`); never delete the active version; verify with
+  `./apps/macos/scripts/verify-bundled-proxy.sh`.
+- Bridge topology: ProxyBridge listens on the user port, the proxy binary
+  binds user+10000 on 127.0.0.1 only.
+- Sync model: `git fetch upstream && git merge upstream/master` on this
+  branch; expect conflicts only in the seam files.

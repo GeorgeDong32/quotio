@@ -256,17 +256,28 @@ tagged, committable state. Conventional commits; never commit to `master`.
 - [x] Docs: root AGENTS.md fork addendum (fork package rules, seam list
       pointer, identity/invariant statements); this openspec change stays
       active until the master merge archives it.
-- [ ] **User-supervised QA (the one remaining gate)** — launch the ported
-      Debug build (`.portbuild/DerivedData/Build/Products/Debug/Quotio.app`
-      via `open`, or `./apps/macos/scripts/build_and_run.sh`) with the
-      production Quotio.app quit first, then check: proxy starts on 8080
-      (bridge) with the binary on 27080; a real agent request routes and
-      appears in Request Logs with fallback traces; forcing a 429 falls
-      over to the next entry; Gemini Quota page fetches (native + relay);
-      Remote Connection test against a remote instance; light/dark; upgrade
-      continuity (fallback config + request history + 8080 port survive).
+- [ ] **User-supervised QA (the one remaining gate)** — attempted 2026-09-29
+      with the production app quit and the ported Debug build launched:
+      the app starts and reaches `FallbackProxyLifecycleCoordinator.initialize`
+      (verified via process sample), then **blocks on a keychain
+      authorization prompt**: the ad-hoc-signed Debug binary is not in the
+      ACL of the production items (`dev.quotio.desktop.local-management`),
+      so `SecItemCopyMatching` waits on securityd. This is signing-identity
+      continuity, not a port defect — a release signed like previous fork
+      releases won't prompt. The Debug run was aborted cleanly (verified:
+      zero mutations — plus/current symlink untouched, no QuotioCLI data
+      dir, no ports bound) and the production app was relaunched.
+      Remaining recipe (needs the user's keychain password once, "Always
+      Allow"): quit production Quotio → `open
+      .portbuild/DerivedData/Build/Products/Debug/Quotio.app` → verify
+      bridge 8080 / binary 27080 → one agent request with virtual model
+      `haiku` → Request Logs trace → Gemini Quota page → light/dark →
+      relaunch production.
 - [ ] After QA: merge PR into fork master, archive this change, first
-      merge-forward sync.
+      merge-forward sync. **PR opened** (see branch `port/upstream-monorepo`
+      PR into master); merge deliberately left to the user after the QA
+      pass — per the "never commit to master" repo rule and because the
+      QA gate is conditional on passing.
 
 ## Pinned base
 

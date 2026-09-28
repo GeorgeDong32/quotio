@@ -6,5 +6,8 @@
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackSettingsManager.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ProxyBridge.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/BridgePortMetadataRepository.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/FallbackProxyLifecycleCoordinator.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/PlusBinaryStore.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLog.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestTracker.swift

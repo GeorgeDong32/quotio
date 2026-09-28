@@ -9,6 +9,13 @@
     "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackEngineTests.swiftdeps",
     "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackEngineTests.dia"
   },
+  "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Tests/QuotioForkExtrasTests/FallbackRoutingIntegrationTests.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackRoutingIntegrationTests.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackRoutingIntegrationTests.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackRoutingIntegrationTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackRoutingIntegrationTests.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackRoutingIntegrationTests.dia"
+  },
   "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Tests/QuotioForkExtrasTests/ForkExtrasTests.swift": {
     "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/ForkExtrasTests.d",
     "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/ForkExtrasTests.swift.o",

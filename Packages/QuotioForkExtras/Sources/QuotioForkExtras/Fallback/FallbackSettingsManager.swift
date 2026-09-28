@@ -87,6 +87,17 @@ public final class FallbackSettingsManager {
         syncRouteCachingFlag()
     }
 
+    /// Test support: re-read the persisted configuration.
+    public func reloadForTesting() {
+        if let data = defaults.data(forKey: configurationKey),
+           let decoded = try? JSONDecoder().decode(FallbackConfiguration.self, from: data) {
+            configuration = decoded
+        } else {
+            configuration = FallbackConfiguration()
+        }
+        syncRouteCachingFlag()
+    }
+
     // MARK: - Global Settings
 
     /// Whether fallback is globally enabled

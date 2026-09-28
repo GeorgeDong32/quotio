@@ -58,6 +58,27 @@
     "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkExtras.swiftdeps",
     "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkExtras.dia"
   },
+  "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/BridgePortMetadataRepository.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/BridgePortMetadataRepository.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/BridgePortMetadataRepository.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/BridgePortMetadataRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/BridgePortMetadataRepository.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/BridgePortMetadataRepository.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/FallbackProxyLifecycleCoordinator.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackProxyLifecycleCoordinator.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackProxyLifecycleCoordinator.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackProxyLifecycleCoordinator~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackProxyLifecycleCoordinator.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackProxyLifecycleCoordinator.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/PlusBinaryStore.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/PlusBinaryStore.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/PlusBinaryStore.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/PlusBinaryStore~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/PlusBinaryStore.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/PlusBinaryStore.dia"
+  },
   "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLog.swift": {
     "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RequestLog.d",
     "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/RequestLog.swift.o",

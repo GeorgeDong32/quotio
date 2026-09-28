@@ -43,17 +43,22 @@ enum CompositionRoot {
         )
         let paths = FileProxyConfigurationRepository.defaultPaths()
         let configurationRepository = FileProxyConfigurationRepository(paths: paths)
+        // Fork: bridge mode — the proxy binary binds the internal port while
+        // ProxyBridge owns the user port and applies fallback routing.
         let proxyController = ProxyLifecycleController(
             paths: paths,
             processController: ProxyProcessController(),
-            versionRepository: FileProxyVersionRepository(),
+            versionRepository: PlusProxyVersionRepository(),
             releaseRepository: GitHubProxyReleaseRepository(),
             updateFeed: GitHubAtomProxyUpdateFeed(),
             configurationRepository: configurationRepository,
             binaryDownloader: URLSessionProxyBinaryDownloader(),
             checksumVerifier: SHA256ProxyChecksumVerifier(),
             managementChecker: LocalProxyManagementClient(),
-            metadataRepository: UserDefaultsProxyRuntimeMetadataRepository(),
+            metadataRepository: BridgePortMetadataRepository(
+                wrapping: UserDefaultsProxyRuntimeMetadataRepository(),
+                offset: FallbackProxyLifecycleCoordinator.portOffset
+            ),
             preferencesRepository: UserDefaultsProxyPreferencesRepository(),
             keyVault: ProxyManagementKeyVaultAdapter(
                 dataStore: KeychainCredentialDataStore(
@@ -71,11 +76,17 @@ enum CompositionRoot {
             dateProvider: SystemDateProvider(),
             installedVersionLimit: AppConstants.maxInstalledVersions
         )
-        let proxyScreenModel = ProxyScreenModel(
+        let userProxyPort = UserDefaultsProxyRuntimeMetadataRepository().loadPort()
+        let proxyCoordinator = FallbackProxyLifecycleCoordinator(
             controller: proxyController,
+            bridge: ProxyBridge(),
+            userPort: userProxyPort
+        )
+        let proxyScreenModel = ProxyScreenModel(
+            controller: proxyCoordinator,
             initialState: ProxySnapshot(
                 status: ProxyStatus(
-                    port: UserDefaultsProxyRuntimeMetadataRepository().loadPort()
+                    port: userProxyPort
                 ),
                 paths: paths
             )

@@ -241,14 +241,32 @@ tagged, committable state. Conventional commits; never commit to `master`.
 
 ## Phase 9 — QA, merge-forward, close-out (1–2d)
 
-- [ ] Manual QA matrix: OAuth for 2–3 providers, proxy lifecycle
-      (start/stop/crash-restart/port change), fallback E2E matrix (429/503/
-      thinking-signature/cache-hit), remote mode, Gemini display, upgrade
-      path, light/dark, menu bar rendering.
-- [ ] Merge-forward: `git merge upstream/master` (the shakedown of the new
-      sync model); resolve seam conflicts; re-run the build+test gates.
-- [ ] Open the PR into fork `master`; archive this openspec change; update
-      fork docs (AGENTS.md paths, invariants) and the sync-memory notes.
+- [x] Automatable QA all green at every phase gate: Debug builds 0 errors /
+      0 warnings; `swift test` QuotioCore (502, 1 known env failure) and
+      QuotioForkExtras (11, 1 env-skip); app tests 14 pass / 1 known env
+      failure (locale); check_architecture.sh; verify-bundled-proxy.sh
+      against the real built app; plus-binary smoke on the exact upstream
+      config template (`/v0/management/debug` → 200).
+- [x] Merge-forward checked: upstream master is unchanged since the pinned
+      base (`efe2f82`) — the shakedown merge happens at the first real
+      future sync; the seam design is documented for it.
+- [x] Branch `port/upstream-monorepo` + all phase tags pushed to origin.
+      NOT merged into master — that is deliberately left to the user after
+      the supervised QA below.
+- [x] Docs: root AGENTS.md fork addendum (fork package rules, seam list
+      pointer, identity/invariant statements); this openspec change stays
+      active until the master merge archives it.
+- [ ] **User-supervised QA (the one remaining gate)** — launch the ported
+      Debug build (`.portbuild/DerivedData/Build/Products/Debug/Quotio.app`
+      via `open`, or `./apps/macos/scripts/build_and_run.sh`) with the
+      production Quotio.app quit first, then check: proxy starts on 8080
+      (bridge) with the binary on 27080; a real agent request routes and
+      appears in Request Logs with fallback traces; forcing a 429 falls
+      over to the next entry; Gemini Quota page fetches (native + relay);
+      Remote Connection test against a remote instance; light/dark; upgrade
+      continuity (fallback config + request history + 8080 port survive).
+- [ ] After QA: merge PR into fork master, archive this change, first
+      merge-forward sync.
 
 ## Pinned base
 

@@ -4,6 +4,34 @@
 //
 
 import Foundation
+import SwiftUI
+
+extension AIProvider {
+    /// Tint used by fork UI for provider badges and icons.
+    public var color: Color {
+        switch self {
+        case .gemini: .blue
+        case .claude: .orange
+        case .codex: .green
+        case .qwen: .purple
+        case .iflow: .cyan
+        case .antigravity: .indigo
+        case .vertex: .blue
+        case .kiro: .teal
+        case .copilot: .gray
+        case .cursor: .blue
+        case .factoryDroid: .red
+        case .devin: .blue
+        case .grok: .black
+        case .openRouter: .indigo
+        case .amp: .yellow
+        case .trae: .blue
+        case .glm: .blue
+        case .warp: .primary
+        case .clinePass: .orange
+        }
+    }
+}
 
 /// Provider identity used by fallback entries and request logs.
 ///

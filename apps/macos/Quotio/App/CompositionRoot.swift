@@ -1,5 +1,6 @@
 import AppKit
 import Foundation
+import SwiftUI
 import QuotioApplication
 import QuotioDomain
 import QuotioForkExtras
@@ -77,9 +78,16 @@ enum CompositionRoot {
             installedVersionLimit: AppConstants.maxInstalledVersions
         )
         let userProxyPort = UserDefaultsProxyRuntimeMetadataRepository().loadPort()
+        let proxyBridge = ProxyBridge()
+        // Fork: request logging — bridge completions feed the fork tracker.
+        proxyBridge.onRequestCompleted = { metadata in
+            Task { @MainActor in
+                RequestTracker.shared.addRequest(from: metadata)
+            }
+        }
         let proxyCoordinator = FallbackProxyLifecycleCoordinator(
             controller: proxyController,
-            bridge: ProxyBridge(),
+            bridge: proxyBridge,
             userPort: userProxyPort
         )
         let proxyScreenModel = ProxyScreenModel(
@@ -233,9 +241,17 @@ enum CompositionRoot {
             }
         )
         let statusBarManager = StatusBarManager()
+        // Fork: fallback screen model + fork page registration.
+        let fallbackScreenModel = FallbackScreenModel(
+            baseURLProvider: { [weak proxyScreenModel] in proxyScreenModel?.baseURL ?? "" },
+            configPathProvider: { paths.configPath }
+        )
+        ForkPageRegistry.providers[.fallback] = { AnyView(FallbackScreen()) }
+        ForkPageRegistry.providers[.requestLogs] = { AnyView(RequestLogsScreen()) }
         let services = ProductionAppRuntimeServices(
             quotaController: quotaController,
             proxyScreenModel: proxyScreenModel,
+            fallbackScreenModel: fallbackScreenModel,
             quotaScreenModel: quotaScreenModel,
             accountsScreenModel: accountsScreenModel,
             navigationScreenModel: NavigationScreenModel(),
@@ -281,6 +297,7 @@ private struct CustomProviderConfigurationSupplement: ProxyConfigurationSuppleme
 private final class ProductionAppRuntimeServices: AppRuntimeServices {
     let quotaController: QuotaFeatureController
     let proxyScreenModel: ProxyScreenModel
+    let fallbackScreenModel: FallbackScreenModel
     let quotaScreenModel: QuotaScreenModel
     let accountsScreenModel: AccountsScreenModel
     let navigationScreenModel: NavigationScreenModel
@@ -314,6 +331,7 @@ private final class ProductionAppRuntimeServices: AppRuntimeServices {
     init(
         quotaController: QuotaFeatureController,
         proxyScreenModel: ProxyScreenModel,
+        fallbackScreenModel: FallbackScreenModel,
         quotaScreenModel: QuotaScreenModel,
         accountsScreenModel: AccountsScreenModel,
         navigationScreenModel: NavigationScreenModel,
@@ -341,6 +359,7 @@ private final class ProductionAppRuntimeServices: AppRuntimeServices {
     ) {
         self.quotaController = quotaController
         self.proxyScreenModel = proxyScreenModel
+        self.fallbackScreenModel = fallbackScreenModel
         self.quotaScreenModel = quotaScreenModel
         self.accountsScreenModel = accountsScreenModel
         self.navigationScreenModel = navigationScreenModel

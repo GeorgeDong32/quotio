@@ -72,6 +72,7 @@ struct QuotioApp: App {
             .id(runtime.languageManager.currentLanguage)
             .environment(runtime.quotaController)
             .environment(runtime.proxyScreenModel)
+            .environment(runtime.fallbackScreenModel)
             .environment(runtime.quotaScreenModel)
             .environment(runtime.accountsScreenModel)
             .environment(runtime.navigationScreenModel)

@@ -117,13 +117,29 @@ tagged, committable state. Conventional commits; never commit to `master`.
 
 ## Phase 4 — Fallback & logs UI (3–4d)
 
-- [ ] Port `FallbackScreen` + `FallbackSheets` into the fork package
-      (restyled minimally to fit the new settings aesthetic).
-- [ ] Navigation seam: `NavigationPage` case + settingsPages/title/render
-      case; localization keys.
-- [ ] Port `LogsScreen` (request history/stats, fallback-attempt badges);
-      page gating local-proxy + loggingToFile.
-- [ ] Light/dark + localization pass. Tag `port/phase-4-green`.
+- [x] Port `FallbackScreen` + `FallbackSheets` into the fork package,
+      re-bound to `FallbackScreenModel` (fork) + `ProxyScreenModel`
+      (upstream env) instead of the retired QuotaViewModel; bridge-mode is
+      always-on in the ported fork.
+- [x] Navigation seam: `NavigationPage` gained `.fallback` + `.requestLogs`
+      cases (icons), added to `settingsPages` after CLIProxyAPI, titles
+      localized. Rendering goes through a new `ForkPageRegistry`
+      (Presentation-owned static registry) so QuotioPresentation stays
+      independent of fork packages; CompositionRoot registers the two pages.
+- [x] `FallbackScreenModel` provides the model pick list (seeded from
+      `AvailableModel.allModels`, live-refresh via the proxy `/v1/models`
+      endpoint authenticating with the first config api-key — same source as
+      the fork pre-port).
+- [x] Request logs: `RequestLogsScreen` ports the fork LogsScreen requests
+      tab (stats header, provider filter, search, expandable fallback
+      traces); the system-log tab is dropped (it was tied to retired
+      upstream UI — accepted trim). Bridge → tracker wired in
+      CompositionRoot (`onRequestCompleted` → RequestTracker).
+- [x] Localization: 64 fork keys (fallback.*, logs.*) + 6 new port keys
+      merged into `apps/macos/Quotio/Localizable.xcstrings`.
+- [x] Gates: build 0 errors/0 warnings; arch check passes. Light/dark
+      visual pass deferred to Phase 9 QA (can't launch GUI safely next to
+      the user's running instance). Tag `port/phase-4-green`.
 
 ## Phase 5 — Remote mode (2–3d)
 

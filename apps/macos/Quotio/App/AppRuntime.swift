@@ -1,10 +1,12 @@
 import Foundation
 import QuotioDomain
+import QuotioForkExtras
 import QuotioPresentation
 
 @MainActor
 protocol AppRuntimeServices: AnyObject, Sendable {
     var proxyScreenModel: ProxyScreenModel { get }
+    var fallbackScreenModel: FallbackScreenModel { get }
     var quotaController: QuotaFeatureController { get }
     var quotaScreenModel: QuotaScreenModel { get }
     var accountsScreenModel: AccountsScreenModel { get }
@@ -53,6 +55,7 @@ final class AppRuntime {
     private(set) var hasShutDown = false
 
     var proxyScreenModel: ProxyScreenModel { services.proxyScreenModel }
+    var fallbackScreenModel: FallbackScreenModel { services.fallbackScreenModel }
     var quotaController: QuotaFeatureController { services.quotaController }
     var quotaScreenModel: QuotaScreenModel { services.quotaScreenModel }
     var accountsScreenModel: AccountsScreenModel { services.accountsScreenModel }

@@ -17,6 +17,12 @@ struct AppSettingsPage: View {
             switch page {
             case .updates, .about: AboutSettingsPage()
             case .proxy: CLIProxySettingsPage()
+            case .fallback, .requestLogs:
+                if let forkPage = ForkPageRegistry.provider(for: page) {
+                    forkPage()
+                } else {
+                    Text("settings.forkPageUnavailable".localized()).foregroundStyle(.secondary)
+                }
             default:
                 Form {
                     AccountStorageAccessSection()

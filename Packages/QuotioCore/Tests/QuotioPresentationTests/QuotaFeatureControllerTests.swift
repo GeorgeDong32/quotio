@@ -1,4 +1,6 @@
 import Foundation
+import AppKit
+import SwiftUI
 import QuotioApplication
 import QuotioDomain
 import XCTest
@@ -199,6 +201,34 @@ final class QuotaFeatureControllerTests: XCTestCase {
         await fixture.controller.setRefreshInterval(0)
         await fixture.controller.setProviderEnabled(false, provider: .codex)
         XCTAssertEqual(fixture.controller.monitoringSettings, before)
+        await fixture.controller.shutdown()
+    }
+
+    func testProviderRowStaysCompactAtNarrowWidths() async {
+        let account = Account.make(providerID: .init(rawValue: "amp"),
+            accountKey: "long.account.name@example.com", source: .nativeCredential)
+        let fixture = await makeFixture(account: account, provider: .amp)
+        await fixture.controller.initialize()
+        let state = ProviderSettingsState(provider: .amp, accounts: fixture.controller.accounts.accounts,
+            permissions: [], quota: fixture.quota.state, tracking: fixture.controller.trackingPreferences)
+        XCTAssertEqual(state.accounts.count, 1)
+        for width: CGFloat in [360, 480] {
+            let view = ProviderAccountsSection(state: state, visibleAccounts: state.accounts)
+                .environment(AccountsSettingsScreenModel())
+                .environment(NavigationScreenModel())
+                .environment(fixture.controller.accounts)
+                .environment(fixture.quota)
+                .environment(fixture.controller)
+                .environment(fixture.menuBar)
+                .environment(ProviderImageScreenModel { _, _ in nil })
+                .frame(width: width)
+            let host = NSHostingView(rootView: view)
+            host.layoutSubtreeIfNeeded()
+            XCTAssertEqual(host.fittingSize.width, width, accuracy: 1)
+            XCTAssertGreaterThan(host.fittingSize.height, 40)
+            XCTAssertLessThan(host.fittingSize.height, 140,
+                "A provider with one account must stay a header plus one compact row")
+        }
         await fixture.controller.shutdown()
     }
 

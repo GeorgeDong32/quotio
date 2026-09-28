@@ -4,7 +4,7 @@ import QuotioApplication
 import QuotioDomain
 
 @MainActor
-private enum PresentationLocalization {
+enum PresentationLocalization {
     static var bundle = Bundle.main
 
     static func updateBundle(_ newBundle: Bundle) {

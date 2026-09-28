@@ -1,53 +1,55 @@
 import SwiftUI
 
+/// Asks for access to Quotio's own Keychain item in place; macOS shows its own consent
+/// dialog, so no explanatory sheet sits in front of it.
 struct AccountStorageAccessSection: View {
     @Environment(AccountsScreenModel.self) private var accounts
     @Environment(QuotaFeatureController.self) private var quota
-    @State private var showExplanation = false
     @State private var failed = false
     @State private var isSubmitting = false
 
     var body: some View {
         if accounts.storageAccessRequired {
             Section {
-                Label("settings.vaultAccess.title".localized(), systemImage: "lock")
-                Text("settings.vaultAccess.reason".localized()).foregroundStyle(.secondary)
-                Button("settings.authorize".localized()) { showExplanation = true }
-                    .disabled(!quota.canAuthorizeNative)
-            }
-            .sheet(isPresented: $showExplanation) {
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("settings.vaultAccess.title".localized()).font(.title2)
-                    Text("settings.vaultAccess.explanation".localized())
-                        .fixedSize(horizontal: false, vertical: true)
-                    if failed { Text((accounts.nativeAuthorizationFailure ?? .unknown).message).foregroundStyle(.red) }
-                    if isSubmitting {
-                        ProgressView("settings.authorization.pending".localized())
-                            .controlSize(.small)
-                    }
-                    HStack {
-                        Spacer()
-                        Button((isSubmitting ? "action.close" : "action.cancel").localized()) { showExplanation = false }.keyboardShortcut(.cancelAction)
-                        Button("onboarding.button.continue".localized()) {
-                            isSubmitting = true
-                            failed = false
-                            Task {
-                                defer { isSubmitting = false }
-                                do {
-                                    try await accounts.authorizeAccountStorage()
-                                    await quota.refreshAll(force: true)
-                                    showExplanation = false
-                                } catch { failed = true }
-                            }
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "lock.fill")
+                        .foregroundStyle(.orange)
+                        .frame(width: 16)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("settings.vaultAccess.title".localized())
+                        Text("settings.vaultAccess.reason".localized() + " " + "settings.authorize.alwaysAllow".localized())
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                        if failed {
+                            Text((accounts.nativeAuthorizationFailure ?? .unknown).message)
+                                .font(.caption)
+                                .foregroundStyle(.red)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .keyboardShortcut(.defaultAction)
-                        .disabled(!quota.canAuthorizeNative || isSubmitting || accounts.authorizingStorage)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    if isSubmitting || accounts.authorizingStorage {
+                        ProgressView().controlSize(.small)
+                    }
+                    Button("settings.authorize".localized()) { authorize() }
+                        .controlSize(.small)
+                        .disabled(!quota.canAuthorizeNative || isSubmitting || accounts.authorizingStorage)
                 }
-                .padding(24)
-                .frame(width: 460)
+                .help("settings.vaultAccess.explanation".localized())
             }
+        }
+    }
+
+    private func authorize() {
+        isSubmitting = true
+        failed = false
+        Task {
+            defer { isSubmitting = false }
+            do {
+                try await accounts.authorizeAccountStorage()
+                await quota.refreshAll(force: true)
+            } catch { failed = true }
         }
     }
 }

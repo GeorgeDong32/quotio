@@ -72,6 +72,7 @@ fn pair(usage: &ProviderUsage) -> Vec<SummaryMetric> {
         "devin-desktop" => ("Daily", "Weekly", true),
         "amp" => ("Agent", "Orb", true),
         "cursor" => ("Plan usage", "On demand", true),
+        "factory" => ("Standard Weekly", "Core Weekly", true),
         _ => return vec![],
     };
     let group = |name: &str| -> Vec<&QuotaWindow> {
@@ -85,6 +86,14 @@ fn pair(usage: &ProviderUsage) -> Vec<SummaryMetric> {
                             "amp-agent-usage"
                         } else {
                             "amp-orb-usage"
+                        });
+                }
+                if usage.provider.0 == "factory" {
+                    return window.metric_id.as_deref()
+                        == Some(if name == "Standard Weekly" {
+                            "factory-standard-weekly"
+                        } else {
+                            "factory-core-weekly"
                         });
                 }
                 window.label == name
@@ -210,5 +219,16 @@ mod tests {
             unit: "units".into(),
         });
         assert_eq!(project(&usage).pair[1].remaining_percent, Some(25.0));
+        usage.provider.0 = "factory".into();
+        let mut standard = window("Standard weekly", Some(0.0));
+        standard.metric_id = Some("factory-standard-weekly".into());
+        let mut core = window("Droid Core weekly", Some(16.0));
+        core.metric_id = Some("factory-core-weekly".into());
+        usage.windows = vec![standard, core];
+        let summary = project(&usage);
+        assert_eq!(summary.pair[0].display_name, "Standard Weekly");
+        assert_eq!(summary.pair[0].remaining_percent, Some(0.0));
+        assert_eq!(summary.pair[1].display_name, "Core Weekly");
+        assert_eq!(summary.pair[1].remaining_percent, Some(16.0));
     }
 }

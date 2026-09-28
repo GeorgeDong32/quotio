@@ -10,6 +10,9 @@
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ForkProviderIcon.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ProxyBridge.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiCLIQuotaFetcher.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreen.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreenModel.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/BridgePortMetadataRepository.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/FallbackProxyLifecycleCoordinator.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/PlusBinaryStore.swift

@@ -42,7 +42,7 @@ public struct RootNavigationView: View {
 }
 
 extension NavigationPage {
-    static let settingsPages: [Self] = [.general, .menuBar, .notifications, .privacy, .proxy, .fallback, .requestLogs, .remoteConnection, .updates]
+    static let settingsPages: [Self] = [.general, .menuBar, .notifications, .privacy, .proxy, .fallback, .requestLogs, .remoteConnection, .geminiQuota, .updates]
 
     @MainActor var settingsTitle: String {
         switch self {
@@ -54,6 +54,7 @@ extension NavigationPage {
         case .fallback: "settings.fallback".localized()
         case .requestLogs: "settings.requestLogs".localized()
         case .remoteConnection: "remote.title".localized()
+        case .geminiQuota: "gemini.title".localized()
         case .updates, .about: "settings.aboutUpdates".localized()
         default: "settings.general".localized()
         }

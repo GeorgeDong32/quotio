@@ -17,7 +17,7 @@ struct AppSettingsPage: View {
             switch page {
             case .updates, .about: AboutSettingsPage()
             case .proxy: CLIProxySettingsPage()
-            case .fallback, .requestLogs, .remoteConnection:
+            case .fallback, .requestLogs, .remoteConnection, .geminiQuota:
                 if let forkPage = ForkPageRegistry.provider(for: page) {
                     forkPage()
                 } else {

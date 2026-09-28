@@ -249,6 +249,26 @@ enum CompositionRoot {
         ForkPageRegistry.providers[.fallback] = { AnyView(FallbackScreen()) }
         ForkPageRegistry.providers[.requestLogs] = { AnyView(RequestLogsScreen()) }
         ForkPageRegistry.providers[.remoteConnection] = { AnyView(RemoteConnectionScreen()) }
+        let geminiScreenModel = GeminiQuotaScreenModel(
+            apiClientProvider: { [weak proxyScreenModel] in
+                // Local proxy first, then the saved remote connection.
+                if let proxyScreenModel, proxyScreenModel.proxyStatus.running {
+                    return URLSessionProxyManagementAPI(connection: ProxyManagementConnection(
+                        baseURL: proxyScreenModel.managementURL,
+                        authKey: proxyScreenModel.managementKey
+                    ))
+                }
+                if let config = ForkRemoteConnectionManager.loadSavedConfig(),
+                   let key = ForkRemoteConnectionManager.savedManagementKey() {
+                    return URLSessionProxyManagementAPI(connection: ProxyManagementConnection(
+                        baseURL: config.managementBaseURL,
+                        authKey: key
+                    ))
+                }
+                return nil
+            }
+        )
+        ForkPageRegistry.providers[.geminiQuota] = { AnyView(GeminiQuotaScreen().environment(geminiScreenModel)) }
         let services = ProductionAppRuntimeServices(
             quotaController: quotaController,
             proxyScreenModel: proxyScreenModel,

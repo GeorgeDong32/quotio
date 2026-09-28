@@ -91,6 +91,21 @@ public final class ForkRemoteConnectionManager {
         loadConfig()
     }
 
+    /// Reads the persisted config without instantiating the observable manager.
+    public static func loadSavedConfig() -> RemoteConnectionConfig? {
+        guard let data = UserDefaults.standard.data(forKey: Self.configKey),
+              let decoded = try? JSONDecoder().decode(RemoteConnectionConfig.self, from: data) else {
+            return nil
+        }
+        return decoded
+    }
+
+    /// Reads the persisted management key for the saved connection, if any.
+    public static func savedManagementKey() -> String? {
+        guard let config = loadSavedConfig() else { return nil }
+        return Keychain.remoteManagementKeyStore.load(configID: config.id)
+    }
+
     public func save(_ config: RemoteConnectionConfig, managementKey: String) {
         let data = try? JSONEncoder().encode(config)
         if let data {

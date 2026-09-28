@@ -166,16 +166,29 @@ tagged, committable state. Conventional commits; never commit to `master`.
 
 ## Phase 6 — Gemini quota kit (2–4d)
 
-- [ ] **Spike first:** presentation merge point (host-snapshot tiles vs
-      dedicated Gemini section); record the choice here before building.
-- [ ] Port the fetcher's native path (`~/.gemini` files + direct Google token
-      refresh, atomic write-back) and the monitor-vault path (accounts
-      imported via upstream legacy migration).
-- [ ] Add `/api-call` relay (plus binary) to the fork wrapper client for the
-      management-API-relayed quota path with `$TOKEN$` substitution.
-- [ ] Bucket→series grouping, tier labels, `gemini-2.0-flash` filtering,
-      refresh cadence, menu-bar display.
-- [ ] Tag `port/phase-6-green`.
+- [x] Spike outcome: dedicated fork page (host-snapshot quota tiles stay
+  untouched — no merge point risk); menu-bar integration deferred (documented
+  as follow-up; StatusBarMenu is host-summary-driven upstream).
+- [x] `GeminiCLIQuotaFetcher` ported with the two surviving paths:
+  (1) native `~/.gemini` files + direct Google token refresh with
+  compare-and-swap atomic write-back (0600); (2) the management relay via
+  upstream `ProxyManagementAPI.apiCall` (`$TOKEN$` substitution, plus-binary
+  capability) — works over the local bridge port or a saved remote
+  connection. The pre-port monitor-vault path is gone by design (those
+  accounts migrate into the Rust host).
+- [x] Faithful ports of: bucket parsing (`_vertex` suffix, %-strings),
+  three-series grouping with preferred-model selection + min-fraction
+  fallback + earliest reset, `gemini-2.0-flash*` filtering, tier mapping
+  (Free/Legacy/Standard/Pro/Ultra), projectId extraction.
+- [x] `GeminiQuotaScreen` (per-account sections, series rows, tier badge,
+  reset times) + `GeminiQuotaScreenModel`; registered via ForkPageRegistry
+  with environment injected in the registry closure; api-client provider
+  prefers the running local proxy then the saved remote connection.
+- [x] Native credential compatibility verified read-only: the local
+  `~/.gemini/oauth_creds.json` keys match `GeminiCLIAuthFile` exactly.
+  Live network fetch deferred to Phase 9 QA.
+- [x] Gates: build 0 errors/0 warnings; package tests 11 (1 env-skip).
+      Tag `port/phase-6-green`.
 
 ## Phase 7 — Upgrade path from fork v0.22.0 (1–2d)
 

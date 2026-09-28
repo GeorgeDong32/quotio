@@ -1,0 +1,85 @@
+name: macOS CI
+
+on:
+  pull_request:
+    paths:
+      - 'apps/macos/**'
+      - 'apps/cli/**'
+      - 'Packages/QuotioCore/**'
+      - 'Packages/QuotioHostClient/**'
+      - '.github/workflows/macos-ci.yml'
+  push:
+    branches:
+      - master
+    paths:
+      - 'apps/macos/**'
+      - 'apps/cli/**'
+      - 'Packages/QuotioCore/**'
+      - 'Packages/QuotioHostClient/**'
+      - '.github/workflows/macos-ci.yml'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  verify:
+    runs-on: macos-15
+    timeout-minutes: 45
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1
+        with:
+          xcode-version: '26.1'
+
+      - name: Setup Rust
+        run: |
+          rustup toolchain install 1.88.0 --profile minimal
+          rustup default 1.88.0
+
+      - name: Test portable host client
+        run: swift test --package-path Packages/QuotioHostClient
+
+      - name: Check iOS host client
+        run: |
+          quotio_ios_sdk="$(xcrun --sdk iphonesimulator --show-sdk-path)"
+          xcrun --sdk iphonesimulator swiftc -swift-version 6 \
+            -target arm64-apple-ios15.0-simulator -sdk "$quotio_ios_sdk" \
+            -module-name QuotioHostClient -emit-module \
+            -emit-module-path "$RUNNER_TEMP/QuotioHostClient.swiftmodule" \
+            Packages/QuotioHostClient/Sources/QuotioHostClient/*.swift
+
+      - name: Test core package
+        run: swift test --package-path Packages/QuotioCore
+
+      - name: Install ripgrep
+        run: HOMEBREW_NO_AUTO_UPDATE=1 brew install ripgrep
+
+      - name: Check architecture boundaries
+        run: ./apps/macos/scripts/check_architecture.sh
+
+      - name: Test app
+        run: >-
+          xcodebuild -project apps/macos/Quotio.xcodeproj -scheme Quotio
+          -configuration Debug -destination 'platform=macOS'
+          CODE_SIGNING_ALLOWED=NO test
+
+      - name: Build app
+        run: >-
+          xcodebuild -project apps/macos/Quotio.xcodeproj -scheme Quotio
+          -configuration Debug -destination 'platform=macOS'
+          -derivedDataPath "$RUNNER_TEMP/quotio-derived-data"
+          CODE_SIGNING_ALLOWED=NO build
+
+      - name: Verify bundled CLI helper
+        run: |
+          helper="$RUNNER_TEMP/quotio-derived-data/Build/Products/Debug/Quotio.app/Contents/Helpers/quotio-cli"
+          test -x "$helper"
+          "$helper" --version

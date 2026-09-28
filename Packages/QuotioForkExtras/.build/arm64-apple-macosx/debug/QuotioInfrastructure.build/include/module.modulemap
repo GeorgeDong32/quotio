@@ -1,0 +1,3 @@
+module QuotioInfrastructure {
+    header "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/include/QuotioInfrastructure-Swift.h"
+}

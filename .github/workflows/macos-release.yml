@@ -1,0 +1,386 @@
+name: macOS Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 0.5.0 or 0.5.0-beta-1)'
+        required: true
+        type: string
+
+env:
+  PROJECT_NAME: Quotio
+
+permissions: {}
+
+jobs:
+  build-and-release:
+    runs-on: macos-15
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: apps/macos
+
+    steps:
+      # ===========================================
+      # 1. Checkout
+      # ===========================================
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # ===========================================
+      # 2. Setup Xcode
+      # ===========================================
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1
+        with:
+          xcode-version: '26.1'
+
+      - name: Setup Rust
+        run: |
+          rustup toolchain install 1.88.0 --profile minimal
+          rustup default 1.88.0
+          rustup target add aarch64-apple-darwin x86_64-apple-darwin
+
+      # ===========================================
+      # 3. Extract version from tag or input
+      # ===========================================
+      - name: Get version
+        id: version
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            VERSION="$INPUT_VERSION"
+          else
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          fi
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)[.-][0-9]+)?$ ]]; then
+            echo "Invalid release version: $VERSION" >&2
+            exit 1
+          fi
+          echo "VERSION=${VERSION}" >> "$GITHUB_OUTPUT"
+          
+          # Check if beta
+          if [[ "$VERSION" == *"-beta"* ]] || [[ "$VERSION" == *"-alpha"* ]] || [[ "$VERSION" == *"-rc"* ]]; then
+            echo "IS_PRERELEASE=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "IS_PRERELEASE=false" >> "$GITHUB_OUTPUT"
+          fi
+          
+          echo "Releasing version: ${VERSION}"
+
+      # ===========================================
+      # 4. Build release artifacts
+      # ===========================================
+      - name: Install create-dmg
+        run: brew install create-dmg
+
+      - name: Configure Developer ID signing and notarization
+        id: signing
+        env:
+          DEVELOPER_ID_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_ID_CERTIFICATE_BASE64 }}
+          DEVELOPER_ID_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_ID_CERTIFICATE_PASSWORD }}
+          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
+          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+        run: |
+          set -euo pipefail
+
+          required_secrets=(
+            DEVELOPER_ID_CERTIFICATE_BASE64
+            DEVELOPER_ID_CERTIFICATE_PASSWORD
+            APP_STORE_CONNECT_API_KEY_BASE64
+            APP_STORE_CONNECT_KEY_ID
+            APP_STORE_CONNECT_ISSUER_ID
+          )
+
+          configured_secret_count=0
+          for secret_name in "${required_secrets[@]}"; do
+            if [[ -n "${!secret_name}" ]]; then
+              configured_secret_count=$((configured_secret_count + 1))
+            fi
+          done
+
+          if [[ "${configured_secret_count}" -eq 0 ]]; then
+            echo "enabled=false" >> "${GITHUB_OUTPUT}"
+            echo "Apple signing secrets are not configured; building ad-hoc artifacts."
+            exit 0
+          fi
+
+          if [[ "${configured_secret_count}" -ne "${#required_secrets[@]}" ]]; then
+            echo "Developer ID signing is only enabled when all Apple signing secrets are configured." >&2
+            for secret_name in "${required_secrets[@]}"; do
+              if [[ -z "${!secret_name}" ]]; then
+                echo "Missing GitHub secret: ${secret_name}" >&2
+              fi
+            done
+            exit 1
+          fi
+
+          KEYCHAIN_PATH="${RUNNER_TEMP}/quotio-signing.keychain-db"
+          KEYCHAIN_PASSWORD="$(openssl rand -hex 24)"
+          CERTIFICATE_PATH="${RUNNER_TEMP}/developer-id-application.p12"
+          API_KEY_PATH="${RUNNER_TEMP}/AuthKey_${APP_STORE_CONNECT_KEY_ID}.p8"
+          NOTARY_PROFILE="quotio-notarization-${GITHUB_RUN_ID}"
+          ORIGINAL_KEYCHAINS_PATH="${RUNNER_TEMP}/quotio-original-keychains.txt"
+
+          security list-keychains -d user > "${ORIGINAL_KEYCHAINS_PATH}"
+          {
+            echo "SIGNING_KEYCHAIN_PATH=${KEYCHAIN_PATH}"
+            echo "SIGNING_CERTIFICATE_PATH=${CERTIFICATE_PATH}"
+            echo "NOTARY_API_KEY_PATH=${API_KEY_PATH}"
+            echo "SIGNING_ORIGINAL_KEYCHAINS_PATH=${ORIGINAL_KEYCHAINS_PATH}"
+          } >> "${GITHUB_ENV}"
+
+          printf '%s' "${DEVELOPER_ID_CERTIFICATE_BASE64}" | base64 --decode > "${CERTIFICATE_PATH}"
+          printf '%s' "${APP_STORE_CONNECT_API_KEY_BASE64}" | base64 --decode > "${API_KEY_PATH}"
+
+          security create-keychain -p "${KEYCHAIN_PASSWORD}" "${KEYCHAIN_PATH}"
+          security set-keychain-settings -lut 21600 "${KEYCHAIN_PATH}"
+          security unlock-keychain -p "${KEYCHAIN_PASSWORD}" "${KEYCHAIN_PATH}"
+
+          existing_keychains=()
+          while IFS= read -r keychain; do
+            existing_keychains+=("${keychain//\"/}")
+          done < <(security list-keychains -d user)
+          security list-keychains -d user -s "${KEYCHAIN_PATH}" "${existing_keychains[@]}"
+
+          security import "${CERTIFICATE_PATH}" \
+            -k "${KEYCHAIN_PATH}" \
+            -P "${DEVELOPER_ID_CERTIFICATE_PASSWORD}" \
+            -T /usr/bin/codesign \
+            -T /usr/bin/security
+          security set-key-partition-list \
+            -S apple-tool:,apple:,codesign: \
+            -s \
+            -k "${KEYCHAIN_PASSWORD}" \
+            "${KEYCHAIN_PATH}"
+
+          SIGNING_IDENTITY="$(
+            security find-identity -v -p codesigning "${KEYCHAIN_PATH}" \
+              | awk '/Developer ID Application/ && !identity {identity=$2} END {print identity}'
+          )"
+          if [[ -z "${SIGNING_IDENTITY}" ]]; then
+            echo "The imported certificate is not a valid Developer ID Application identity." >&2
+            exit 1
+          fi
+
+          xcrun notarytool store-credentials "${NOTARY_PROFILE}" \
+            --key "${API_KEY_PATH}" \
+            --key-id "${APP_STORE_CONNECT_KEY_ID}" \
+            --issuer "${APP_STORE_CONNECT_ISSUER_ID}" \
+            --keychain "${KEYCHAIN_PATH}"
+
+          {
+            echo "SIGNING_IDENTITY=${SIGNING_IDENTITY}"
+            echo "NOTARYTOOL_KEYCHAIN_PROFILE=${NOTARY_PROFILE}"
+            echo "NOTARYTOOL_KEYCHAIN=${KEYCHAIN_PATH}"
+          } >> "${GITHUB_ENV}"
+          echo "enabled=true" >> "${GITHUB_OUTPUT}"
+
+      - name: Build DMG, ZIP, and appcast
+        env:
+          POSTHOG_PROJECT_TOKEN: ${{ secrets.POSTHOG_PROJECT_TOKEN }}
+          POSTHOG_HOST: ${{ vars.POSTHOG_HOST || 'https://us.i.posthog.com' }}
+          SIGNING_ENABLED: ${{ steps.signing.outputs.enabled }}
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+          VERSION: ${{ steps.version.outputs.VERSION }}
+        run: |
+          args=(--version "$VERSION" --generate-appcast)
+          if [[ "${SIGNING_ENABLED}" == "true" ]]; then
+            args+=(--distribution)
+          fi
+          ./scripts/build_dmg.sh "${args[@]}"
+
+      - name: Remove signing credentials
+        if: always()
+        run: |
+          if [[ -n "${SIGNING_ORIGINAL_KEYCHAINS_PATH:-}" && -f "${SIGNING_ORIGINAL_KEYCHAINS_PATH}" ]]; then
+            original_keychains=()
+            while IFS= read -r keychain; do
+              original_keychains+=("${keychain//\"/}")
+            done < "${SIGNING_ORIGINAL_KEYCHAINS_PATH}"
+            security list-keychains -d user -s "${original_keychains[@]}" || true
+          fi
+          if [[ -n "${SIGNING_KEYCHAIN_PATH:-}" && -f "${SIGNING_KEYCHAIN_PATH}" ]]; then
+            security delete-keychain "${SIGNING_KEYCHAIN_PATH}" || true
+          fi
+          for credential_file in \
+            "${SIGNING_CERTIFICATE_PATH:-}" \
+            "${NOTARY_API_KEY_PATH:-}" \
+            "${SIGNING_ORIGINAL_KEYCHAINS_PATH:-}"; do
+            if [[ -n "${credential_file}" ]]; then
+              rm -f "${credential_file}"
+            fi
+          done
+
+      # ===========================================
+      # 5. Create tag (for workflow_dispatch)
+      # ===========================================
+      - name: Create tag
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.VERSION }}
+        run: |
+          TAG_NAME="v${VERSION}"
+          if ! git tag -l | grep -q "^${TAG_NAME}$"; then
+            git tag -a "${TAG_NAME}" -m "Release ${VERSION}"
+            gh auth setup-git
+            git push origin "${TAG_NAME}"
+          fi
+
+      # ===========================================
+      # 6. Create GitHub Release
+      # ===========================================
+      - name: Create Release
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: ${{ env.PROJECT_NAME }} ${{ steps.version.outputs.VERSION }}
+          files: |
+            apps/macos/build/release/*.dmg
+            apps/macos/build/release/*.zip
+            apps/macos/build/release/appcast.xml
+          generate_release_notes: true
+          append_body: true
+          body: |
+            
+            ## Installation
+
+            Download `Quotio-${{ steps.version.outputs.VERSION }}.dmg` or `Quotio-${{ steps.version.outputs.VERSION }}.zip` below.
+
+            ${{ steps.signing.outputs.enabled == 'true' && 'The app is signed with Developer ID and notarized by Apple.' || 'This artifact was built without Developer ID signing because Apple signing secrets were not configured.' }}
+          prerelease: ${{ steps.version.outputs.IS_PRERELEASE == 'true' }}
+
+      # ===========================================
+      # 7. Update latest stable release with merged appcast
+      # ===========================================
+      - name: Update latest stable appcast
+        if: steps.version.outputs.IS_PRERELEASE == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get the latest stable release tag
+          LATEST_STABLE=$(gh release list --exclude-pre-releases --limit 100 --json tagName -q '[.[] | select(.tagName | startswith("v"))][0].tagName // ""')
+          
+          if [ -n "$LATEST_STABLE" ]; then
+            echo "Updating appcast on latest stable release: $LATEST_STABLE"
+            
+            # Delete old appcast from stable release
+            gh release delete-asset "$LATEST_STABLE" appcast.xml --yes 2>/dev/null || true
+            
+            # Upload merged appcast to stable release
+            gh release upload "$LATEST_STABLE" build/release/appcast.xml --clobber
+            
+            echo "Updated appcast.xml on $LATEST_STABLE with merged entries"
+          else
+            echo "No stable release found to update"
+          fi
+
+      # ===========================================
+      # 8. Commit version changes
+      # ===========================================
+      - name: Commit changes
+        env:
+          BASE_REF: ${{ github.event.base_ref }}
+          EVENT_NAME: ${{ github.event_name }}
+          GH_TOKEN: ${{ github.token }}
+          REF_NAME: ${{ github.ref_name }}
+          VERSION: ${{ steps.version.outputs.VERSION }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Check if there are changes to commit
+          if git diff --quiet CHANGELOG.md Quotio.xcodeproj/project.pbxproj; then
+            echo "No changes to commit"
+          else
+            git add CHANGELOG.md Quotio.xcodeproj/project.pbxproj
+            git commit -m "chore: bump version to ${VERSION} [skip ci]"
+            
+            # Determine target branch. For tag-triggered releases, never guess
+            # master/main when the tag commit is present on multiple branches.
+            if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+              # For manual dispatch, push to the branch that triggered the workflow
+              TARGET_BRANCH="$REF_NAME"
+            else
+              # For tag push, prefer the source branch from the webhook payload.
+              if [[ "$BASE_REF" == refs/heads/* ]]; then
+                TARGET_BRANCH="${BASE_REF#refs/heads/}"
+              else
+                # If GitHub did not provide a source branch, only push when the
+                # tag commit belongs to exactly one remote branch. Otherwise the
+                # workflow cannot know whether this release came from dev,
+                # master, or another branch, so fail instead of updating the
+                # wrong branch.
+                BRANCHES=$(git branch -r --contains HEAD \
+                  | sed 's/^ *//' \
+                  | grep -v ' -> ' \
+                  | sed 's|^origin/||')
+                BRANCH_COUNT=$(printf '%s\n' "$BRANCHES" | grep -c . || true)
+
+                if [ "$BRANCH_COUNT" -eq 1 ]; then
+                  TARGET_BRANCH="$BRANCHES"
+                else
+                  echo "Error: Cannot determine the source branch for tag $REF_NAME."
+                  echo "Branches containing this commit: ${BRANCHES:-none}"
+                  echo "Push the version/changelog commit manually to the intended branch, or run this workflow with workflow_dispatch from that branch."
+                  exit 1
+                fi
+              fi
+            fi
+            
+            # Validate branch exists before pushing
+            if ! git rev-parse --verify "origin/${TARGET_BRANCH}" >/dev/null 2>&1; then
+              echo "Error: Branch ${TARGET_BRANCH} does not exist on remote"
+              exit 1
+            fi
+            
+            echo "Pushing to branch: ${TARGET_BRANCH}"
+            gh auth setup-git
+            git push origin HEAD:"${TARGET_BRANCH}"
+          fi
+
+      # ===========================================
+      # 9. Summary
+      # ===========================================
+      - name: Summary
+        env:
+          IS_PRERELEASE: ${{ steps.version.outputs.IS_PRERELEASE }}
+          VERSION: ${{ steps.version.outputs.VERSION }}
+        run: |
+          {
+            echo "## Release Summary"
+            echo ""
+            echo "- **Version**: ${VERSION}"
+            echo "- **Tag**: v${VERSION}"
+            echo "- **Pre-release**: ${IS_PRERELEASE}"
+            echo ""
+            echo "### Assets"
+            ls -la build/release/
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ===========================================
+      # 10. Trigger homebrew-tap update
+      # ===========================================
+      - name: Trigger homebrew-tap update
+        if: steps.version.outputs.IS_PRERELEASE == 'false'
+        env:
+          TAP_TOKEN: ${{ secrets.TAP_TOKEN }}
+          VERSION: ${{ steps.version.outputs.VERSION }}
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${TAP_TOKEN}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/nguyenphutrong/homebrew-tap/dispatches \
+            -d "{\"event_type\":\"quotio-release\",\"client_payload\":{\"version\":\"${VERSION}\"}}"

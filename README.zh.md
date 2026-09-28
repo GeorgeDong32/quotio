@@ -2,9 +2,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="screenshots/menu_bar_dark.png" />
-    <source media="(prefers-color-scheme: light)" srcset="screenshots/menu_bar.png" />
-    <img alt="Quotio Banner" src="screenshots/menu_bar.png" width="720" />
+    <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/menu_bar.png" />
+    <img alt="Quotio Banner" src="apps/macos/screenshots/menu_bar.png" width="720" />
   </picture>
 </p>
 
@@ -12,10 +11,18 @@
   <img src="https://img.shields.io/badge/platform-macOS-lightgrey.svg?style=flat" alt="Platform macOS" />
   <img src="https://img.shields.io/badge/language-Swift-orange.svg?style=flat" alt="Language Swift" />
   <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License MIT" />
-  <a href="https://discord.gg/dFzeZ7qS"><img src="https://img.shields.io/badge/Discord-加入我们-5865F2.svg?style=flat&logo=discord&logoColor=white" alt="Discord" /></a>
-  <a href="README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg?style=flat" alt="English" /></a>
+  <a href="apps/macos/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg?style=flat" alt="English" /></a>
   <a href="README.vi.md"><img src="https://img.shields.io/badge/lang-Tiếng%20Việt-red.svg?style=flat" alt="Vietnamese" /></a>
   <a href="README.fr.md"><img src="https://img.shields.io/badge/lang-Français-blue.svg?style=flat" alt="French" /></a>
+</p>
+
+<p align="center">
+  <a href="https://trendshift.io/repositories/16304?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/16304" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/16304?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/16304/daily?language=Swift" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/16304?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/16304/daily" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/16304?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/16304/weekly?language=Swift" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/16304?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/16304/weekly" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/16304?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/16304/monthly?language=Swift" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
 </p>
 
 <p align="center">
@@ -26,9 +33,9 @@ Quotio 是一款原生 macOS 应用，用于管理 **CLIProxyAPI** ——为你�
 
 ## ✨ 功能特性
 
-- **🔌 多提供商支持**：通过 OAuth 或 API Key 连接 Gemini、Claude、OpenAI Codex、Qwen、Vertex AI、iFlow、Antigravity、Kiro、Trae 和 GitHub Copilot 账号。
+- **🔌 多提供商支持**：通过 OAuth 或 API Key 连接 Claude、OpenAI Codex、Qwen、Vertex AI、iFlow、Antigravity、Kiro、Trae 和 GitHub Copilot 账号。
 - **📊 独立配额模式**：无需运行代理服务器即可查看配额和账号，适合快速检查。
-- **🚀 一键 Agent 配置**：自动检测并配置 Claude Code、OpenCode、Gemini CLI 等 AI 编程工具。
+- **🚀 一键 Agent 配置**：自动检测并配置 Claude Code、OpenCode 等 AI 编程工具。
 - **📈 实时仪表盘**：实时监控请求流量、token 使用量和成功率。
 - **📉 智能配额管理**：按账号可视化配额追踪，并支持自动故障转移策略（轮询 / 先满）。
 - **🔑 API Key 管理**：为本地代理生成并管理 API Key。
@@ -42,7 +49,6 @@ Quotio 是一款原生 macOS 应用，用于管理 **CLIProxyAPI** ——为你�
 ### AI 提供商
 | 提供商 | 认证方式 |
 |----------|-------------|
-| Google Gemini | OAuth |
 | Anthropic Claude | OAuth |
 | OpenAI Codex | OAuth |
 | Qwen Code | OAuth |
@@ -64,7 +70,6 @@ Quotio 是一款原生 macOS 应用，用于管理 **CLIProxyAPI** ——为你�
 Quotio 可以自动配置以下工具使用你的集中式代理：
 - Claude Code
 - Codex CLI
-- Gemini CLI
 - Amp CLI
 - OpenCode
 - Factory Droid
@@ -84,17 +89,14 @@ brew install --cask quotio
 ### 下载
 从 [Releases](https://github.com/nguyenphutrong/quotio/releases) 页面下载最新的 `.dmg`。
 
-> ⚠️ **注意**：应用尚未使用 Apple Developer 证书签名。如果 macOS 阻止运行，请执行：
-> ```bash
-> xattr -cr /Applications/Quotio.app
-> ```
+官方发布包使用 Developer ID 签名并经过 Apple 公证，无需绕过 Gatekeeper。
 
 ### 从源码构建
 
 1. **克隆仓库：**
    ```bash
    git clone https://github.com/nguyenphutrong/quotio.git
-   cd Quotio
+   cd quotio/apps/macos
    ```
 
 2. **在 Xcode 中打开：**
@@ -135,65 +137,50 @@ brew install --cask quotio
 
 ### 仪表盘
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/dashboard_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/dashboard.png" />
-  <img alt="Dashboard" src="screenshots/dashboard.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/dashboard_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/dashboard.png" />
+  <img alt="Dashboard" src="apps/macos/screenshots/dashboard.png" />
 </picture>
 
 ### 提供商
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/provider_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/provider.png" />
-  <img alt="Providers" src="screenshots/provider.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/provider_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/provider.png" />
+  <img alt="Providers" src="apps/macos/screenshots/provider.png" />
 </picture>
 
 ### Agent 配置
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/agent_setup_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/agent_setup.png" />
-  <img alt="Agent Setup" src="screenshots/agent_setup.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/agent_setup_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/agent_setup.png" />
+  <img alt="Agent Setup" src="apps/macos/screenshots/agent_setup.png" />
 </picture>
 
 ### 配额监控
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/quota_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/quota.png" />
-  <img alt="Quota Monitoring" src="screenshots/quota.png" />
-</picture>
-
-### 备用配置
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/fallback_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/fallback.png" />
-  <img alt="Fallback Configuration" src="screenshots/fallback.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/quota_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/quota.png" />
+  <img alt="Quota Monitoring" src="apps/macos/screenshots/quota.png" />
 </picture>
 
 ### API 密钥
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/api_keys_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/api_keys.png" />
-  <img alt="API Keys" src="screenshots/api_keys.png" />
-</picture>
-
-### 日志
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/logs_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/logs.png" />
-  <img alt="Logs" src="screenshots/logs.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/api_keys_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/api_keys.png" />
+  <img alt="API Keys" src="apps/macos/screenshots/api_keys.png" />
 </picture>
 
 ### 设置
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/settings_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/settings.png" />
-  <img alt="Settings" src="screenshots/settings.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/settings_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/settings.png" />
+  <img alt="Settings" src="apps/macos/screenshots/settings.png" />
 </picture>
 
 ### 菜单栏
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/menu_bar_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/menu_bar.png" />
-  <img alt="Menu Bar" src="screenshots/menu_bar.png" width="720" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/menu_bar.png" />
+  <img alt="Menu Bar" src="apps/macos/screenshots/menu_bar.png" width="720" />
 </picture>
 
 ## 🤝 贡献
@@ -203,39 +190,6 @@ brew install --cask quotio
 3. 提交修改（`git commit -m 'Add amazing feature'`）
 4. 推送到分支（`git push origin feature/amazing-feature`）
 5. 创建 Pull Request
-
-## 💬 社区
-
-加入我们的 Discord 社区，获取帮助、分享反馈并与其他用户交流：
-
-<a href="https://discord.gg/dFzeZ7qS">
-  <img src="https://img.shields.io/badge/Discord-加入我们的社区-5865F2.svg?style=for-the-badge&logo=discord&logoColor=white" alt="加入 Discord" />
-</a>
-
-## ⭐ Star 历史
-
-<picture>
-  <source
-    media="(prefers-color-scheme: dark)"
-    srcset="
-      https://api.star-history.com/svg?repos=nguyenphutrong/quotio&type=Date&theme=dark
-    "
-  />
-  <source
-    media="(prefers-color-scheme: light)"
-    srcset="
-      https://api.star-history.com/svg?repos=nguyenphutrong/quotio&type=Date
-    "
-  />
-  <img
-    alt="Star History Chart"
-    src="https://api.star-history.com/svg?repos=nguyenphutrong/quotio&type=Date"
-  />
-</picture>
-
-## 📊 仓库活动
-
-![Repo Activity](https://repobeats.axiom.co/api/embed/884e7349c8939bfd4bdba4bc582b6fdc0ecc21ee.svg "Repobeats analytics image")
 
 ## 💖 贡献者
 

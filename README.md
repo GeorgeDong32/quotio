@@ -1,246 +1,186 @@
 # Quotio
 
 <p align="center">
-  <picture>
-    <img alt="Quotio Banner" src="screenshots/menu_bar.png" width="720" />
-  </picture>
+  <img
+    src="apps/macos/screenshots/menu_bar.png"
+    alt="Quotio menu bar showing AI provider quota usage"
+    width="720"
+  />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/platform-macOS-lightgrey.svg?style=flat" alt="Platform macOS" />
-  <img src="https://img.shields.io/badge/language-Swift-orange.svg?style=flat" alt="Language Swift" />
-  <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License MIT" />
-  <a href="https://discord.gg/dFzeZ7qS"><img src="https://img.shields.io/badge/Discord-Join%20us-5865F2.svg?style=flat&logo=discord&logoColor=white" alt="Discord" /></a>
-  <a href="README.vi.md"><img src="https://img.shields.io/badge/lang-Tiếng%20Việt-red.svg?style=flat" alt="Vietnamese" /></a>
-  <a href="README.zh.md"><img src="https://img.shields.io/badge/lang-zh--CN-green.svg?style=flat" alt="Chinese" /></a>
-  <a href="README.fr.md"><img src="https://img.shields.io/badge/lang-Français-blue.svg?style=flat" alt="French" /></a>
+  <a href="https://github.com/nguyenphutrong/quotio/releases">
+    <img src="https://img.shields.io/github/v/release/nguyenphutrong/quotio?filter=v*&amp;label=macOS" alt="Latest Quotio release for macOS" />
+  </a>
+  <a href="https://www.npmjs.com/package/quotio">
+    <img src="https://img.shields.io/npm/v/quotio?label=CLI" alt="Latest Quotio CLI release on npm" />
+  </a>
+  <img src="https://img.shields.io/badge/macOS-14%2B-lightgrey" alt="Requires macOS 14 or later" />
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license" />
+  </a>
 </p>
 
 <p align="center">
-  <strong>The ultimate command center for your AI coding assistants on macOS.</strong>
+  <strong>Your command center for AI coding quotas, accounts, and local agents.</strong>
 </p>
 
-Quotio is a native macOS application for managing **CLIProxyAPI** - a local proxy server that powers your AI coding agents. It helps you manage multiple AI accounts, track quotas, and configure CLI tools in one place.
+<p align="center">
+  Quotio helps you see what quota remains, manage provider accounts, operate
+  CLIProxyAPI, and connect your coding agents—from a native macOS app or the terminal.
+</p>
 
-## ✨ Features
+<p align="center">
+  <a href="#install-quotio">Install Quotio</a> ·
+  <a href="apps/macos/README.md">macOS app documentation</a> ·
+  <a href="apps/cli/README.md">CLI documentation</a> ·
+  <a href="https://github.com/nguyenphutrong/quotio/releases">GitHub releases</a>
+</p>
 
-- **🔌 Multi-Provider Support**: Connect accounts from Gemini, Claude, OpenAI Codex, Qwen, Vertex AI, iFlow, Antigravity, Kiro, Trae, and GitHub Copilot via OAuth or API keys.
-- **📊 Standalone Quota Mode**: View quota and accounts without running the proxy server - perfect for quick checks.
-- **🚀 One-Click Agent Configuration**: Auto-detect and configure AI coding tools like Claude Code, OpenCode, Gemini CLI, and more.
-- **📈 Real-time Dashboard**: Monitor request traffic, token usage, and success rates live.
-- **📉 Smart Quota Management**: Visual quota tracking per account with automatic failover strategies (Round Robin / Fill First).
-- **🔑 API Key Management**: Generate and manage API keys for your local proxy.
-- **🖥️ Menu Bar Integration**: Quick access to server status, quota overview, and custom provider icons from your menu bar.
-- **🔔 Notifications**: Alerts for low quotas, account cooling periods, or service issues.
-- **🔄 Auto-Update**: Built-in Sparkle updater for seamless updates.
-- **🌍 Multilingual**: English, Vietnamese, and Simplified Chinese support.
+## Stay ahead of your AI limits
 
-## 🤖 Supported Ecosystem
+Quotio puts provider usage and local tooling in one place, so you can spend less
+time checking dashboards and editing configuration files.
 
-### AI Providers
-| Provider | Auth Method |
-|----------|-------------|
-| Google Gemini | OAuth |
-| Anthropic Claude | OAuth |
-| OpenAI Codex | OAuth |
-| Qwen Code | OAuth |
-| Vertex AI | Service Account JSON |
-| iFlow | OAuth |
-| Antigravity | OAuth |
-| Kiro | OAuth |
-| GitHub Copilot | OAuth |
+- **See quota at a glance.** Track account limits and reset windows from the menu
+  bar, desktop app, terminal, JSON output, or local REST API.
+- **Bring your accounts together.** Use supported OAuth, API key, CLI, and native
+  credential sources without copying secrets into project files.
+- **Run your local proxy with confidence.** Start and monitor CLIProxyAPI, manage
+  routing, and keep provider accounts close to the tools that use them.
+- **Connect coding agents faster.** Detect and configure Claude Code, Codex CLI,
+  Amp, OpenCode, and Factory Droid while preserving existing user settings.
+- **Choose the interface that fits.** Use the native macOS experience for daily
+  work or the Rust CLI for scripts, headless systems, and automation.
 
-### IDE Quota Tracking (Monitor Only)
-| IDE | Description |
-|-----|-------------|
-| Cursor | Auto-detected when installed and logged in |
-| Trae | Auto-detected when installed and logged in |
+## Choose your Quotio
 
-> **Note**: These IDEs are only used for quota usage monitoring. They cannot be used as providers for the proxy.
+| Product | Best for | Platforms |
+| --- | --- | --- |
+| [Quotio for macOS](apps/macos/README.md) | Visual quota monitoring, account management, CLIProxyAPI lifecycle, agent setup, menu bar access, and automatic updates | macOS 14 or later |
+| [Quotio CLI](apps/cli/README.md) | Fast text or JSON reports, scripting, saved accounts, and a loopback REST API | macOS Apple Silicon/Intel and Linux x64 |
 
-### Compatible CLI Agents
-Quotio can automatically configure these tools to use your centralized proxy:
+Both products live in this repository and share one goal: make AI coding usage
+visible and manageable without sending your credentials through a hosted Quotio
+service.
+
+## Quotio for macOS
+
+The native SwiftUI app is the full command center. It combines provider quota,
+account setup, local proxy controls, agent configuration, notifications, and updates
+in a desktop app that stays close in the menu bar.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/dashboard_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/dashboard.png" />
+  <img
+    src="apps/macos/screenshots/dashboard.png"
+    alt="Quotio for macOS dashboard with local proxy status and quota summaries"
+  />
+</picture>
+
+Read the [complete macOS feature guide and screenshot gallery](apps/macos/README.md).
+The macOS guide is also available in
+[Vietnamese](README.vi.md),
+[Simplified Chinese](README.zh.md), and
+[French](README.fr.md).
+
+## Quotio CLI
+
+The standalone Rust CLI brings quota checks to your terminal and automation. It
+supports a broad provider catalog, private saved-account storage, deterministic JSON
+reports, and an optional loopback REST API. Distributed packages contain native
+binaries, so npm and Homebrew installs do not require a Rust toolchain.
+
+```console
+$ quotio providers
+$ quotio usage
+$ quotio usage --provider mock --format json
+```
+
+Read the [CLI usage, provider, account, and API documentation](apps/cli/README.md).
+
+## Supported ecosystem
+
+Quotio works with providers and services including Anthropic Claude, OpenAI Codex,
+Gemini and Vertex AI, GitHub Copilot, Qwen, Kiro, Antigravity, and many more.
+Provider availability and authentication methods vary between the macOS app and CLI;
+their product documentation contains the current support matrix.
+
+The macOS app can configure these coding agents to use your local proxy:
+
 - Claude Code
 - Codex CLI
-- Gemini CLI
-- Amp CLI
+- Amp
 - OpenCode
 - Factory Droid
 
-## 🚀 Installation
+## Install Quotio
 
-### Requirements
-- macOS 14.0 (Sonoma) or later
-- Internet connection for OAuth authentication
+### macOS app
 
-### Homebrew (Recommended)
 ```bash
-brew tap nguyenphutrong/tap
-brew install --cask quotio
+brew install --cask nguyenphutrong/tap/quotio
 ```
 
-### Download
-Download the latest `.dmg` from the [Releases](https://github.com/nguyenphutrong/quotio/releases) page.
+You can also download the signed and notarized DMG from the
+[latest macOS release](https://github.com/nguyenphutrong/quotio/releases/latest).
 
-> ⚠️ **Note**: The app is not signed with an Apple Developer certificate yet. If macOS blocks the app, run:
-> ```bash
-> xattr -cr /Applications/Quotio.app
-> ```
+### CLI
 
-### Building from Source
+Install the CLI with Homebrew:
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/nguyenphutrong/quotio.git
-   cd Quotio
-   ```
+```bash
+brew install nguyenphutrong/tap/quotio
+```
 
-2. **Open in Xcode:**
-   ```bash
-   open Quotio.xcodeproj
-   ```
+Or install the same native binaries through npm:
 
-3. **Build and Run:**
-   - Select the "Quotio" scheme
-   - Press `Cmd + R` to build and run
+```bash
+npm install --global quotio
+```
 
-> The app will automatically download the `CLIProxyAPI` binary on first launch.
+See the [CLI release-channel documentation](apps/cli/docs/release-channels.md) for
+prerelease channels and supported release targets.
 
-## 📖 Usage
+## Repository layout
 
-### 1. Start the Server
-Launch Quotio and click **Start** on the dashboard to initialize the local proxy server.
+- [`apps/macos/`](apps/macos) — Swift and SwiftUI macOS application.
+- [`apps/cli/`](apps/cli) — cross-platform Rust command-line client.
+- [`Packages/QuotioCore/`](Packages/QuotioCore) — shared Swift package for the Apple app.
+- [`.github/workflows/`](.github/workflows) — independent CI and release pipelines for each product.
 
-### 2. Connect Accounts
-Go to **Providers** tab → Click on a provider → Authenticate via OAuth or import credentials.
+## Development
 
-### 3. Configure Agents
-Go to **Agents** tab → Select an installed agent → Click **Configure** → Choose Automatic or Manual mode.
+Run checks from the repository root:
 
-### 4. Monitor Usage
-- **Dashboard**: Overall health and traffic
-- **Quota**: Per-account usage breakdown
-- **Logs**: Raw request/response logs for debugging
+```bash
+# macOS core and architecture
+swift test --package-path Packages/QuotioCore
+./apps/macos/scripts/check_architecture.sh
 
-## ⚙️ Settings
+# macOS app
+xcodebuild \
+  -project apps/macos/Quotio.xcodeproj \
+  -scheme Quotio \
+  -configuration Debug \
+  -destination 'platform=macOS' \
+  test
 
-- **Port**: Change the proxy listening port
-- **Routing Strategy**: Round Robin or Fill First
-- **Auto-start**: Launch proxy automatically when Quotio opens
-- **Notifications**: Toggle alerts for various events
+# CLI
+cargo test --manifest-path apps/cli/Cargo.toml --locked --all-features
+```
 
-## 📸 Screenshots
+Use `v*` tags for macOS releases and `cli-v*` tags for CLI releases. See each
+product README for build, architecture, security, and release details.
 
-### Dashboard
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/dashboard_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/dashboard.png" />
-  <img alt="Dashboard" src="screenshots/dashboard.png" />
-</picture>
+## Contributing
 
-### Providers
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/provider_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/provider.png" />
-  <img alt="Providers" src="screenshots/provider.png" />
-</picture>
+Bug reports, feature ideas, documentation improvements, and code contributions are
+welcome. Use the repository's
+[GitHub issue templates](https://github.com/nguyenphutrong/quotio/issues/new/choose)
+to provide the context needed to investigate your request.
 
-### Agent Setup
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/agent_setup_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/agent_setup.png" />
-  <img alt="Agent Setup" src="screenshots/agent_setup.png" />
-</picture>
+## License
 
-### Quota Monitoring
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/quota_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/quota.png" />
-  <img alt="Quota Monitoring" src="screenshots/quota.png" />
-</picture>
-
-### Fallback Configuration
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/fallback_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/fallback.png" />
-  <img alt="Fallback Configuration" src="screenshots/fallback.png" />
-</picture>
-
-### API Keys
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/api_keys_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/api_keys.png" />
-  <img alt="API Keys" src="screenshots/api_keys.png" />
-</picture>
-
-### Logs
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/logs_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/logs.png" />
-  <img alt="Logs" src="screenshots/logs.png" />
-</picture>
-
-### Settings
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/settings_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/settings.png" />
-  <img alt="Settings" src="screenshots/settings.png" />
-</picture>
-
-### Menu Bar
-<picture>
-  <img alt="Menu Bar" src="screenshots/menu_bar.png" width="720" />
-</picture>
-
-## 🤝 Contributing
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/amazing-feature`)
-3. Commit your Changes (`git commit -m 'Add amazing feature'`)
-4. Push to the Branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 💬 Community
-
-Join our Discord community to get help, share feedback, and connect with other users:
-
-<a href="https://discord.gg/dFzeZ7qS">
-  <img src="https://img.shields.io/badge/Discord-Join%20our%20community-5865F2.svg?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord" />
-</a>
-
-## ⭐ Star History
-
-<picture>
-  <source
-    media="(prefers-color-scheme: dark)"
-    srcset="
-      https://api.star-history.com/svg?repos=nguyenphutrong/quotio&type=Date&theme=dark
-    "
-  />
-  <source
-    media="(prefers-color-scheme: light)"
-    srcset="
-      https://api.star-history.com/svg?repos=nguyenphutrong/quotio&type=Date
-    "
-  />
-  <img
-    alt="Star History Chart"
-    src="https://api.star-history.com/svg?repos=nguyenphutrong/quotio&type=Date"
-  />
-</picture>
-
-## 📊 Repo Activity
-
-![Repo Activity](https://repobeats.axiom.co/api/embed/884e7349c8939bfd4bdba4bc582b6fdc0ecc21ee.svg "Repobeats analytics image")
-
-## 💖 Contributors
-
-We couldn't have done this without you. Thank you! 🙏
-
-<a href="https://github.com/nguyenphutrong/quotio/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=nguyenphutrong/quotio" />
-</a>
-
-## 📄 License
-
-MIT License. See `LICENSE` for details.
+Quotio is available under the [MIT License](LICENSE).

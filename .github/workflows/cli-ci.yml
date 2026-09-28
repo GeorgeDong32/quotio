@@ -1,0 +1,80 @@
+name: Rust checks
+
+on:
+  pull_request:
+    paths:
+      - 'apps/cli/**'
+      - '.github/workflows/cli-ci.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'apps/cli/**'
+      - '.github/workflows/cli-ci.yml'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: apps/cli
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust:
+    name: Rust ${{ matrix.toolchain }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, ubuntu-24.04]
+        toolchain: [stable, '1.88.0']
+    env:
+      CARGO_TERM_COLOR: never
+      RUST_BACKTRACE: '1'
+      TOOLCHAIN: ${{ matrix.toolchain }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install Rust toolchain
+        run: rustup toolchain install "$TOOLCHAIN" --profile minimal --component rustfmt --component clippy
+      - name: Check formatting
+        if: matrix.toolchain == 'stable'
+        run: cargo +"$TOOLCHAIN" fmt --check
+      - name: Fetch locked dependencies
+        run: cargo +"$TOOLCHAIN" fetch --locked
+      - name: Check all targets
+        run: cargo +"$TOOLCHAIN" clippy --offline --locked --all-targets --all-features -- -D warnings
+      - name: Run offline tests and OpenAPI contract checks
+        run: cargo +"$TOOLCHAIN" test --offline --locked --all-features
+      - name: Test release notice generation
+        if: matrix.toolchain == 'stable'
+        run: python3 scripts/test-third-party-notices.py
+      - name: Build release binary
+        run: cargo +"$TOOLCHAIN" build --offline --locked --release
+
+  distribution:
+    name: Check release packaging
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: '24'
+      - name: Check npm wrapper and release generation
+        run: |
+          node --test distribution/npm.test.cjs
+          python3 scripts/test-package-release.py
+          shellcheck scripts/ci-sign-macos.sh

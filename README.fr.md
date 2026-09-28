@@ -2,9 +2,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="screenshots/menu_bar_dark.png" />
-    <source media="(prefers-color-scheme: light)" srcset="screenshots/menu_bar.png" />
-    <img alt="Bannière Quotio" src="screenshots/menu_bar.png" height="600" />
+    <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/menu_bar.png" />
+    <img alt="Bannière Quotio" src="apps/macos/screenshots/menu_bar.png" height="600" />
   </picture>
 </p>
 
@@ -12,10 +11,18 @@
   <img src="https://img.shields.io/badge/platform-macOS-lightgrey.svg?style=flat" alt="Plateforme macOS" />
   <img src="https://img.shields.io/badge/language-Swift-orange.svg?style=flat" alt="Langage Swift" />
   <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="Licence MIT" />
-  <a href="https://discord.gg/dFzeZ7qS"><img src="https://img.shields.io/badge/Discord-Rejoindre-5865F2.svg?style=flat&logo=discord&logoColor=white" alt="Discord" /></a>
-  <a href="README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg?style=flat" alt="Anglais" /></a>
+  <a href="apps/macos/README.md"><img src="https://img.shields.io/badge/lang-English-blue.svg?style=flat" alt="Anglais" /></a>
   <a href="README.vi.md"><img src="https://img.shields.io/badge/lang-Tiếng%20Việt-red.svg?style=flat" alt="Vietnamien" /></a>
   <a href="README.zh.md"><img src="https://img.shields.io/badge/lang-zh--CN-green.svg?style=flat" alt="Chinois" /></a>
+</p>
+
+<p align="center">
+  <a href="https://trendshift.io/repositories/16304?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/16304" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/16304?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/16304/daily?language=Swift" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/16304?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/16304/daily" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/16304?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/16304/weekly?language=Swift" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/16304?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/16304/weekly" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/16304?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-16304" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/16304/monthly?language=Swift" alt="nguyenphutrong%2Fquotio | Trendshift" width="250" height="55"/></a>
 </p>
 
 <p align="center">
@@ -26,9 +33,9 @@ Quotio est une application macOS native pour gérer **CLIProxyAPI** - un serveur
 
 ## ✨ Fonctionnalités
 
-- **🔌 Support Multi-Fournisseurs** : Connectez des comptes de Gemini, Claude, OpenAI Codex, Qwen, Vertex AI, iFlow, Antigravity, Kiro, Trae et GitHub Copilot via OAuth ou clés API.
-- **📊 Mode Quota Autonome** : Visualisez les quotas et les comptes sans exécuter le serveur proxy - idéal pour des vérifications rapides.
-- **🚀 Configuration Agent en Un Clic** : Détection automatique et configuration des outils de codage IA comme Claude Code, OpenCode, Gemini CLI, et plus.
+- **🔌 Support Multi-Fournisseurs** : Connectez des comptes de Claude, OpenAI Codex, Qwen, Vertex AI, iFlow, Antigravity, Kiro, Trae et GitHub Copilot via OAuth ou clés API.
+- **📊 Mode Quota Autonome** : Visualisez les quotas et les comptes sans exécuter le serveur proxy – idéal pour des vérifications rapides.
+- **🚀 Configuration Agent en Un Clic** : Détection automatique et configuration des outils de codage IA comme Claude Code, OpenCode, et plus.
 - **📈 Tableau de Bord en Temps Réel** : Surveillez le trafic des requêtes, l'utilisation des tokens et les taux de réussite en direct.
 - **📉 Gestion Intelligente des Quotas** : Suivi visuel des quotas par compte avec stratégies de basculement automatique (Round Robin / Remplir d'abord).
 - **🔑 Gestion des Clés API** : Générez et gérez les clés API pour votre proxy local.
@@ -42,7 +49,6 @@ Quotio est une application macOS native pour gérer **CLIProxyAPI** - un serveur
 ### Fournisseurs IA
 | Fournisseur | Méthode d'Authentification |
 |-------------|---------------------------|
-| Google Gemini | OAuth |
 | Anthropic Claude | OAuth |
 | OpenAI Codex | OAuth |
 | Qwen Code | OAuth |
@@ -64,7 +70,6 @@ Quotio est une application macOS native pour gérer **CLIProxyAPI** - un serveur
 Quotio peut configurer automatiquement ces outils pour utiliser votre proxy centralisé :
 - Claude Code
 - Codex CLI
-- Gemini CLI
 - Amp CLI
 - OpenCode
 - Factory Droid
@@ -84,17 +89,14 @@ brew install --cask quotio
 ### Téléchargement
 Téléchargez le dernier `.dmg` depuis la page [Releases](https://github.com/nguyenphutrong/quotio/releases).
 
-> ⚠️ **Note** : L'application n'est pas encore signée avec un certificat Apple Developer. Si macOS bloque l'application, exécutez :
-> ```bash
-> xattr -cr /Applications/Quotio.app
-> ```
+Les versions officielles sont signées avec Developer ID et notariées par Apple ; aucun contournement de Gatekeeper n'est nécessaire.
 
 ### Compilation depuis les Sources
 
 1. **Clonez le dépôt :**
    ```bash
    git clone https://github.com/nguyenphutrong/quotio.git
-   cd Quotio
+   cd quotio/apps/macos
    ```
 
 2. **Ouvrez dans Xcode :**
@@ -135,65 +137,50 @@ Allez dans l'onglet **Agents** → Sélectionnez un agent installé → Cliquez 
 
 ### Tableau de Bord
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/dashboard_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/dashboard.png" />
-  <img alt="Tableau de Bord" src="screenshots/dashboard.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/dashboard_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/dashboard.png" />
+  <img alt="Tableau de Bord" src="apps/macos/screenshots/dashboard.png" />
 </picture>
 
 ### Fournisseurs
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/provider_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/provider.png" />
-  <img alt="Fournisseurs" src="screenshots/provider.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/provider_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/provider.png" />
+  <img alt="Fournisseurs" src="apps/macos/screenshots/provider.png" />
 </picture>
 
 ### Configuration des Agents
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/agent_setup_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/agent_setup.png" />
-  <img alt="Configuration des Agents" src="screenshots/agent_setup.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/agent_setup_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/agent_setup.png" />
+  <img alt="Configuration des Agents" src="apps/macos/screenshots/agent_setup.png" />
 </picture>
 
 ### Surveillance des Quotas
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/quota_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/quota.png" />
-  <img alt="Surveillance des Quotas" src="screenshots/quota.png" />
-</picture>
-
-### Configuration de Secours
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/fallback_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/fallback.png" />
-  <img alt="Configuration de Secours" src="screenshots/fallback.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/quota_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/quota.png" />
+  <img alt="Surveillance des Quotas" src="apps/macos/screenshots/quota.png" />
 </picture>
 
 ### Clés API
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/api_keys_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/api_keys.png" />
-  <img alt="Clés API" src="screenshots/api_keys.png" />
-</picture>
-
-### Journaux
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/logs_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/logs.png" />
-  <img alt="Journaux" src="screenshots/logs.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/api_keys_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/api_keys.png" />
+  <img alt="Clés API" src="apps/macos/screenshots/api_keys.png" />
 </picture>
 
 ### Paramètres
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/settings_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/settings.png" />
-  <img alt="Paramètres" src="screenshots/settings.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="apps/macos/screenshots/settings_dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/settings.png" />
+  <img alt="Paramètres" src="apps/macos/screenshots/settings.png" />
 </picture>
 
 ### Barre de Menu
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="screenshots/menu_bar_dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="screenshots/menu_bar.png" />
-  <img alt="Barre de Menu" src="screenshots/menu_bar.png" height="600" />
+  <source media="(prefers-color-scheme: light)" srcset="apps/macos/screenshots/menu_bar.png" />
+  <img alt="Barre de Menu" src="apps/macos/screenshots/menu_bar.png" height="600" />
 </picture>
 
 ## 🤝 Contribuer
@@ -203,39 +190,6 @@ Allez dans l'onglet **Agents** → Sélectionnez un agent installé → Cliquez 
 3. Commitez vos Modifications (`git commit -m 'Ajout d'une fonctionnalité géniale'`)
 4. Poussez vers la Branche (`git push origin feature/fonctionnalite-geniale`)
 5. Ouvrez une Pull Request
-
-## 💬 Communauté
-
-Rejoignez notre communauté Discord pour obtenir de l'aide, partager vos commentaires et vous connecter avec d'autres utilisateurs :
-
-<a href="https://discord.gg/dFzeZ7qS">
-  <img src="https://img.shields.io/badge/Discord-Rejoindre%20notre%20communauté-5865F2.svg?style=for-the-badge&logo=discord&logoColor=white" alt="Rejoindre Discord" />
-</a>
-
-## ⭐ Historique des Étoiles
-
-<picture>
-  <source
-    media="(prefers-color-scheme: dark)"
-    srcset="
-      https://api.star-history.com/svg?repos=nguyenphutrong/quotio&type=Date&theme=dark
-    "
-  />
-  <source
-    media="(prefers-color-scheme: light)"
-    srcset="
-      https://api.star-history.com/svg?repos=nguyenphutrong/quotio&type=Date
-    "
-  />
-  <img
-    alt="Graphique Historique des Étoiles"
-    src="https://api.star-history.com/svg?repos=nguyenphutrong/quotio&type=Date"
-  />
-</picture>
-
-## 📊 Activité du Repo
-
-![Repo Activity](https://repobeats.axiom.co/api/embed/884e7349c8939bfd4bdba4bc582b6fdc0ecc21ee.svg "Repobeats analytics image")
 
 ## 💖 Contributeurs
 

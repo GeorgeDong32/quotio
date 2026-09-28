@@ -1,0 +1,130 @@
+{
+  "schema_version": 2,
+  "host": {
+    "id": "host-fixture",
+    "platform": "macos",
+    "api_versions": [
+      2
+    ],
+    "capabilities": {
+      "account_read": {
+        "available": true,
+        "reason": null
+      },
+      "account_write_v2": {
+        "available": true,
+        "reason": null
+      }
+    }
+  },
+  "revision": 7,
+  "accounts": [
+    {
+      "id": "source-a",
+      "provider_id": "amp",
+      "display_name": "Work",
+      "user_label": "Work",
+      "identity": {
+        "evidence": "verified",
+        "username": null,
+        "email": null
+      },
+      "enabled": true,
+      "state": "not_checked",
+      "sources": [
+        {
+          "id": "source-a",
+          "origin": "owned",
+          "kind": "owned_credential",
+          "location": null,
+          "enabled": true,
+          "selected": false,
+          "state": "not_checked",
+          "refresh_owner": "none",
+          "issue": null,
+          "actions": [
+            {
+              "kind": "set_source_enabled",
+              "available": true,
+              "reason": null,
+              "interaction": "host"
+            },
+            {
+              "kind": "remove_source",
+              "available": true,
+              "reason": null,
+              "interaction": "host"
+            },
+            {
+              "kind": "replace_api_key",
+              "available": true,
+              "reason": null,
+              "interaction": "host"
+            }
+          ]
+        },
+        {
+          "id": "source-b",
+          "origin": "owned",
+          "kind": "owned_credential",
+          "location": null,
+          "enabled": true,
+          "selected": false,
+          "state": "not_checked",
+          "refresh_owner": "none",
+          "issue": null,
+          "actions": [
+            {
+              "kind": "set_source_enabled",
+              "available": true,
+              "reason": null,
+              "interaction": "host"
+            },
+            {
+              "kind": "remove_source",
+              "available": true,
+              "reason": null,
+              "interaction": "host"
+            },
+            {
+              "kind": "replace_api_key",
+              "available": true,
+              "reason": null,
+              "interaction": "host"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "kind": "rename",
+          "available": true,
+          "reason": null,
+          "interaction": "host"
+        },
+        {
+          "kind": "set_enabled",
+          "available": true,
+          "reason": null,
+          "interaction": "host"
+        },
+        {
+          "kind": "select",
+          "available": true,
+          "reason": null,
+          "interaction": "host"
+        },
+        {
+          "kind": "remove",
+          "available": true,
+          "reason": null,
+          "interaction": "host"
+        }
+      ],
+      "active": true
+    }
+  ],
+  "account_redirects": {
+    "source-b": "source-a"
+  }
+}

@@ -1,0 +1,66 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Synthetic bearer used only by the parent-pipe integration test"
+condition = "AND"
+paths = ['''^(apps/cli/)?tests/server\.rs$''']
+regexTarget = "secret"
+regexes = ['''^synthetic-parent-pipe-bearer-1234567890$''']
+
+[[allowlists]]
+description = "Synthetic YubiKey identifiers in reviewed macOS history"
+condition = "AND"
+commits = [
+  "5c927dbadc43da30fb771eead32532f7d5dc0a47",
+  "815db7e49fb78afc6815bb15440979163443f44d",
+]
+paths = ['''^Packages/QuotioCore/Tests/QuotioInfrastructureTests/YubiKeySecretVaultTests\.swift$''']
+
+[[allowlists]]
+description = "Reviewed Antigravity OAuth client constant in package history"
+condition = "AND"
+commits = [
+  "ccb1316fde33681e1e9514a9c686d85eb81fe5d1",
+  "7eafa9f400fb1975defa912ff7365f3e91279f28",
+]
+paths = ['''^Packages/QuotioCore/Sources/QuotioInfrastructure/Quota/AntigravityQuotaFetcher\.swift$''']
+
+[[allowlists]]
+description = "Reviewed Antigravity OAuth client constant moved into account switcher history"
+condition = "AND"
+commits = [
+  "84a05793fda0e82e419d36d63d5324fffe6c02a0",
+  "a839ff482e90f80ff50658e3be148ea3976d544a",
+]
+paths = ['''^Packages/QuotioCore/Sources/QuotioInfrastructure/Antigravity/AntigravityAccountSwitcher\.swift$''']
+
+[[allowlists]]
+description = "Synthetic YubiKey identifier in pre-package test history"
+condition = "AND"
+commits = ["0f976d4078239cce1dfe513e14bf9a0c4652e63e"]
+paths = ['''^QuotioTests/MonitorRuntimeTests\.swift$''']
+
+[[allowlists]]
+description = "Reviewed Gemini OAuth client constant in pre-package history"
+condition = "AND"
+commits = [
+  "fceb947a09a1853af8bc3d686165a52ad078ae55",
+  "153886a25ab28914efc0259f92a01d3d1082a77a",
+]
+paths = ['''^Quotio/Services/QuotaFetchers/GeminiCLIQuotaFetcher\.swift$''']
+
+[[allowlists]]
+description = "Reviewed OAuth client constants in pre-package monitor history"
+condition = "AND"
+commits = [
+  "fceb947a09a1853af8bc3d686165a52ad078ae55",
+  "153886a25ab28914efc0259f92a01d3d1082a77a",
+]
+paths = ['''^Quotio/Services/Monitor/MonitorOAuthCoordinator\.swift$''']
+
+[[allowlists]]
+description = "Reviewed Antigravity OAuth client constant in pre-package history"
+condition = "AND"
+commits = ["1d3657317eb29ff811dc4d476a84e411ac14bddb"]
+paths = ['''^Quotio/Services/AntigravityQuotaFetcher\.swift$''']

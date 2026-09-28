@@ -1,0 +1,4635 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Quotio Local HTTP API",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:6767"
+    }
+  ],
+  "paths": {
+    "/v2/clients/{id}": {
+      "delete": {
+        "summary": "Revoke a client credential (owner only)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "204": {
+            "description": "Revoked or already absent"
+          }
+        }
+      }
+    },
+    "/v2/clients": {
+      "get": {
+        "summary": "List client credentials (owner only)",
+        "description": "Reads the shared resolved account model. Protected metadata is initialized atomically on first access; repeated reads do not change IDs or revision. No native provider credential scan or provider HTTP request is performed.",
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {}
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientList"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      },
+      "post": {
+        "summary": "Issue a read-only client credential (owner only)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientCreated"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientCreate"
+              }
+            }
+          }
+        },
+        "description": "The secret is returned once. Do not automatically retry issuance; revoke a lost credential and issue a new one."
+      }
+    },
+    "/v2/discovery": {
+      "get": {
+        "summary": "Read host native discovery state",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Native discovery state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2Discovery"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Scan and register native sources on the host",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "restore_removed": {"type":"boolean", "default":false, "description":"Explicitly reconnect previously removed native sources for the selected providers."},
+                  "providers": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ProviderId"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Discovery operation; poll its operation ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/snapshot": {
+      "get": {
+        "summary": "Read resolved account, source health and usage state",
+        "security": [{"bearerAuth": []}, {}],
+        "responses": {
+          "200": {"description": "Consistent resolved snapshot", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/V2Snapshot"}}}},
+          "503": {"description": "Host account state is unavailable"}
+        }
+      }
+    },
+    "/v2/accounts/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read a logical account, resolving a persisted redirect",
+        "security": [{"bearerAuth": []}, {}],
+        "responses": {
+          "200": {
+            "description": "Resolved account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2Account"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a logical account atomically across its sources",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Idempotent operation; poll /v2/operations/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/V2AccountPatch"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Unlink all registered sources of a logical account; do not delete native logins",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Idempotent operation; poll /v2/operations/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      }
+    },
+    "/v2/sources/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "patch": {
+        "summary": "Enable or disable only this source",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Idempotent operation; poll /v2/operations/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/V2SourcePatch"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Unlink only this source; retain its account while other sources remain",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Idempotent operation; poll /v2/operations/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      }
+    },
+    "/v2/accounts": {
+      "get": {
+        "summary": "Read resolved accounts without provider network requests",
+        "description": "Reads the shared resolved account model. Protected metadata is initialized atomically on first access; repeated reads do not change IDs or revision. No native provider credential scan or provider HTTP request is performed.",
+        "security": [{"bearerAuth": []}, {}],
+        "responses": {
+          "200": {
+            "description": "Resolved account list shared with the default CLI account list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V2AccountList"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a monitored account using the existing typed credential intake",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Idempotent operation; poll /v2/operations/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ApiKeyInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/GrokOwnedInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/FactoryOwnedInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/KiroOwnedInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AntigravityOwnedInput"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "summary": "OpenAPI document",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health status",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v2/status": {
+      "get": {
+        "summary": "Refresh and settings status",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v2/providers": {
+      "get": {
+        "summary": "List provider capabilities",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderList"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v2/providers/{id}": {
+      "get": {
+        "summary": "Provider capability",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderDescriptor"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/v2/migrations/accounts": {
+      "post": {
+        "summary": "Import a legacy Quotio monitor account without refreshing its credentials",
+        "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          },
+          "408": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Request body timeout"
+          },
+          "413": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON body exceeds 64 KiB"
+          },
+          "415": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON content type required"
+          },
+          "422": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Invalid JSON request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "legacy_id",
+                  "provider",
+                  "label",
+                  "enabled",
+                  "credential"
+                ],
+                "properties": {
+                  "legacy_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "provider": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "credential": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "access_token"
+                    ],
+                    "properties": {
+                      "access_token": {
+                        "type": "string",
+                        "writeOnly": true
+                      },
+                      "refresh_token": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "writeOnly": true
+                      },
+                      "id_token": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "writeOnly": true
+                      },
+                      "account_id": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "expires_at": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "extra": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        },
+                        "writeOnly": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Management only. Use a stable Idempotency-Key per legacy account. Commits the credential and enabled state atomically; retries never replace a rotated credential. Source data must be retained until completion."
+      }
+    },
+    "/v2/auth/sessions": {
+      "post": {
+        "summary": "Begin OAuth session",
+        "description": "With Idempotency-Key, retry the same provider, label and callback mode to recover the same session after a lost response. A begin still in progress returns 409 busy; retry with the same key. A different intent returns 409 idempotency_conflict. Keys are local to this server process and retained while the session is retained (including terminal status, normally through expiry plus 12 minutes; terminal sessions may be evicted at capacity). Without a key, each request starts a new session.",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "description": "One nonempty ASCII graphic key, at most 128 bytes. Keep this key until the session is recovered and cancelled or completed.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[!-~]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          },
+          "408": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Request body timeout"
+          },
+          "413": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON body exceeds 64 KiB"
+          },
+          "415": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON content type required"
+          },
+          "422": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Invalid JSON request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/auth/sessions/{id}": {
+      "get": {
+        "summary": "Get OAuth session",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Cancel OAuth session",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/v2/auth/sessions/{id}/callback": {
+      "post": {
+        "summary": "Complete OAuth callback",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          },
+          "408": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Request body timeout"
+          },
+          "413": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON body exceeds 64 KiB"
+          },
+          "415": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON content type required"
+          },
+          "422": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Invalid JSON request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CallbackInput"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/v2/settings": {
+      "get": {
+        "summary": "Get settings",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettingsView"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Patch settings",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettingsView"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          },
+          "408": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Request body timeout"
+          },
+          "413": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON body exceeds 64 KiB"
+          },
+          "415": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON content type required"
+          },
+          "422": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Invalid JSON request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingsPatch"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/refresh": {
+      "post": {
+        "summary": "Start refresh",
+        "description": "An account-scoped request may refresh that enabled account even when its provider is not enabled for scheduled collection. The provider must match the account, and the request must name exactly one provider. Requests without account_id remain limited to enabled providers.",
+        "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          },
+          "408": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Request body timeout"
+          },
+          "413": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON body exceeds 64 KiB"
+          },
+          "415": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON content type required"
+          },
+          "422": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Invalid JSON request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/operations/{id}": {
+      "get": {
+        "summary": "Get operation",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/v2/sources/discover": {
+      "post": {
+        "summary": "Inspect one explicitly selected native source kind",
+        "description": "Requires bearer authentication and management mode. With inspect false (default), returns fixed registration choices marked not_checked; no native reads. With inspect true, inspects only the selected provider source. Copilot automatic discovery prefers apps.json, then hosts.json, then an inline token in gh/hosts.yml; an explicit location inspects that location. When no file token is available, GitHub Keychain metadata is probed only for the active github.com username from gh/hosts.yml and returned as permission_required. Discovery never reads a Keychain password or displays a prompt. Other native providers may return fixed-location metadata and permission requirements. Available means an entry reference exists, not that credentials are valid, unlocked or unexpired. No network, login, refresh or native writes. At most 64 entries and 1 MiB per source; unreadable includes unsafe files and over-limit data. Opaque references expire after 600 seconds or server restart. Labels are generic; keys, paths and credentials are never returned. No Idempotency-Key is needed for inspection.",
+        "security": [{"bearerAuth": []}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SourceDiscoveryInput"}}}},
+        "responses": {
+          "200": {"description": "Inspection result", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SourceDiscoveryResult"}}}},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "405": {"$ref": "#/components/responses/MethodNotAllowed"},
+          "503": {"$ref": "#/components/responses/Unavailable"}
+        }
+      }
+    },
+    "/v2/account-vault/authorize": {
+      "post": {
+        "summary": "Authorize access to Quotio account storage after an explicit user action",
+        "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          },
+          "408": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Request body timeout"
+          },
+          "413": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON body exceeds 64 KiB"
+          },
+          "415": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON content type required"
+          },
+          "422": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Invalid JSON request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "macOS only. May prompt for access to the fixed Quotio vault selected by the server. Does not accept a Keychain service or account from the caller. Does not return credentials. Background discovery and refresh must never call this operation."
+      }
+    },
+    "/v2/sources/authorize": {
+      "post": {
+        "summary": "Authorize a native Keychain source after an explicit user action",
+        "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          },
+          "408": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Request body timeout"
+          },
+          "413": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON body exceeds 64 KiB"
+          },
+          "415": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON content type required"
+          },
+          "422": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Invalid JSON request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "kind",
+                      "location"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "const": "claude_native"
+                      },
+                      "location": {
+                        "enum": [
+                          "code_keychain"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "kind",
+                      "location"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "const": "factory_native"
+                      },
+                      "entry_key": {"enum": [null, "auth-encryption-key-security-cli", "auth-encryption-key"]},
+                      "location": {
+                        "enum": [
+                          "v2_login_keychain",
+                          "v2_keyring",
+                          "legacy"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "kind",
+                      "location"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "const": "antigravity_native"
+                      },
+                      "location": {
+                        "enum": [
+                          "gemini_keychain"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "macOS only. May show one system Keychain permission dialog. Accepts only Claude Code Keychain, Factory encrypted login, and Antigravity Gemini Keychain references. After authorization, registers the read-only source using the normal noninteractive path. Never returns credentials. Automatic discovery, registration and refresh must not call this route. Requires management mode and a new Idempotency-Key per user authorization attempt."
+      }
+    },
+    "/v2/sources": {
+      "post": {
+        "summary": "Register a read-only quota source",
+        "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          },
+          "500": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Internal error"
+          },
+          "408": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Request body timeout"
+          },
+          "413": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON body exceeds 64 KiB"
+          },
+          "415": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "JSON content type required"
+          },
+          "422": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Invalid JSON request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountSourceInput"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Register an explicit native source or an opaque candidate from /v2/sources/discover. Stores references only; never refreshes or writes source credentials. Requires management mode and Idempotency-Key. Existing per-kind inputs remain supported. Discovery references expire after 600 seconds or server restart; inspect again if expired."
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "MethodNotAllowed": {
+        "description": "Method not allowed",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Conflict",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unavailable": {
+        "description": "Unavailable",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ClientList": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema_version",
+          "clients"
+        ],
+        "properties": {
+          "schema_version": {
+            "const": 2
+          },
+          "clients": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "$ref": "#/components/schemas/ClientInfo"
+            }
+          }
+        }
+      },
+      "ClientCreated": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema_version",
+          "host_id",
+          "client",
+          "token"
+        ],
+        "properties": {
+          "schema_version": {
+            "const": 2
+          },
+          "host_id": {
+            "type": "string"
+          },
+          "client": {
+            "$ref": "#/components/schemas/ClientInfo"
+          },
+          "token": {
+            "type": "string",
+            "description": "Returned only once. Never stored in plaintext.",
+            "pattern": "^qclient\\.[A-Za-z0-9_-]{43}\\.[A-Za-z0-9_-]{43}$"
+          }
+        }
+      },
+      "ClientInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "scope",
+          "expires_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "scope": {
+            "enum": [
+              "read"
+            ]
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ClientCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "scope": {
+            "enum": [
+              "read"
+            ],
+            "default": "read"
+          },
+          "expires_in_seconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 31536000,
+            "default": 2592000
+          }
+        }
+      },
+      "V2SummaryTotals": {"type": "object", "required": ["lowest", "average"], "properties": {"lowest": {"type": ["number", "null"], "minimum": 0, "maximum": 100}, "average": {"type": ["number", "null"], "minimum": 0, "maximum": 100}}},
+      "V2SummaryMetric": {"type": "object", "required": ["display_name", "remaining_percent"], "properties": {"display_name": {"type": "string", "minLength": 1, "maxLength": 512}, "remaining_percent": {"type": ["number", "null"], "minimum": 0, "maximum": 100}}},
+      "V2UsageSummary": {"type": "object", "required": ["session_only", "combined", "pair"], "properties": {"session_only": {"$ref": "#/components/schemas/V2SummaryTotals"}, "combined": {"$ref": "#/components/schemas/V2SummaryTotals"}, "pair": {"type": "array", "items": {"$ref": "#/components/schemas/V2SummaryMetric"}, "maxItems": 2}}},
+      "V2Discovery": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema_version",
+          "scans",
+          "permissions",
+          "known_sources",
+          "failures",
+          "registered"
+        ],
+        "properties": {
+          "schema_version": {
+            "const": 2
+          },
+          "scans": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "provider",
+                "at"
+              ],
+              "properties": {
+                "provider": {
+                  "$ref": "#/components/schemas/ProviderId"
+                },
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/V2NativePermission"
+            }
+          },
+          "known_sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/V2NativePermission"
+            }
+          },
+          "failures": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "provider",
+                "kind",
+                "code"
+              ],
+              "properties": {
+                "provider": {
+                  "$ref": "#/components/schemas/ProviderId"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "registered": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "V2NativePermission": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "kind",
+          "location"
+        ],
+        "properties": {
+          "provider": {
+            "$ref": "#/components/schemas/ProviderId"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "keychain_account": {
+            "type": ["string", "null"],
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "V2AccountPatch": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "user_label": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "active": {
+            "const": true
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "user_label"
+            ]
+          },
+          {
+            "required": [
+              "enabled"
+            ]
+          },
+          {
+            "required": [
+              "active"
+            ]
+          }
+        ]
+      },
+      "V2SourcePatch": {
+        "type": "object",
+        "additionalProperties": false,
+        "anyOf": [{"required": ["enabled"]}, {"required": ["api_key"]}],
+        "dependentRequired": {
+          "settings": ["api_key"], "region": ["api_key"], "organization": ["api_key"]
+        },
+        "properties": {
+          "enabled": {"type": "boolean"},
+          "api_key": {"type": "string", "minLength": 1, "maxLength": 16384},
+          "settings": {"type": ["object", "null"], "additionalProperties": {"type": "string"}},
+          "region": {"type": ["string", "null"]},
+          "organization": {"type": ["string", "null"]}
+        }
+      },
+      "V2AccountList": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema_version",
+          "host",
+          "revision",
+          "accounts"
+        ],
+        "properties": {
+          "account_redirects": {"type": "object", "additionalProperties": {"type": "string"}},
+          "schema_version": {
+            "const": 2
+          },
+          "host": {
+            "$ref": "#/components/schemas/V2Host"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/V2Account"
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "error"
+        ]
+      },
+      "ProviderId": {
+        "type": "string",
+        "enum": [
+          "aiand",
+          "alibabacodingplan",
+          "amp",
+          "antigravity",
+          "azureopenai",
+          "chutes",
+          "claude",
+          "clawrouter",
+          "clinepass",
+          "codebuff",
+          "codex",
+          "copilot",
+          "crof",
+          "cursor",
+          "deepgram",
+          "deepinfra",
+          "deepseek",
+          "devin",
+          "devin-desktop",
+          "doubao",
+          "elevenlabs",
+          "factory",
+          "fireworks",
+          "gemini",
+          "grok",
+          "groq",
+          "ibmbob",
+          "kilo",
+          "kimi",
+          "kiro",
+          "litellm",
+          "llmproxy",
+          "minimax",
+          "mock",
+          "moonshot",
+          "neuralwatt",
+          "openai",
+          "opencodego",
+          "openrouter",
+          "poe",
+          "sub2api",
+          "synthetic",
+          "venice",
+          "vertexai",
+          "warp",
+          "xai",
+          "zai",
+          "zenmux"
+        ]
+      },
+      "Health": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "const": "ok"
+          },
+          "ready": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "ready"
+        ]
+      },
+      "Status": {
+        "type": "object",
+        "properties": {
+          "client_id": {"type": "string"},
+          "schema_version": {
+            "const": 2
+          },
+          "ready": {
+            "type": "boolean"
+          },
+          "refreshing": {
+            "type": "boolean"
+          },
+          "last_completed_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "next_refresh_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "settings_revision": {
+            "type": "string"
+          },
+          "api_version": {
+            "const": 2
+          },
+          "server_version": {
+            "type": "string"
+          },
+          "access_mode": {
+            "type": "string",
+            "enum": [
+              "read_only",
+              "manage"
+            ]
+          },
+          "account_storage_enabled": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "schema_version",
+          "ready",
+          "refreshing",
+          "last_completed_at",
+          "next_refresh_at",
+          "settings_revision",
+          "api_version",
+          "server_version",
+          "access_mode",
+          "account_storage_enabled"
+        ]
+      },
+      "AccountIdentity": {
+        "type": "object",
+        "properties": {
+          "verified": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["subject", "tenant"],
+            "properties": {
+              "subject": {"type": "string", "minLength": 1, "maxLength": 512},
+              "tenant": {"type": ["string", "null"], "minLength": 1, "maxLength": 512}
+            },
+            "description": "Optional provider-verified subject and tenant. Local names and token fingerprints are not proof. Host grouping persists evidence only after a fresh authenticated fetch, never from a client-supplied report."
+          },
+          "plan": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "subscription_status": {
+            "type": "string",
+            "description": "Source-provided subscription status, when available."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label"
+        ]
+      },
+      "AccountRef": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "owned",
+              "borrowed_proxy",
+              "borrowed_native"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label"
+        ]
+      },
+      "Quota": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "state": {
+                "const": "unknown"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "state"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "state": {
+                "const": "available"
+              },
+              "used_percent": {
+                "type": "number"
+              },
+              "remaining_percent": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "state",
+              "used_percent",
+              "remaining_percent"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "state": {
+                "const": "exhausted"
+              },
+              "used_percent": {
+                "const": 100
+              },
+              "remaining_percent": {
+                "const": 0
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "state",
+              "used_percent",
+              "remaining_percent"
+            ]
+          },
+          {
+            "type": "object",
+            "required": [
+              "state"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "state": {
+                "const": "unlimited"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "state"
+            ],
+            "properties": {
+              "state": {
+                "const": "disabled"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "state",
+              "amount",
+              "unit"
+            ],
+            "properties": {
+              "state": {
+                "const": "limit"
+              },
+              "amount": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "unit": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "QuotaAmounts": {
+        "type": "object",
+        "properties": {
+          "remaining": {
+            "type": "number"
+          },
+          "limit": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "remaining",
+          "limit",
+          "unit"
+        ]
+      },
+      "Consumption": {
+        "type": "object",
+        "properties": {
+          "used": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "used",
+          "unit"
+        ]
+      },
+      "Provenance": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "exact",
+              "estimated",
+              "unknown"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "confidence"
+        ]
+      },
+      "QuotaWindow": {
+        "type": "object",
+        "properties": {
+          "consumption": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Consumption"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "quota": {
+            "$ref": "#/components/schemas/Quota"
+          },
+          "amounts": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/QuotaAmounts"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "resets_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "reset_description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "fetched_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "metric_id": {
+            "type": "string",
+            "description": "Stable backend metric identifier when supplied; clients use it instead of interpreting the label."
+          },
+          "note": {
+            "type": "string",
+            "description": "Source-provided display details, such as a bonus grant message."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "quota",
+          "resets_at",
+          "provenance",
+          "fetched_at"
+        ]
+      },
+      "ProviderUsage": {
+        "type": "object",
+        "properties": {
+          "reset_credits": {
+            "$ref": "#/components/schemas/ResetCredits"
+          },
+          "account_ref": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AccountRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider": {
+            "$ref": "#/components/schemas/ProviderId"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountIdentity"
+          },
+          "windows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuotaWindow"
+            }
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageDiagnostic"
+            }
+          },
+          "codex_reset_credits": {
+            "$ref": "#/components/schemas/CodexResetCreditInventory"
+          },
+          "codex_profile": {
+            "$ref": "#/components/schemas/CodexProfileAnalytics"
+          },
+          "antigravity_subscription": {
+            "$ref": "#/components/schemas/AntigravitySubscriptionInfo"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "account",
+          "windows"
+        ]
+      },
+      "ResetCredits": {
+        "type": "object",
+        "description": "Observed banked Codex quota resets, not money. Omitted when unsupported, lookup failed, stale quota fallback is served, or earliest known expiry has passed. Missing never means zero. Counts refer to fetched_at, not generated_at; redemption elsewhere can change them. Native count-only summaries have unknown expiry.",
+        "additionalProperties": false,
+        "required": [
+          "available_count",
+          "earliest_expires_at",
+          "fetched_at",
+          "source"
+        ],
+        "properties": {
+          "available_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Authoritative upstream total, not the length of the potentially capped detail list."
+          },
+          "earliest_expires_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "Earliest known expiry of an available Codex reset; null means none known, not a guarantee of no expiry."
+          },
+          "fetched_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "codex_api",
+              "codex_app_server"
+            ]
+          }
+        }
+      },
+      "AntigravitySubscriptionInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "current_tier": {
+            "$ref": "#/components/schemas/AntigravitySubscriptionTier"
+          },
+          "paid_tier": {
+            "$ref": "#/components/schemas/AntigravitySubscriptionTier"
+          },
+          "allowed_tiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AntigravitySubscriptionTier"
+            }
+          },
+          "cloudaicompanion_project": {
+            "type": "string"
+          },
+          "gcp_managed": {
+            "type": "boolean"
+          },
+          "upgrade_subscription_uri": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "AntigravitySubscriptionTier": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "privacy_notice": {
+            "$ref": "#/components/schemas/AntigravityPrivacyNotice"
+          },
+          "is_default": {
+            "type": "boolean"
+          },
+          "upgrade_subscription_uri": {
+            "type": "string",
+            "format": "uri"
+          },
+          "upgrade_subscription_text": {
+            "type": "string"
+          },
+          "upgrade_subscription_type": {
+            "type": "string"
+          },
+          "user_defined_cloudaicompanion_project": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AntigravityPrivacyNotice": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "show_notice": {
+            "type": "boolean"
+          },
+          "notice_text": {
+            "type": "string"
+          }
+        }
+      },
+      "ProviderFailure": {
+        "type": "object",
+        "properties": {
+          "account_ref": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AccountRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider": {
+            "$ref": "#/components/schemas/ProviderId"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "code",
+          "message"
+        ]
+      },
+      "UsageReport": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "const": 1
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "providers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderUsage"
+            }
+          },
+          "failures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderFailure"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "schema_version",
+          "generated_at",
+          "providers",
+          "failures"
+        ]
+      },
+      "Account": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/ProviderId"
+          },
+          "label": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "owned",
+              "borrowed_proxy",
+              "borrowed_native"
+            ],
+            "description": "Assigned by the backend from the credential creation path; cannot be changed with an account patch."
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "source_location": {"type": "string", "description": "Native source location identifier; never a credential or full filesystem path."},
+          "source_kind": {
+            "type": "string",
+            "enum": [
+              "grok_native",
+              "devin_desktop_native",
+              "factory_native",
+              "kiro_native",
+              "antigravity_native",
+              "cursor_native",
+              "amp_native",
+              "codex_native",
+              "claude_native",
+              "copilot_native",
+              "quotio_custom_provider"
+            ]
+          },
+          "source_id": {
+            "type": "string",
+            "description": "Opaque stable identity for a registered custom provider source."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "provider",
+          "label",
+          "active"
+        ]
+      },
+      "AccountList": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "const": 1
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Account"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "schema_version",
+          "accounts"
+        ]
+      },
+      "ProviderCapability": {
+        "type": "object",
+        "properties": {
+          "oauth_workflow": { "enum": ["browser_callback", "manual_code", "device_code"] },
+          "provider": {
+            "$ref": "#/components/schemas/ProviderId"
+          },
+          "auth": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "api_key",
+                "oauth",
+                "native",
+                "owned_token"
+              ]
+            }
+          },
+          "settings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SettingMetadata"
+            }
+          },
+          "usage_platform": {
+            "const": "all"
+          },
+          "account_storage_platforms": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "macos",
+                "linux"
+              ]
+            },
+            "description": "Supported saved-account storage platforms. Linux requires a separately supplied vault master key."
+          },
+          "account_storage_platform": {
+            "deprecated": true,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "native_instructions": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "operations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "usage",
+                "add_account",
+                "rename_account",
+                "select_account",
+                "set_account_enabled",
+                "update_api_key",
+                "remove_account",
+                "start_oauth"
+              ]
+            }
+          },
+          "source_discovery_endpoint": {"type": "string", "const": "/v2/sources/discover", "description": "Use only kinds listed in source_references. Management-only explicit inspection."},
+          "source_references": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "platforms",
+                "origin",
+                "credential_refresh"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "quotio_custom_provider",
+                    "amp_native",
+                    "codex_native",
+                    "claude_native",
+                    "copilot_native",
+                    "cursor_native",
+                    "grok_native",
+                    "factory_native",
+                    "kiro_native",
+                    "antigravity_native",
+                    "devin_desktop_native",
+                    "cli_proxy_auth_file"
+                  ]
+                },
+                "platforms": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "macos",
+                      "linux"
+                    ]
+                  }
+                },
+                "origin": {
+                  "enum": [
+                    "borrowed_proxy",
+                    "borrowed_native"
+                  ]
+                },
+                "credential_refresh": {
+                  "const": false
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "auth",
+          "settings",
+          "usage_platform",
+          "account_storage_platform",
+          "operations"
+        ]
+      },
+      "ProviderList": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "const": 2
+          },
+          "providers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderDescriptor"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "schema_version",
+          "providers"
+        ]
+      },
+      "Operation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "refresh",
+              "account_create",
+              "account_update",
+              "account_remove",
+              "usage_query"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "running",
+              "completed",
+              "failed"
+            ]
+          },
+          "result": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "account_id"
+                ],
+                "properties": {
+                  "account_id": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "providers",
+                  "failures"
+                ],
+                "properties": {
+                  "providers": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "failures": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            ]
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "message": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "result",
+          "error",
+          "message"
+        ],
+        "description": "At most 128 operations run concurrently. The latest 128 completed refresh results expire after 15 minutes. Account write results and idempotency keys persist until restart, limited to 4096 distinct keys; new keys beyond that limit return 503 idempotency_full. Existing keys remain replayable."
+      },
+      "ApiKeyInput": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "$ref": "#/components/schemas/ProviderId"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "api_key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16384
+          },
+          "settings": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "region": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "organization": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "api_key",
+          "settings",
+          "region",
+          "organization"
+        ]
+      },
+      "AccountPatch": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "active": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "enabled": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Enable or disable quota collection for an account without changing its provider login or source configuration."
+          },
+          "api_key": {
+            "type": ["string", "null"],
+            "minLength": 1,
+            "maxLength": 16384,
+            "description": "Replace the credential for an owned API-key account while preserving its account ID. Omitted settings, region, and organization retain their current values. Explicit values replace them; null resets them to provider defaults."
+          },
+          "settings": {
+            "type": ["object", "null"],
+            "additionalProperties": {"type": "string"}
+          },
+          "region": {
+            "type": ["string", "null"]
+          },
+          "organization": {
+            "type": ["string", "null"]
+          }
+        },
+        "additionalProperties": false
+      },
+      "SessionInput": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "enum": ["codex", "claude", "copilot"]
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "callback_mode": {
+            "type": ["string", "null"],
+            "description": "When omitted or null, the host selects the callback mode from the provider workflow.",
+            "enum": [
+              "relay",
+              "loopback",
+              null
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "provider"
+        ]
+      },
+      "CallbackInput": {
+        "type": "object",
+        "description": "Submit exactly one Codex callback_url or Claude manual code. Codes and tokens are never returned.",
+        "properties": {
+          "callback_url": { "type": "string", "format": "uri" },
+          "code": { "type": "string", "maxLength": 8192 }
+        },
+        "additionalProperties": false,
+        "oneOf": [ { "required": ["callback_url"] }, { "required": ["code"] } ]
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "provider": { "enum": ["codex", "claude", "copilot"] },
+          "workflow": { "enum": ["browser_callback", "manual_code", "device_code"] },
+          "user_code": { "type": "string", "description": "GitHub user-facing code for device_code sessions. Never the private device token." },
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "expires_at": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting",
+              "processing",
+              "completed",
+              "failed",
+              "cancelled",
+              "expired"
+            ]
+          },
+          "account_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "error_code": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "url",
+          "expires_at",
+          "status"
+        ]
+      },
+      "SettingsView": {
+        "type": "object",
+        "properties": {
+          "revision": {
+            "type": "string"
+          },
+          "enabled_providers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderId"
+            }
+          },
+          "disabled_providers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderId"
+            }
+          },
+          "disabled_proxy_auth_files": {
+            "type": "array",
+            "maxItems": 512,
+            "items": { "type": "string", "minLength": 1, "maxLength": 255 }
+          },
+          "automatically_discover_logins": {
+            "type": "boolean"
+          },
+          "cache_ttl_seconds": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "refresh_interval": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 86400
+          },
+          "provider_timeout": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3600
+          },
+          "overridden": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "notifications": {
+            "type": "object",
+            "deprecated": true,
+            "description": "Ignored legacy notification preferences retained for compatibility with unreleased native builds."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "revision",
+          "enabled_providers",
+          "disabled_providers",
+          "disabled_proxy_auth_files",
+          "automatically_discover_logins",
+          "cache_ttl_seconds",
+          "refresh_interval",
+          "provider_timeout",
+          "overridden"
+        ]
+      },
+      "SettingsPatch": {
+        "type": "object",
+        "properties": {
+          "revision": {
+            "type": "string"
+          },
+          "enabled_providers": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/ProviderId"
+            }
+          },
+          "disabled_providers": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/ProviderId"
+            }
+          },
+          "disabled_proxy_auth_files": {
+            "type": ["array", "null"],
+            "maxItems": 512,
+            "items": { "type": "string", "minLength": 1, "maxLength": 255 }
+          },
+          "automatically_discover_logins": {
+            "type": ["boolean", "null"]
+          },
+          "cache_ttl_seconds": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "refresh_interval": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 86400
+          },
+          "provider_timeout": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 3600
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "revision"
+        ]
+      },
+      "RefreshRequest": {
+        "type": "object",
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "account_id"
+              ],
+              "properties": {
+                "account_id": {
+                  "type": "string"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "providers"
+              ],
+              "properties": {
+                "providers": {
+                  "minItems": 1,
+                  "maxItems": 1
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "providers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderId"
+            }
+          },
+          "account_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "force": {
+            "type": "boolean"
+          },
+          "disabled_proxy_auth_files": {
+            "type": "array",
+            "items": { "type": "string" },
+            "default": [],
+            "description": "CLIProxyAPI auth filenames to exclude from this refresh, including account-scoped refreshes. This does not disable independent vault or native accounts."
+          },
+          "include_owned": {
+            "type": "boolean",
+            "default": true,
+            "description": "Include credentials owned by the selected Quotio vault. Set false to refresh only borrowed sources and native-parent Warp mirrors marked with __quotio_local_warp__:."
+          }
+        },
+        "additionalProperties": false
+      },
+      "SettingMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "field_path",
+          "required"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "field_path": {
+            "type": "string",
+            "description": "JSON request field location, e.g. region or settings.project_id"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Bootstrap": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "bootstrap_version",
+          "api_version",
+          "server_version",
+          "pid",
+          "host",
+          "port"
+        ],
+        "properties": {
+          "bootstrap_version": {
+            "const": 2
+          },
+          "api_version": {
+            "const": 2
+          },
+          "server_version": {
+            "type": "string"
+          },
+          "pid": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "host": {
+            "type": "string",
+            "enum": [
+              "127.0.0.1",
+              "::1"
+            ]
+          },
+          "port": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+          }
+        }
+      },
+      "ProviderDescriptor": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "description",
+          "display_name",
+          "enabled",
+          "capabilities",
+          "actions"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ProviderId"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "actions": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/V2Action" }
+          },
+          "capabilities": {
+            "$ref": "#/components/schemas/ProviderCapability"
+          }
+        }
+      },
+      "UsageDiagnostic": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "code"
+        ],
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "SourceDiscoveryInput": {
+        "type": "object", "additionalProperties": false, "required": ["provider", "kind"],
+        "properties": {
+          "provider": {"$ref": "#/components/schemas/ProviderId"},
+          "kind": {"type": "string", "enum": ["grok_native", "copilot_native", "quotio_custom_provider", "codex_native", "claude_native", "kiro_native", "factory_native", "devin_desktop_native", "antigravity_native", "amp_native", "cursor_native"]},
+          "location": {"type": ["string", "null"], "description": "One location supported by this kind's registration input. Required for Copilot inspection. Omit for kinds without locations."},
+          "domain": {"type": ["string", "null"], "maxLength": 255, "pattern": "^(production|development|[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)+)$", "description": "Required only for quotio_custom_provider; selected provider must be clinepass or zai."},
+          "inspect": {"type": "boolean", "default": false}
+        }
+      },
+      "DiscoveredSourceInput": {
+        "type": "object", "additionalProperties": false, "required": ["kind", "discovery_ref"],
+        "properties": {"kind": {"const": "discovered"}, "discovery_ref": {"type": "string", "description": "Opaque server-local reference from explicit discovery. Expires after 600 seconds or restart; inspect again if expired."}}
+      },
+      "SourceDiscoveryResult": {
+        "type": "object", "additionalProperties": false, "required": ["schema_version", "status", "candidates"],
+        "properties": {
+          "schema_version": {"const": 2},
+          "status": {"enum": ["not_checked", "checked", "unavailable", "unsupported", "unreadable"]},
+          "expires_in_seconds": {"const": 600},
+          "candidates": {"type": "array", "maxItems": 64, "items": {
+            "type": "object", "additionalProperties": false, "required": ["label", "status", "source"],
+            "properties": {"label": {"type": "string"}, "status": {"enum": ["not_checked", "available"]}, "source": {"$ref": "#/components/schemas/AccountSourceInput"}}
+          }}
+        }
+      },
+      "AccountSourceInput": {
+        "oneOf": [
+          {"$ref": "#/components/schemas/DiscoveredSourceInput"},
+          {"$ref": "#/components/schemas/DevinDesktopNativeInput"},
+          {"$ref": "#/components/schemas/FactoryNativeInput"},
+          {"$ref": "#/components/schemas/KiroNativeInput"},
+          {"$ref": "#/components/schemas/AntigravityNativeInput"},
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "location"],
+            "properties": {
+              "kind": {"const": "copilot_native"},
+              "location": {
+                "type": "string",
+                "enum": ["apps", "hosts", "gh_hosts", "gh_keychain"],
+                "description": "apps and hosts pin ~/.config/github-copilot/apps.json or hosts.json. gh_hosts pins the github.com entry in ~/.config/gh/hosts.yml. gh_keychain reads the gh:github.com service on macOS only. Read-only; no refresh, fallback or proxy discovery."
+              },
+              "entry_key": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 256,
+                "description": "Exact entry. apps and hosts accept github.com or github.com:<app-id>; gh_hosts requires github.com; gh_keychain uses the exact Keychain account; omission selects the active gh account once before authorization."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "location"],
+            "properties": {
+              "kind": {"const": "claude_native"},
+              "location": {
+                "type": "string",
+                "enum": ["code_file", "code_keychain"],
+                "description": "code_file pins ~/.claude/.credentials.json. code_keychain reads Claude Code-credentials on macOS only. Read-only; no refresh or fallback. Desktop is unsupported."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind"],
+            "properties": {
+              "kind": {
+                "const": "codex_native",
+                "description": "Read-only reference to a selected standard Codex auth.json. No proxy directory discovery, credential refresh or native writes."
+              },
+              "location": {
+                "type": "string",
+                "enum": ["default", "config", "codex_home"],
+                "default": "default",
+                "description": "default selects ~/.codex/auth.json; config selects ~/.config/codex/auth.json; codex_home selects $CODEX_HOME/auth.json. The server pins the selected absolute path."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source",
+              "kind"
+            ],
+            "properties": {
+              "source": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "domain",
+                  "record_id"
+                ],
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "pattern": "^(production|development|[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)+)$"
+                  },
+                  "record_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
+              "kind": {
+                "const": "quotio_custom_provider"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "amp_native"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "cursor_native"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "kind",
+              "entry_key"
+            ],
+            "properties": {
+              "kind": {
+                "const": "grok_native",
+                "description": "Read-only reference to one explicit entry in ~/.grok/auth.json. The server selects the fixed native path. Credentials stay in the native file and are never refreshed or written by Quotio."
+              },
+              "entry_key": {
+                "type": "string",
+                "maxLength": 256,
+                "pattern": "^(https://auth\\.x\\.ai::[A-Za-z0-9-]+|https://accounts\\.x\\.ai/sign-in)$"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "DevinDesktopNativeInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "location"],
+        "properties": {
+          "kind": {"const": "devin_desktop_native"},
+          "location": {"enum": ["credentials_toml", "state_database"]}
+        },
+        "description": "Read-only reference to exactly one fixed Devin Desktop source. credentials_toml reads ~/.local/share/devin/credentials.toml. state_database reads ~/Library/Application Support/Devin/User/globalStorage/state.vscdb on macOS or ~/.config/Devin/User/globalStorage/state.vscdb on Linux. No fallback, custom path, credential copy or refresh. Explicit api_server_url values other than https://server.codeium.com (with optional trailing slash) are rejected. The separate devin organization account is unchanged."
+      },
+      "AntigravityNativeInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "location"],
+        "properties": {
+          "kind": {"const": "antigravity_native"},
+          "location": {"enum": ["gemini_keychain", "state_db"]}
+        },
+        "description": "Explicit read-only source. gemini_keychain selects only service gemini, account antigravity. state_db selects ~/Library/Application Support/Antigravity/User/globalStorage/state.vscdb, including WAL records. The selected path is stored at registration. No caller path, proxy discovery, token cache, refresh, or owner writes. Expired tokens must be refreshed in Antigravity. Explicit account reads never fall back to the local service. A Keychain reference replaces the matching local alias, including when disabled; environment token/file inputs remain independent."
+      },
+      "AntigravityOwnedInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "label", "access_token", "refresh_token", "expires_at", "client_id", "client_secret"],
+        "properties": {
+          "kind": {"const": "antigravity_owned"},
+          "label": {"type": "string", "minLength": 1, "maxLength": 100},
+          "access_token": {"type": "string", "writeOnly": true},
+          "refresh_token": {"type": "string", "writeOnly": true},
+          "expires_at": {"type": "integer"},
+          "client_id": {"const": "1071006060591-tmhssin2h21lcre235vtolojh4g403ep.apps.googleusercontent.com"},
+          "client_secret": {"type": "string", "writeOnly": true}
+        },
+        "description": "Separately owned Google OAuth tokens for the supported Antigravity client. The caller must supply the client secret explicitly; Quotio does not ship a secret or extract one from an installed app. Inputs stay inside the protected vault. Refresh uses only https://oauth2.googleapis.com/token. No caller endpoint, browser login, native import, or proxy discovery. Refresh is durably marked pending before sending; rotation is saved before quota. An interrupted or uncertain refresh cannot be replayed. Refresh-token reservations survive rotation and deletion. Vault format 8 rejects older readers and downgraded documents containing these credentials or reservations."
+      },
+      "KiroNativeInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind"],
+        "properties": {"kind": {"const": "kiro_native"}},
+        "description": "Read-only reference to ~/.aws/sso/cache/kiro-auth-token.json. No caller path, discovery, refresh or native writes. Expired credentials require refresh in Kiro. Rotation invalidates cached and in-flight results. An independent KIRO_ACCESS_TOKEN remains separate."
+      },
+      "FactoryNativeInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "location"],
+        "properties": {
+          "kind": {"const": "factory_native"},
+          "entry_key": {"enum": [null, "auth-encryption-key-security-cli", "auth-encryption-key"]},
+          "location": {"enum": ["v2_file", "v2_login_keychain", "v2_keyring", "legacy"]}
+        },
+        "description": "Explicit read-only binding to one file under this node's standard ~/.factory directory. v2_file uses auth.v2.file and auth.v2.key. v2_login_keychain and v2_keyring use their matching files and the macOS Factory CLI Keychain service with a frozen exact entry_key. Omitted selectors are resolved from known account metadata before authorization; v2_file rejects entry_key. legacy uses auth.encrypted (plaintext on macOS/Linux; encrypted requires macOS Keychain). No newest-file selection, fallback file, caller path or credential copy. Owner rotation invalidates cache; only Factory may refresh or write native credentials."
+      },
+      "KiroOwnedInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "label", "access_token", "refresh_token", "expires_at", "authMethod", "region"],
+        "properties": {
+          "kind": {"const": "kiro_owned"},
+          "label": {"type": "string", "minLength": 1, "maxLength": 80},
+          "access_token": {"type": "string", "minLength": 1, "maxLength": 16384, "writeOnly": true},
+          "refresh_token": {"type": "string", "minLength": 1, "maxLength": 16384, "writeOnly": true},
+          "expires_at": {"type": "integer", "minimum": 0},
+          "authMethod": {"enum": ["Social", "IdC"]},
+          "region": {"type": "string", "maxLength": 64},
+          "profileArn": {"type": ["string", "null"], "maxLength": 2048},
+          "clientId": {"type": ["string", "null"], "minLength": 1, "maxLength": 16384},
+          "clientSecret": {"type": ["string", "null"], "minLength": 1, "maxLength": 16384, "writeOnly": true}
+        },
+        "description": "Separately owned Kiro tokens, not a native import or browser login. IdC requires clientId and clientSecret. Social uses https://prod.{region}.auth.desktop.kiro.dev/refreshToken; IdC uses https://oidc.{region}.amazonaws.com/token. No caller endpoint. profileArn, if present, must match region. Tokens are saved before refresh and rotation is saved before quota. A stable machine identifier is retained across rotation. Interrupted or uncertain refresh cannot replay; supply fresh credentials. Refresh-token reservations survive rotation and account deletion across methods, regions and profiles. Vault format 7 prevents older readers from dropping reservations."
+      },
+      "FactoryOwnedInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "label", "access_token", "refresh_token"],
+        "properties": {
+          "kind": {"const": "factory_owned"},
+          "label": {"type": "string", "minLength": 1, "maxLength": 80},
+          "access_token": {"type": "string", "minLength": 1, "maxLength": 16384, "writeOnly": true},
+          "refresh_token": {"type": "string", "minLength": 1, "maxLength": 16384, "writeOnly": true},
+          "organization_id": {"type": ["string", "null"], "minLength": 1, "maxLength": 256}
+        },
+        "description": "Separately owned Factory OAuth tokens for WorkOS client_01HNM792M5G5G1A2THWPXKFMXB only. Global Factory endpoint only; no custom client ID, region, endpoint or browser login. JWT expiry is read from the access token; unknown expiry triggers refresh. Tokens are persisted before refresh, and rotation before quota. Interrupted or failed refresh is durably fenced. Refresh-token fingerprints remain reserved to their account after rotation or removal, across organizations; deleting an account does not permit registering its old refresh tokens again. Recover with fresh, separately owned credentials. If organization_id is supplied, the access token must contain a matching WorkOS org_id claim before quota is requested; a missing or mismatched claim is rejected. Reservation writes require vault format 5, which older binaries reject. Does not transfer ownership of a native login."
+      },
+      "GrokOwnedInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "label",
+          "access_token",
+          "refresh_token",
+          "expires_at"
+        ],
+        "properties": {
+          "kind": {
+            "const": "grok_owned"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "access_token": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16384,
+            "writeOnly": true
+          },
+          "refresh_token": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16384,
+            "writeOnly": true
+          },
+          "expires_at": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "description": "Explicit intake of separately owned Grok CLI OAuth tokens for the default Grok client. Does not read or migrate native credentials or start OAuth. Tokens are stored before any refresh. An interrupted or failed refresh is fenced until this account is removed and separately owned credentials are supplied again."
+      },
+      "CodexResetCreditInventory": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "available_count",
+          "credits",
+          "fetched_at"
+        ],
+        "properties": {
+          "available_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Provider available_count, not the filtered record count."
+          },
+          "credits": {
+            "type": "array",
+            "description": "Available, unexpired credits; absent expiry is retained. Expiring records sort first. Read-only inventory, never consumes a credit.",
+            "items": {
+              "$ref": "#/components/schemas/CodexResetCredit"
+            }
+          },
+          "fetched_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CodexResetCredit": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "expires_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "description": "Domain-separated SHA-256; never the provider credit ID."
+          },
+          "expires_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "CodexProfileAnalytics": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "daily_usage",
+          "latest_30_buckets_tokens",
+          "fetched_at",
+          "lifetime_tokens",
+          "peak_daily_tokens",
+          "longest_running_turn_seconds",
+          "current_streak_days",
+          "longest_streak_days"
+        ],
+        "properties": {
+          "daily_usage": {
+            "type": "array",
+            "maxItems": 371,
+            "description": "Latest 371 supplied daily buckets, sorted ascending. Calendar-date keys are retained for native Today/Yesterday lookup in the presentation timezone. Zero remains known zero.",
+            "items": {
+              "$ref": "#/components/schemas/CodexDailyUsage"
+            }
+          },
+          "latest_30_buckets_tokens": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Sum of the latest 30 supplied buckets, not the last 30 calendar days. Zero is rendered as No data by the existing Swift analytics view."
+          },
+          "fetched_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lifetime_tokens": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "peak_daily_tokens": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "longest_running_turn_seconds": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "current_streak_days": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "longest_streak_days": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          }
+        }
+      },
+      "CodexDailyUsage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "date",
+          "tokens"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "tokens": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "V2Availability": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "available",
+          "reason"
+        ],
+        "properties": {
+          "available": {
+            "type": "boolean"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "V2Host": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "platform",
+          "api_versions",
+          "capabilities"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "macos",
+              "linux",
+              "windows"
+            ]
+          },
+          "api_versions": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "capabilities": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/V2Availability"
+            }
+          }
+        }
+      },
+      "V2Identity": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence",
+          "username",
+          "email"
+        ],
+        "properties": {
+          "evidence": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "local",
+              "verified"
+            ]
+          },
+          "username": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "V2ConnectionState": {
+        "type": "string",
+        "enum": [
+          "ready",
+          "not_checked",
+          "needs_authorization",
+          "needs_login",
+          "unavailable",
+          "disabled"
+        ]
+      },
+      "V2Action": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "available",
+          "reason",
+          "interaction"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interaction": {
+            "type": "string",
+            "enum": [
+              "client",
+              "host",
+              "host_user"
+            ]
+          }
+        }
+      },
+      "V2Issue": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "retryable",
+          "action"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "action": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/V2Action"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "V2Source": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "origin",
+          "kind",
+          "location",
+          "enabled",
+          "selected",
+          "state",
+          "refresh_owner",
+          "issue",
+          "actions"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "borrowed_native",
+              "owned",
+              "borrowed_proxy"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "keychain_account": {
+            "type": ["string", "null"],
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "selected": {
+            "type": "boolean"
+          },
+          "state": {
+            "$ref": "#/components/schemas/V2ConnectionState"
+          },
+          "refresh_owner": {
+            "type": "string",
+            "enum": [
+              "host",
+              "provider_tool",
+              "none"
+            ]
+          },
+          "issue": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/V2Issue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/V2Action"
+            }
+          }
+        }
+      },
+      "V2Account": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "provider_id",
+          "display_name",
+          "user_label",
+          "identity",
+          "enabled",
+          "state",
+          "sources",
+          "actions",
+          "active"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "provider_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+          },
+          "user_label": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "identity": {
+            "$ref": "#/components/schemas/V2Identity"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "state": {
+            "$ref": "#/components/schemas/V2ConnectionState"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/V2Source"
+            }
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/V2Action"
+            }
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether a source of this logical account is the selected CLI account for its provider."
+          }
+        }
+      },
+      "V2Metric": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "display_name",
+          "quota",
+          "amounts",
+          "consumption",
+          "resets_at",
+          "reset_description",
+          "fetched_at",
+          "provenance"
+        ],
+        "properties": {
+          "note": {"type": "string"},
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "group": { "type": ["string", "null"], "minLength": 1, "maxLength": 512 },
+          "display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+          },
+          "quota": {
+            "$ref": "#/components/schemas/Quota"
+          },
+          "amounts": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/QuotaAmounts"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "consumption": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Consumption"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "resets_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reset_description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "fetched_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          }
+        }
+      },
+      "V2Usage": {
+        "type": "object",
+        "allOf": [{"if": {"properties": {"freshness": {"enum": ["fresh", "stale"]}}}, "then": {"properties": {"fetched_at": {"type": "string", "format": "date-time"}}}}],
+        "additionalProperties": false,
+        "required": [
+          "account_id",
+          "freshness",
+          "fetched_at",
+          "expires_at",
+          "plan",
+          "metrics",
+          "issue"
+        ],
+        "properties": {
+        "summary": {"anyOf": [{"$ref": "#/components/schemas/V2UsageSummary"}, {"type": "null"}]},
+          "subscription_status": {"type": "string"},
+          "reset_credits": {"$ref": "#/components/schemas/ResetCredits"},
+          "antigravity_subscription": {"$ref": "#/components/schemas/AntigravitySubscriptionInfo"},
+          "codex_profile": {"$ref": "#/components/schemas/CodexProfileAnalytics"},
+          "codex_reset_credits": {"$ref": "#/components/schemas/CodexResetCreditInventory"},
+          "account_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          },
+          "freshness": {
+            "type": "string",
+            "enum": [
+              "not_loaded",
+              "fresh",
+              "stale",
+              "unavailable"
+            ]
+          },
+          "fetched_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "plan": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512,
+                "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/V2Metric"
+            }
+          },
+          "issue": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/V2Issue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "V2Snapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema_version",
+          "host",
+          "revision",
+          "generated_at",
+          "accounts",
+          "usage"
+        ],
+        "properties": {
+          "account_redirects": {"type": "object", "additionalProperties": {"type": "string"}},
+          "provider_issues": {"type": "object", "additionalProperties": {"$ref": "#/components/schemas/V2Issue"}},
+          "schema_version": {
+            "const": 2
+          },
+          "host": {
+            "$ref": "#/components/schemas/V2Host"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/V2Account"
+            }
+          },
+          "usage": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/V2Usage"
+            }
+          }
+        },
+        "description": "Draft full snapshot contract. The opt-in /v2/accounts read API is available; a full snapshot endpoint and v2 CRUD are not yet exposed."
+      }
+    }
+  },
+  "x-quotio-parent-pipe": {
+    "version": 2,
+    "bootstrap_schema": "#/components/schemas/Bootstrap",
+    "description": "Inherited stdin JSON token/preferences line (maximum 16 KiB) and lifetime pipe; one stdout JSON record after bind. Authenticate /v2/status before use. An absolute --cli-proxy-auth-dir may provide read-only borrowed Codex, Claude, GitHub Copilot, Antigravity, Kiro, and Vertex auth files."
+  },
+  "x-quotio-account-idempotency": {
+    "successful_writes": "atomic protected-vault receipt across restart",
+    "operation_ids": "process lifetime",
+    "receipt_capacity": 4096,
+    "vault_version": 2
+  }
+}

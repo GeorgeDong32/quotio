@@ -1,0 +1,11 @@
+// Release.xcconfig
+// Base configuration for Release builds
+// This file is tracked by git
+
+// Release builds should NOT include Local.xcconfig
+// to ensure consistent production builds
+
+// Production settings (DO NOT override these locally)
+PRODUCT_BUNDLE_IDENTIFIER = dev.quotio.desktop
+PRODUCT_NAME = Quotio
+ENABLE_HARDENED_RUNTIME = YES

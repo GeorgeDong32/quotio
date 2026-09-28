@@ -1,0 +1,74 @@
+//
+//  AppIdentity.swift
+//  Quotio App
+//
+
+import Foundation
+import CryptoKit
+
+nonisolated enum AppIdentity {
+    // Fork identity: this fork ships as dev.quotio.desktop (inherited from
+    // the pre-rename app), so it must count as production for capability
+    // gates (legacy credential migration, keychain migration).
+    static let productionBundleIdentifier = "dev.quotio.desktop"
+    static let legacyBundleIdentifiers = [
+        "app.bytrong.quotio",
+        "proseek.io.vn.Quotio",
+    ]
+
+    private static let userDefaultsMigrationKey = "migratedToByTrongAppIdentity"
+
+    static var bundleIdentifier: String {
+        Bundle.main.bundleIdentifier ?? productionBundleIdentifier
+    }
+
+    static var isProduction: Bool {
+        bundleIdentifier == productionBundleIdentifier
+    }
+
+    static func keychainService(suffix: String) -> String {
+        "\(bundleIdentifier).\(suffix)"
+    }
+
+    static func quotioCLIVaultNamespace(for bundleIdentifier: String = bundleIdentifier) -> String {
+        guard bundleIdentifier != productionBundleIdentifier else { return "quotio-macos" }
+        let digest = SHA256.hash(data: Data(bundleIdentifier.utf8))
+        return "quotio-macos-" + digest.prefix(8).map { String(format: "%02x", $0) }.joined()
+    }
+
+    static func legacyKeychainServices(suffix: String) -> [String] {
+        legacyBundleIdentifiers.map { "\($0).\(suffix)" } + ["com.quotio.\(suffix)"]
+    }
+
+    @discardableResult
+    static func migrateLegacyUserDefaults(
+        defaults: UserDefaults = .standard,
+        currentBundleIdentifier: String = bundleIdentifier
+    ) -> Bool {
+        guard currentBundleIdentifier == productionBundleIdentifier else { return false }
+
+        var currentDomain = defaults.persistentDomain(forName: currentBundleIdentifier) ?? [:]
+        guard currentDomain[userDefaultsMigrationKey] as? Bool != true else { return false }
+
+        let legacyDomains = legacyBundleIdentifiers.compactMap {
+            defaults.persistentDomain(forName: $0)
+        }
+        currentDomain = mergingUserDefaults(current: currentDomain, legacyDomains: legacyDomains)
+        currentDomain[userDefaultsMigrationKey] = true
+        defaults.setPersistentDomain(currentDomain, forName: currentBundleIdentifier)
+        return true
+    }
+
+    static func mergingUserDefaults(
+        current: [String: Any],
+        legacyDomains: [[String: Any]]
+    ) -> [String: Any] {
+        var merged = current
+        for legacyDomain in legacyDomains {
+            for (key, value) in legacyDomain where merged[key] == nil {
+                merged[key] = value
+            }
+        }
+        return merged
+    }
+}

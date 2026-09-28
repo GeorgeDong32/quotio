@@ -25,7 +25,7 @@ DerivedData/
 *.log
 
 # Local development configuration (contains dev-specific overrides)
-Config/Local.xcconfig
+apps/macos/Config/Local.xcconfig
 
 plans/
 

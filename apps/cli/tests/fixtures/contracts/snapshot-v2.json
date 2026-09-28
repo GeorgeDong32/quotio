@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "host": {
+    "id": "host-fixture",
+    "platform": "macos",
+    "api_versions": [
+      2
+    ],
+    "capabilities": {
+      "native_authorization": {
+        "available": true,
+        "reason": null
+      }
+    }
+  },
+  "revision": 7,
+  "generated_at": "2026-09-24T00:00:00Z",
+  "accounts": [
+    {
+      "id": "copilot-account",
+      "provider_id": "copilot",
+      "display_name": "fixture-user",
+      "user_label": null,
+      "identity": {
+        "evidence": "verified",
+        "username": "fixture-user",
+        "email": null
+      },
+      "enabled": true,
+      "state": "ready",
+      "sources": [
+        {
+          "id": "copilot-source-0",
+          "origin": "borrowed_native",
+          "kind": "copilot_native",
+          "location": "gh_keychain",
+          "enabled": true,
+          "selected": true,
+          "state": "ready",
+          "refresh_owner": "provider_tool",
+          "issue": null,
+          "actions": []
+        }
+      ],
+      "actions": [
+        {
+          "kind": "refresh",
+          "available": true,
+          "reason": null,
+          "interaction": "host"
+        }
+      ],
+      "active": true
+    },
+    {
+      "id": "devin-desktop-account",
+      "provider_id": "devin-desktop",
+      "display_name": "person@example.test",
+      "user_label": null,
+      "identity": {
+        "evidence": "verified",
+        "username": null,
+        "email": "person@example.test"
+      },
+      "enabled": true,
+      "state": "ready",
+      "sources": [
+        {
+          "id": "devin-desktop-source-0",
+          "origin": "borrowed_native",
+          "kind": "devin_desktop_native",
+          "location": "credentials_toml",
+          "enabled": true,
+          "selected": true,
+          "state": "ready",
+          "refresh_owner": "provider_tool",
+          "issue": null,
+          "actions": []
+        },
+        {
+          "id": "devin-desktop-source-1",
+          "origin": "borrowed_native",
+          "kind": "devin_desktop_native",
+          "location": "state_database",
+          "enabled": true,
+          "selected": false,
+          "state": "ready",
+          "refresh_owner": "provider_tool",
+          "issue": null,
+          "actions": []
+        }
+      ],
+      "actions": [
+        {
+          "kind": "refresh",
+          "available": true,
+          "reason": null,
+          "interaction": "host"
+        }
+      ],
+      "active": true
+    }
+  ],
+  "usage": [
+    {
+      "account_id": "copilot-account",
+      "freshness": "fresh",
+      "fetched_at": "2026-09-24T00:00:00Z",
+      "expires_at": "2026-09-24T00:05:00Z",
+      "plan": "Business",
+      "metrics": [],
+      "issue": null
+    },
+    {
+      "account_id": "devin-desktop-account",
+      "freshness": "fresh",
+      "fetched_at": "2026-09-24T00:00:00Z",
+      "expires_at": "2026-09-24T00:05:00Z",
+      "plan": "Free",
+      "metrics": [
+        {
+          "id": "weekly",
+          "display_name": "Weekly",
+          "quota": {
+            "state": "available",
+            "used_percent": 25.0,
+            "remaining_percent": 75.0
+          },
+          "amounts": null,
+          "consumption": null,
+          "resets_at": null,
+          "reset_description": null,
+          "fetched_at": "2026-09-24T00:00:00Z",
+          "provenance": {
+            "source": "fixture",
+            "confidence": "exact"
+          }
+        }
+      ],
+      "issue": null
+    }
+  ]
+}

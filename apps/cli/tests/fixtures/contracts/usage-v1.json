@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-01-01T00:00:00Z",
+  "providers": [
+    {
+      "provider": "mock",
+      "account": {
+        "id": "mock-account",
+        "label": "Demo account"
+      },
+      "windows": [
+        {
+          "label": "Session",
+          "quota": {
+            "state": "available",
+            "used_percent": 25.0,
+            "remaining_percent": 75.0
+          },
+          "resets_at": "2026-01-08T00:00:00Z",
+          "provenance": {
+            "source": "mock_fixture",
+            "confidence": "exact"
+          },
+          "fetched_at": "2026-01-01T00:00:00Z"
+        },
+        {
+          "label": "Weekly",
+          "quota": {
+            "state": "exhausted",
+            "used_percent": 100.0,
+            "remaining_percent": 0.0
+          },
+          "resets_at": "2026-01-08T00:00:00Z",
+          "provenance": {
+            "source": "mock_fixture",
+            "confidence": "exact"
+          },
+          "fetched_at": "2026-01-01T00:00:00Z"
+        },
+        {
+          "label": "Monthly",
+          "quota": {
+            "state": "unknown"
+          },
+          "resets_at": null,
+          "provenance": {
+            "source": "mock_fixture",
+            "confidence": "exact"
+          },
+          "fetched_at": "2026-01-01T00:00:00Z"
+        }
+      ]
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,62 @@
+import SwiftUI
+
+public struct RootNavigationView: View {
+    public init() {}
+
+    @Environment(NavigationScreenModel.self) private var navigation
+    @Environment(AccountsScreenModel.self) private var accounts
+    @Environment(QuotaScreenModel.self) private var quota
+    @Environment(QuotaFeatureController.self) private var controller
+
+    private var attentionCount: Int {
+        let providerItems = ProviderAccountsSummary.totalAttention(providers: controller.providers,
+            accounts: accounts.accounts, permissions: accounts.nativeSourcePermissions,
+            snapshot: quota.state, tracking: controller.trackingPreferences)
+        return providerItems + (accounts.storageAccessRequired ? 1 : 0)
+    }
+
+    public var body: some View {
+        @Bindable var navigation = navigation
+        NavigationSplitView {
+            List(selection: $navigation.currentPage) {
+                Label("nav.accounts".localized(), systemImage: "person.2")
+                    .badge(attentionCount)
+                    .tag(NavigationPage.providers)
+                Section("settings.application".localized()) {
+                    ForEach(NavigationPage.settingsPages) { page in
+                        Label(page.settingsTitle, systemImage: page.icon).tag(page)
+                    }
+                }
+            }
+            .listStyle(.sidebar)
+            .navigationSplitViewColumnWidth(min: 180, ideal: 210, max: 260)
+        } detail: {
+            if navigation.currentPage == .providers {
+                AccountsSettingsScreen()
+            } else {
+                AppSettingsPage(page: navigation.currentPage)
+            }
+        }
+        .frame(minWidth: 680, minHeight: 480)
+    }
+}
+
+extension NavigationPage {
+    static let settingsPages: [Self] = [.general, .menuBar, .notifications, .privacy, .proxy, .fallback, .requestLogs, .remoteConnection, .geminiQuota, .updates]
+
+    @MainActor var settingsTitle: String {
+        switch self {
+        case .general, .settings: "settings.general".localized()
+        case .menuBar: "connections.menuBar".localized()
+        case .notifications: "settings.notifications.title".localized()
+        case .privacy: "connections.privacy".localized()
+        case .proxy: "CLIProxyAPI"
+        case .fallback: "settings.fallback".localized()
+        case .requestLogs: "settings.requestLogs".localized()
+        case .remoteConnection: "remote.title".localized()
+        case .geminiQuota: "gemini.title".localized()
+        case .updates, .about: "settings.aboutUpdates".localized()
+        default: "settings.general".localized()
+        }
+    }
+}

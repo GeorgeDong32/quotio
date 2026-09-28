@@ -1,63 +1,53 @@
 # AGENTS.md
 
-Quotio is a native macOS menu bar app for managing CLIProxyAPI: OAuth for multiple AI providers, quota visibility, proxy lifecycle, and CLI agent configuration.
+## Repository
 
-## Stack
+Quotio is a monorepo with independent product entry points:
 
-- Swift 6, SwiftUI, macOS 15+, Xcode 16+
-- Sparkle via Swift Package Manager
-- No dedicated automated test suite currently exists
+- `apps/macos/`: native macOS app. Follow `apps/macos/AGENTS.md`.
+- `apps/cli/`: Rust CLI. Follow its README and existing Cargo conventions.
+- `Packages/QuotioCore/`: Swift package shared by the Apple app.
+- `.github/workflows/`: repository-level CI and release automation.
 
-## Where to look
+Do not add empty iOS or Windows projects, a root Cargo workspace, or a task runner
+until a real consumer requires one. Keep product-specific code and release assets
+inside the owning app directory.
 
-- App entry: `Quotio/QuotioApp.swift`
-- Models and enums: `Quotio/Models/`
-- App state: `Quotio/ViewModels/`
-- Business logic, proxy, API, OAuth, menu bar: `Quotio/Services/`
-- SwiftUI screens and components: `Quotio/Views/`
-- Build/release scripts: `scripts/`
-- Build configuration: `Config/`
+## Commands
 
-## Validate changes
-
-Use this for normal code validation:
+Run commands from the repository root unless a project document says otherwise.
 
 ```bash
-xcodebuild -project Quotio.xcodeproj -scheme Quotio -configuration Debug build
+swift test --package-path Packages/QuotioCore
+./apps/macos/scripts/check_architecture.sh
+xcodebuild -project apps/macos/Quotio.xcodeproj -scheme Quotio -configuration Debug -destination 'platform=macOS' test
+cargo test --manifest-path apps/cli/Cargo.toml --locked --all-features
 ```
 
-Only run release scripts when changing packaging, notarization, appcast, or release behavior:
+Use `v*` tags for macOS releases and `cli-v*` tags for CLI releases. Preserve
+both imported histories; never rewrite shared history or reuse one product's tag
+namespace for the other.
 
-```bash
-./scripts/build.sh
-./scripts/release.sh
-```
+## Fork addendum (port/upstream-monorepo)
 
-For UI changes, also run the app manually and check light/dark mode. For provider, OAuth, proxy, or menu bar changes, manually verify the affected flow.
+This fork (GeorgeDong32/quotio) tracks upstream and adds fork-only features
+that live in `Packages/QuotioForkExtras/` — model-fallback routing
+(ProxyBridge + coordinator wrapping the upstream lifecycle controller),
+request logging, remote CLIProxyAPI connection, and Gemini CLI quota.
+Rules that keep future upstream merges cheap:
 
-## Project rules
-
-- Keep UI-facing mutable state on `@MainActor`; use `actor` for async services with mutable state.
-- DTOs crossing concurrency boundaries should be `Sendable`.
-- Use SwiftUI Observation patterns already present in the repo (`@Observable`, `@Environment`, `@Bindable`).
-- Do not put networking, persistence, process management, or OAuth logic directly in SwiftUI views.
-- User-facing strings should use the existing localization approach, not hardcoded view text.
-- Do not log or commit tokens, authorization headers, OAuth codes, cookies, secrets, or local config.
-- Treat user changes and untracked files as user-owned; never delete, clean, or overwrite them without explicit permission.
-
-## Invariants
-
-- `ProxyStorageManager`: never delete the current proxy version.
-- `AgentConfigurationService`: never overwrite existing backups.
-- `ProxyBridge`: target host must remain localhost.
-- `CLIProxyManager`: base URL must point directly to CLIProxyAPI.
-- Avoid `Text("localhost:\(port)")`; use `Text("localhost:" + String(port))` to prevent locale formatting.
-
-## Git
-
-- Never commit to `master`.
-- Before committing, inspect `git status`, `git diff`, and `git diff --cached`.
-- Check staged changes for secrets and generated build output.
-- Prefer concise conventional commit messages.
-
-Keep this file short and high-signal. Prefer pointers to source files over copied code or long directory listings.
+- Fork-owned code goes in `Packages/QuotioForkExtras` (or app-target wiring
+  in `apps/macos/Quotio/App/CompositionRoot.swift`); avoid scattering fork
+  logic into upstream files. Fork page registration goes through
+  `ForkPageRegistry` (Presentation seam).
+- Upstream-file edits are bounded to the seam list documented in
+  `openspec/changes/port-to-upstream-monorepo/design.md`.
+- Identity: bundle id is `dev.quotio.desktop` and counts as production
+  (AppIdentity); Sparkle/PostHog are intentionally absent (no-op adapters).
+- The app runs the bundled `cli-proxy-api-plus` binary (version+sha pinned
+  in `PlusBinaryStore`); never delete the active version; verify with
+  `./apps/macos/scripts/verify-bundled-proxy.sh`.
+- Bridge topology: ProxyBridge listens on the user port, the proxy binary
+  binds user+10000 on 127.0.0.1 only.
+- Sync model: `git fetch upstream && git merge upstream/master` on this
+  branch; expect conflicts only in the seam files.

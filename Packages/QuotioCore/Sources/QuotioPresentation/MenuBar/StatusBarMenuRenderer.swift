@@ -461,9 +461,9 @@ private struct ProviderIconMono: View {
             if let assetName = provider.menuBarIconAsset,
                let nsImage = NSImage(named: assetName) {
                 Image(nsImage: nsImage)
+                    .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .colorMultiply(.primary)
             } else {
                 Image(systemName: provider.iconName)
                     .resizable()

@@ -51,25 +51,16 @@ public extension QuotaProvider {
     }
 
     var logoAssetName: String {
-        switch self {
-        case .claude: "claude"
-        case .codex: "openai"
-        case .qwen: "qwen"
-        case .iflow: "iflow"
-        case .antigravity: "antigravity"
-        case .vertex: "vertex"
-        case .kiro: "kiro"
-        case .copilot: "copilot"
-        case .cursor: "cursor"
-        case .factoryDroid: "factory-droid"
-        case .devin: "devin"
-        case .grok: "grok"
-        case .openRouter: "openrouter"
-        case .amp: "amp"
-        case .trae: "trae"
-        case .glm: "glm"
-        case .warp: "warp"
-        case .clinePass: "clinepass"
+        switch rawValue {
+        case "alibabacodingplan": "alibaba"
+        case "azureopenai": "azureai"
+        case "codex": "openai"
+        case "devin", "devin-desktop": "devin"
+        case "factory": "factory-droid"
+        case "ibmbob": "ibm"
+        case "kilo": "kilocode"
+        case "opencodego": "opencode"
+        case "glm": "zai"
         default: rawValue
         }
     }
@@ -144,6 +135,7 @@ public extension QuotaProvider {
         case .iflow: "iflow-menubar"
         case .vertex: "vertex-menubar"
         case .cursor: "cursor-menubar"
+        case .factoryDroid: "factory-droid"
         case .amp: "amp-menubar"
         case .trae: "trae-menubar"
         case .glm: "glm-menubar"

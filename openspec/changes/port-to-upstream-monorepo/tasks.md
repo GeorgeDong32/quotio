@@ -7,15 +7,28 @@ tagged, committable state. Conventional commits; never commit to `master`.
 
 ## Phase 0 — Baseline bring-up (0.5–1d)
 
-- [ ] `git fetch upstream`; create `port/upstream-monorepo` from the fetched
+- [x] `git fetch upstream`; create `port/upstream-monorepo` from the fetched
       master tip (record the pinned SHA in this file).
-- [ ] Build upstream as-is: Debug build (the "Embed Quotio CLI" phase must
+- [x] Build upstream as-is: Debug build (the "Embed Quotio CLI" phase must
       succeed — requires local rustup/cargo), plus `swift test` in
       `Packages/QuotioCore`.
-- [ ] Create `Packages/QuotioForkExtras` skeleton (Package.swift with target
+      - Rust toolchain: rustup.rs and static.rust-lang.org are blocked on this
+        network; installed via `brew install rust` (cargo 1.98.1). crates.io
+        access is intermittent — `cargo fetch` may need a retry.
+      - Baseline Debug build green (0 errors / 0 warnings); `quotio-cli`
+        helper (57 MB) embedded by the build phase.
+      - `swift test`: 503 tests, 1 known environment-dependent failure —
+        `AgentDetectionAdapterTests.testForceRefreshInvalidatesSixtySecondCache`
+        scans `/opt/homebrew/bin` etc. (commonBinaryPaths) and this machine has
+        a real `claude` installed, so `installed` cannot become false. Green in
+        upstream CI, red on any dev machine with claude via homebrew. Port
+        gate = no NEW failures.
+- [x] Create `Packages/QuotioForkExtras` skeleton (Package.swift with target
       + test target depending on QuotioCore products), wire into the xcodeproj,
       confirm `check_architecture.sh` and architecture tests still pass.
-- [ ] Tag `port/phase-0-green`.
+      (pbxproj uses fork IDs `F2…`; incremental build green with the package
+      compiled and linked.)
+- [x] Tag `port/phase-0-green`.
 
 ## Phase 1 — Identity & hygiene (1–2d)
 

@@ -11,6 +11,7 @@
 		B20000000000000000000022 /* QuotioApplication in Frameworks */ = {isa = PBXBuildFile; productRef = B20000000000000000000012 /* QuotioApplication */; };
 		B20000000000000000000023 /* QuotioInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = B20000000000000000000013 /* QuotioInfrastructure */; };
 		B20000000000000000000024 /* QuotioPresentation in Frameworks */ = {isa = PBXBuildFile; productRef = B20000000000000000000014 /* QuotioPresentation */; };
+		F20000000000000000000021 /* QuotioForkExtras in Frameworks */ = {isa = PBXBuildFile; productRef = F20000000000000000000011 /* QuotioForkExtras */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,7 @@
 				B20000000000000000000022 /* QuotioApplication in Frameworks */,
 				B20000000000000000000023 /* QuotioInfrastructure in Frameworks */,
 				B20000000000000000000024 /* QuotioPresentation in Frameworks */,
+				F20000000000000000000021 /* QuotioForkExtras in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +158,7 @@
 				B20000000000000000000012 /* QuotioApplication */,
 				B20000000000000000000013 /* QuotioInfrastructure */,
 				B20000000000000000000014 /* QuotioPresentation */,
+				F20000000000000000000011 /* QuotioForkExtras */,
 			);
 			productName = Quotio;
 			productReference = 78D386942EFBF30400C40FB6 /* Quotio.app */;
@@ -193,6 +196,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				B20000000000000000000001 /* XCLocalSwiftPackageReference "Packages/QuotioCore" */,
+				F20000000000000000000001 /* XCLocalSwiftPackageReference "Packages/QuotioForkExtras" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 78D386952EFBF30400C40FB6 /* Products */;
@@ -554,6 +558,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../Packages/QuotioCore;
 		};
+		F20000000000000000000001 /* XCLocalSwiftPackageReference "Packages/QuotioForkExtras" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../Packages/QuotioForkExtras;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -576,6 +584,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B20000000000000000000001 /* XCLocalSwiftPackageReference "Packages/QuotioCore" */;
 			productName = QuotioPresentation;
+		};
+		F20000000000000000000011 /* QuotioForkExtras */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F20000000000000000000001 /* XCLocalSwiftPackageReference "Packages/QuotioForkExtras" */;
+			productName = QuotioForkExtras;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

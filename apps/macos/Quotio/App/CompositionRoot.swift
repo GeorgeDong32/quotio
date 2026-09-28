@@ -77,6 +77,13 @@ enum CompositionRoot {
             dateProvider: SystemDateProvider(),
             installedVersionLimit: AppConstants.maxInstalledVersions
         )
+        // Fork upgrade path: pre-port installs ran the bridge on 8080 (the
+        // fork default) without persisting `proxyPort`. Seed it so upgraded
+        // agents keep their endpoints; fresh installs have no config.yaml yet.
+        if UserDefaults.standard.object(forKey: "proxyPort") == nil,
+           FileManager.default.fileExists(atPath: paths.configPath) {
+            UserDefaults.standard.set(8080, forKey: "proxyPort")
+        }
         let userProxyPort = UserDefaultsProxyRuntimeMetadataRepository().loadPort()
         let proxyBridge = ProxyBridge()
         // Fork: request logging — bridge completions feed the fork tracker.

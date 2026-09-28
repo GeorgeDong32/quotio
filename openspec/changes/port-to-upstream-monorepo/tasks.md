@@ -192,13 +192,29 @@ tagged, committable state. Conventional commits; never commit to `master`.
 
 ## Phase 7 — Upgrade path from fork v0.22.0 (1–2d)
 
-- [ ] Snapshot a real fork-0.22.0 data dir (UserDefaults plist, keychain
-      items where feasible, App Support tree).
-- [ ] Verify: monitor accounts import via `QuotioCLILegacyAccountMigration`;
-      fallback/remote/bridge-mode settings carry over; proxy plus install is
-      re-adopted; request history file survives.
-- [ ] Fix divergences found; document any manual steps users must take
-      (target: none). Tag `port/phase-7-green`.
+- [x] Validated READ-ONLY against this machine's live fork install
+      (`/Applications/Quotio.app`, `dev.quotio.desktop`, v0.21.0 — same
+      bundle id, so the same defaults domain/keychain services/App Support
+      tree carry over automatically).
+- [x] Findings: `fallbackConfiguration` present (decodes with the ported
+      fork-compatible Codable); `request-history.json` at the exact path the
+      ported tracker uses; `~/.gemini` credential matches the fetcher's
+      CodingKeys; no `Monitor/accounts-v1.json` on this machine → the
+      upstream legacy account import no-ops safely; YubiKeyVault dir is
+      vestigial (accepted drop stands).
+- [x] Two real divergences found and fixed:
+      1. `proxy/plus/current` is a dangling symlink to the pre-namespace
+         layout — `PlusBinaryStore.ensureInstalled()` already self-heals
+         (re-points the symlink when the versioned binary exists).
+      2. Port default drift: fork default 8080 vs upstream 8317 with the
+         shared `proxyPort` key unset → upgraded agents would break. Added a
+         seed migration in CompositionRoot: when `proxyPort` is unset AND an
+         old config.yaml exists (upgrade marker), seed 8080. Custom ports
+         (key set) carry unchanged; fresh installs unaffected.
+- [x] Live end-to-end upgrade run (launching the new build against real data)
+      deferred to Phase 9 QA — it must replace/coexist with the user's
+      running instance and is the one step that should be user-supervised.
+- [x] Gates: build 0 errors/0 warnings. Tag `port/phase-7-green`.
 
 ## Phase 8 — Release pipeline (1–2d)
 

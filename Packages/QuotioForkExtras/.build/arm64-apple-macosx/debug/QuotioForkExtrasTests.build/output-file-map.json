@@ -1,0 +1,19 @@
+{
+  "": {
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/primary.swiftdeps"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Tests/QuotioForkExtrasTests/FallbackEngineTests.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackEngineTests.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackEngineTests.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackEngineTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackEngineTests.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/FallbackEngineTests.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Tests/QuotioForkExtrasTests/ForkExtrasTests.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/ForkExtrasTests.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/ForkExtrasTests.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/ForkExtrasTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/ForkExtrasTests.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasTests.build/ForkExtrasTests.dia"
+  }
+}

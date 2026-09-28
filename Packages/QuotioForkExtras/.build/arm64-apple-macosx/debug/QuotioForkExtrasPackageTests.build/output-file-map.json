@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasPackageTests.build/primary.swiftdeps"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasPackageTests.derived/runner.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasPackageTests.build/runner.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasPackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasPackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasPackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtrasPackageTests.build/runner.dia"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "": {
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/primary.swiftdeps"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioHostClient/Sources/QuotioHostClient/QuotioHostDiscovery.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostDiscovery.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostDiscovery.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostDiscovery~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostDiscovery.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostDiscovery.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioHostClient/Sources/QuotioHostClient/QuotioHostHTTPClient.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostHTTPClient.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostHTTPClient.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostHTTPClient~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostHTTPClient.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostHTTPClient.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioHostClient/Sources/QuotioHostClient/QuotioHostProviders.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostProviders.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostProviders.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostProviders~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostProviders.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostProviders.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioHostClient/Sources/QuotioHostClient/QuotioHostSettings.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSettings.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSettings.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSettings~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSettings.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSettings.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioHostClient/Sources/QuotioHostClient/QuotioHostSnapshot.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSnapshot.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSnapshot.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSnapshot~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSnapshot.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSnapshot.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioHostClient/Sources/QuotioHostClient/QuotioHostSupplemental.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSupplemental.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSupplemental.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSupplemental~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSupplemental.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/QuotioHostSupplemental.dia"
+  }
+}

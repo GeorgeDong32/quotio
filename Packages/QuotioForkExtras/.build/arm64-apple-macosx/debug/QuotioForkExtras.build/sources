@@ -1,0 +1,10 @@
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Adapters/NoOpApplicationUpdateChecker.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Adapters/NoOpTelemetryTracker.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackFormatConverter.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackModels.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackProvider.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackSettingsManager.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ProxyBridge.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLog.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestTracker.swift

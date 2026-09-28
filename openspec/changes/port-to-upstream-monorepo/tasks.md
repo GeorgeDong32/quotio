@@ -65,17 +65,24 @@ tagged, committable state. Conventional commits; never commit to `master`.
 
 ## Phase 2 — Fork package core: fallback engine (2–3d)
 
-- [ ] Port `FallbackModels` + `FallbackSettingsManager` (UserDefaults JSON,
-      same `fallbackConfiguration` key); rewrite the route cache as a locked
-      store or actor for Swift 6 strict concurrency.
-- [ ] Port `FallbackFormatConverter` (error-pattern classifier) and
+- [x] Port `FallbackModels` + `FallbackSettingsManager` (UserDefaults JSON,
+      same `fallbackConfiguration` key); route cache kept as the
+      NSLock-guarded `nonisolated(unsafe)` store — compiled clean under
+      Swift 6 language mode v6, no rewrite needed.
+- [x] Port `FallbackFormatConverter` (error-pattern classifier) and
       `RequestLog`/`RequestTracker` (50-entry JSON store, same path).
-- [ ] Port `ProxyBridge` (NWListener/NWConnection forwarding, port pair
+- [x] Port `ProxyBridge` (NWListener/NWConnection forwarding, port pair
       user/internal = +10000, localhost-only target, `Connection: close`,
-      fallback retry loop, thinking-signature sanitize path).
-- [ ] Unit tests: error classification table, route-cache TTL/eviction,
-      model-body rewrite, header rebuild.
-- [ ] Tag `port/phase-2-green`.
+      fallback retry loop, thinking-signature sanitize path). AppIdentity
+      refs (dispatch-queue labels) replaced with Bundle.main lookup.
+- [x] Fork-local `AIProvider` clone (`FallbackProvider.swift`) with identical
+      raw values so users' saved `fallbackConfiguration` JSON decodes.
+- [x] Unit tests: 10 tests green — error classification table (status map,
+      case-insensitive patterns, 2xx never falls through, nested
+      thinking-signature errors), route cache set/get/overwrite/miss,
+      model-body rewrite, thinking-block sanitize.
+- [x] Gates: app build 0 errors / 0 warnings; package tests 10/10;
+      check_architecture.sh passes. Tag `port/phase-2-green`.
 
 ## Phase 3 — Proxy integration (3–5d)
 

@@ -1,0 +1,3 @@
+module QuotioHostClient {
+    header "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioHostClient.build/include/QuotioHostClient-Swift.h"
+}

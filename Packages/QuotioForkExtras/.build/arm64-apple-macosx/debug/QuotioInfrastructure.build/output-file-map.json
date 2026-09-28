@@ -1,0 +1,404 @@
+{
+  "": {
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/primary.swiftdeps"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Accounts/FileAntigravityAuthWorkaround.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAntigravityAuthWorkaround.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAntigravityAuthWorkaround.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAntigravityAuthWorkaround~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAntigravityAuthWorkaround.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAntigravityAuthWorkaround.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Accounts/LocalProxyOAuthAuthorizer.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/LocalProxyOAuthAuthorizer.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/LocalProxyOAuthAuthorizer.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/LocalProxyOAuthAuthorizer~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/LocalProxyOAuthAuthorizer.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/LocalProxyOAuthAuthorizer.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Accounts/ProcessProxyCLIAuthenticator.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProcessProxyCLIAuthenticator.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProcessProxyCLIAuthenticator.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProcessProxyCLIAuthenticator~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProcessProxyCLIAuthenticator.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProcessProxyCLIAuthenticator.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/AgentDetectionAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentDetectionAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentDetectionAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentDetectionAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentDetectionAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentDetectionAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/AgentFileStore.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentFileStore.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentFileStore.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentFileStore~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentFileStore.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentFileStore.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/AgentJSONConfigurationCodec.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentJSONConfigurationCodec.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentJSONConfigurationCodec.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentJSONConfigurationCodec~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentJSONConfigurationCodec.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentJSONConfigurationCodec.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/AgentModelCatalogHTTPAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentModelCatalogHTTPAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentModelCatalogHTTPAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentModelCatalogHTTPAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentModelCatalogHTTPAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AgentModelCatalogHTTPAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/AmpAgentConfigurationAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AmpAgentConfigurationAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AmpAgentConfigurationAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AmpAgentConfigurationAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AmpAgentConfigurationAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AmpAgentConfigurationAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/ClaudeCodeAgentConfigurationAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ClaudeCodeAgentConfigurationAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ClaudeCodeAgentConfigurationAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ClaudeCodeAgentConfigurationAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ClaudeCodeAgentConfigurationAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ClaudeCodeAgentConfigurationAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/CodexAgentConfigurationAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CodexAgentConfigurationAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CodexAgentConfigurationAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CodexAgentConfigurationAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CodexAgentConfigurationAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CodexAgentConfigurationAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/CodexConfigurationCodec.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CodexConfigurationCodec.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CodexConfigurationCodec.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CodexConfigurationCodec~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CodexConfigurationCodec.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CodexConfigurationCodec.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/CopilotAvailableModelCatalog.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CopilotAvailableModelCatalog.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CopilotAvailableModelCatalog.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CopilotAvailableModelCatalog~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CopilotAvailableModelCatalog.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CopilotAvailableModelCatalog.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/FactoryDroidAgentConfigurationAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FactoryDroidAgentConfigurationAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FactoryDroidAgentConfigurationAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FactoryDroidAgentConfigurationAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FactoryDroidAgentConfigurationAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FactoryDroidAgentConfigurationAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/OpenCodeAgentConfigurationAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OpenCodeAgentConfigurationAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OpenCodeAgentConfigurationAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OpenCodeAgentConfigurationAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OpenCodeAgentConfigurationAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OpenCodeAgentConfigurationAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/OpenCodeConfigEditor.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OpenCodeConfigEditor.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OpenCodeConfigEditor.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OpenCodeConfigEditor~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OpenCodeConfigEditor.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OpenCodeConfigEditor.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Agents/ShellProfileAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ShellProfileAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ShellProfileAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ShellProfileAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ShellProfileAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ShellProfileAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Antigravity/AntigravityAccountSwitcher.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravityAccountSwitcher.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravityAccountSwitcher.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravityAccountSwitcher~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravityAccountSwitcher.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravityAccountSwitcher.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Antigravity/AntigravityProtobuf.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravityProtobuf.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravityProtobuf.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravityProtobuf~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravityProtobuf.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravityProtobuf.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Antigravity/AntigravitySystemAdapters.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravitySystemAdapters.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravitySystemAdapters.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravitySystemAdapters~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravitySystemAdapters.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/AntigravitySystemAdapters.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Credentials/FileAuthFileRepository.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAuthFileRepository.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAuthFileRepository.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAuthFileRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAuthFileRepository.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAuthFileRepository.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Credentials/KeychainCredentialStores.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/KeychainCredentialStores.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/KeychainCredentialStores.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/KeychainCredentialStores~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/KeychainCredentialStores.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/KeychainCredentialStores.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Credentials/ProxyManagementKeyVaultAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyManagementKeyVaultAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyManagementKeyVaultAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyManagementKeyVaultAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyManagementKeyVaultAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyManagementKeyVaultAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Credentials/YubiKeySecretVault.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/YubiKeySecretVault.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/YubiKeySecretVault.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/YubiKeySecretVault~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/YubiKeySecretVault.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/YubiKeySecretVault.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/CustomProviders/CustomProviderAdapters.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CustomProviderAdapters.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CustomProviderAdapters.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CustomProviderAdapters~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CustomProviderAdapters.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CustomProviderAdapters.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/CustomProviders/CustomProviderYAMLSerializer.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CustomProviderYAMLSerializer.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CustomProviderYAMLSerializer.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CustomProviderYAMLSerializer~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CustomProviderYAMLSerializer.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CustomProviderYAMLSerializer.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/HTTP/ProxyNetworkAdapters.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyNetworkAdapters.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyNetworkAdapters.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyNetworkAdapters~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyNetworkAdapters.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyNetworkAdapters.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/HTTP/URLSessionOAuthHTTPTransport.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/URLSessionOAuthHTTPTransport.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/URLSessionOAuthHTTPTransport.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/URLSessionOAuthHTTPTransport~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/URLSessionOAuthHTTPTransport.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/URLSessionOAuthHTTPTransport.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Lifecycle/ContinuousSleeper.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ContinuousSleeper.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ContinuousSleeper.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ContinuousSleeper~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ContinuousSleeper.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ContinuousSleeper.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Lifecycle/SystemDateProvider.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SystemDateProvider.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SystemDateProvider.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SystemDateProvider~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SystemDateProvider.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SystemDateProvider.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Logs/ManagementAPIClient.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ManagementAPIClient.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ManagementAPIClient.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ManagementAPIClient~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ManagementAPIClient.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ManagementAPIClient.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Persistence/FileAccountMetadataRepository.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAccountMetadataRepository.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAccountMetadataRepository.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAccountMetadataRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAccountMetadataRepository.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAccountMetadataRepository.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Persistence/FileAccountSnapshotDataStore.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAccountSnapshotDataStore.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAccountSnapshotDataStore.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAccountSnapshotDataStore~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAccountSnapshotDataStore.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileAccountSnapshotDataStore.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Persistence/SecureAtomicFileWriter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SecureAtomicFileWriter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SecureAtomicFileWriter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SecureAtomicFileWriter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SecureAtomicFileWriter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SecureAtomicFileWriter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Persistence/SecureWarpTokenRepository.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SecureWarpTokenRepository.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SecureWarpTokenRepository.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SecureWarpTokenRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SecureWarpTokenRepository.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/SecureWarpTokenRepository.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Persistence/UserDefaultsPreferenceRepositories.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsPreferenceRepositories.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsPreferenceRepositories.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsPreferenceRepositories~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsPreferenceRepositories.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsPreferenceRepositories.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Persistence/UserDefaultsProviderTrackingPreferencesRepository.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProviderTrackingPreferencesRepository.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProviderTrackingPreferencesRepository.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProviderTrackingPreferencesRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProviderTrackingPreferencesRepository.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProviderTrackingPreferencesRepository.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Persistence/UserDefaultsProxyRuntimeMetadataRepository.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProxyRuntimeMetadataRepository.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProxyRuntimeMetadataRepository.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProxyRuntimeMetadataRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProxyRuntimeMetadataRepository.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProxyRuntimeMetadataRepository.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Persistence/UserDefaultsWarpTokenRepository.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsWarpTokenRepository.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsWarpTokenRepository.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsWarpTokenRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsWarpTokenRepository.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsWarpTokenRepository.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Platform/BundleTelemetryRuntimeContextProvider.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/BundleTelemetryRuntimeContextProvider.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/BundleTelemetryRuntimeContextProvider.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/BundleTelemetryRuntimeContextProvider~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/BundleTelemetryRuntimeContextProvider.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/BundleTelemetryRuntimeContextProvider.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Platform/MacOSPlatformAdapters.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/MacOSPlatformAdapters.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/MacOSPlatformAdapters.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/MacOSPlatformAdapters~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/MacOSPlatformAdapters.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/MacOSPlatformAdapters.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Platform/OSApplicationLogger.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OSApplicationLogger.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OSApplicationLogger.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OSApplicationLogger~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OSApplicationLogger.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/OSApplicationLogger.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Platform/ProviderImageCacheAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProviderImageCacheAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProviderImageCacheAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProviderImageCacheAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProviderImageCacheAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProviderImageCacheAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Platform/UserNotificationCenterAdapter.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserNotificationCenterAdapter.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserNotificationCenterAdapter.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserNotificationCenterAdapter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserNotificationCenterAdapter.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserNotificationCenterAdapter.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Process/ProxyProcessController.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyProcessController.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyProcessController.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyProcessController~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyProcessController.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/ProxyProcessController.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Proxy/FileProxyConfigurationRepository.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileProxyConfigurationRepository.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileProxyConfigurationRepository.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileProxyConfigurationRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileProxyConfigurationRepository.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileProxyConfigurationRepository.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Proxy/FileProxyVersionRepository.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileProxyVersionRepository.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileProxyVersionRepository.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileProxyVersionRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileProxyVersionRepository.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/FileProxyVersionRepository.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Proxy/URLSessionProxyManagementAPI.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/URLSessionProxyManagementAPI.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/URLSessionProxyManagementAPI.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/URLSessionProxyManagementAPI~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/URLSessionProxyManagementAPI.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/URLSessionProxyManagementAPI.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/QuotioCLI/QuotioCLIBackend.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIBackend.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIBackend.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIBackend~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIBackend.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIBackend.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/QuotioCLI/QuotioCLILegacyAccountMigration.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLILegacyAccountMigration.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLILegacyAccountMigration.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLILegacyAccountMigration~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLILegacyAccountMigration.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLILegacyAccountMigration.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/QuotioCLI/QuotioCLIModels.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIModels.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIModels.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIModels~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIModels.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIModels.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/QuotioCLI/QuotioCLIOAuthAuthorizer.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIOAuthAuthorizer.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIOAuthAuthorizer.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIOAuthAuthorizer~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIOAuthAuthorizer.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIOAuthAuthorizer.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/QuotioCLI/QuotioCLIServerProcess.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIServerProcess.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIServerProcess.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIServerProcess~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIServerProcess.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioCLIServerProcess.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/QuotioCLI/QuotioHostPresentationMapper.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioHostPresentationMapper.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioHostPresentationMapper.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioHostPresentationMapper~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioHostPresentationMapper.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioHostPresentationMapper.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/QuotioInfrastructureModule.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioInfrastructureModule.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioInfrastructureModule.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioInfrastructureModule~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioInfrastructureModule.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/QuotioInfrastructureModule.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Tunnel/CloudflaredService.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CloudflaredService.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CloudflaredService.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CloudflaredService~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CloudflaredService.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/CloudflaredService.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Updates/GitHubAtomProxyUpdateFeed.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/GitHubAtomProxyUpdateFeed.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/GitHubAtomProxyUpdateFeed.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/GitHubAtomProxyUpdateFeed~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/GitHubAtomProxyUpdateFeed.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/GitHubAtomProxyUpdateFeed.dia"
+  },
+  "/Users/gd32/Coding/quotio/Packages/QuotioCore/Sources/QuotioInfrastructure/Updates/UserDefaultsProxyUpdateNotificationRecord.swift": {
+    "dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProxyUpdateNotificationRecord.d",
+    "object": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProxyUpdateNotificationRecord.swift.o",
+    "swiftmodule": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProxyUpdateNotificationRecord~partial.swiftmodule",
+    "swift-dependencies": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProxyUpdateNotificationRecord.swiftdeps",
+    "diagnostics": "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioInfrastructure.build/UserDefaultsProxyUpdateNotificationRecord.dia"
+  }
+}

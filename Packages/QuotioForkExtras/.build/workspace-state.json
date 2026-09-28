@@ -1,0 +1,41 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "quotiocore",
+          "kind" : "fileSystem",
+          "location" : "/Users/gd32/Coding/quotio/Packages/QuotioCore",
+          "name" : "QuotioCore"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/gd32/Coding/quotio/Packages/QuotioCore"
+        },
+        "subpath" : "quotiocore"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "quotiohostclient",
+          "kind" : "fileSystem",
+          "location" : "/Users/gd32/Coding/quotio/Packages/QuotioHostClient",
+          "name" : "QuotioHostClient"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/gd32/Coding/quotio/Packages/QuotioHostClient"
+        },
+        "subpath" : "quotiohostclient"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

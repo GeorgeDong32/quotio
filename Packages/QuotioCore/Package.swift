@@ -15,8 +15,6 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../QuotioHostClient"),
-        .package(url: "https://github.com/PostHog/posthog-ios.git", exact: "3.64.1"),
-        .package(url: "https://github.com/sparkle-project/Sparkle", exact: "2.8.1"),
     ],
     targets: [
         .target(name: "QuotioDomain"),
@@ -30,8 +28,6 @@ let package = Package(
                 .product(name: "QuotioHostClient", package: "QuotioHostClient"),
                 "QuotioApplication",
                 "QuotioDomain",
-                .product(name: "PostHog", package: "posthog-ios"),
-                .product(name: "Sparkle", package: "Sparkle"),
             ]
         ),
         .target(

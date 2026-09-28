@@ -2,6 +2,7 @@ import AppKit
 import Foundation
 import QuotioApplication
 import QuotioDomain
+import QuotioForkExtras
 import QuotioInfrastructure
 import QuotioPresentation
 
@@ -143,8 +144,9 @@ enum CompositionRoot {
         }
 
         let updatePreferences = UserDefaultsUpdatePreferencesRepository()
+        // Fork: auto-update removed — no-op checker instead of Sparkle.
         let applicationUpdateController = ApplicationUpdateController(
-            checker: SparkleApplicationUpdateAdapter(),
+            checker: NoOpApplicationUpdateChecker(),
             preferencesRepository: updatePreferences,
             icon: AppKitUpdaterIconAdapter()
         )
@@ -154,9 +156,10 @@ enum CompositionRoot {
         let notificationSettingsModel = NotificationSettingsScreenModel(
             controller: notificationController
         )
+        // Fork: telemetry removed — no-op tracker instead of PostHog.
         let telemetryController = TelemetryController(
             repository: UserDefaultsTelemetryPreferencesRepository(),
-            tracker: PostHogTelemetryAdapter(),
+            tracker: NoOpTelemetryTracker(),
             contextProvider: BundleTelemetryRuntimeContextProvider(),
             updatePreferencesRepository: updatePreferences
         )

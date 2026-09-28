@@ -2,16 +2,18 @@ import XCTest
 @testable import Quotio
 
 final class AppIdentityTests: XCTestCase {
-    func testProductionBundleIdentifierUsesByTrongDomain() {
-        XCTAssertEqual(AppIdentity.productionBundleIdentifier, "app.bytrong.quotio")
+    // Fork: ships as dev.quotio.desktop, which counts as production for
+    // capability gates; the upstream bytrong domain is a legacy id here.
+    func testProductionBundleIdentifierUsesForkDomain() {
+        XCTAssertEqual(AppIdentity.productionBundleIdentifier, "dev.quotio.desktop")
         XCTAssertEqual(
             AppIdentity.quotioCLIVaultNamespace(for: AppIdentity.productionBundleIdentifier),
             "quotio-macos"
         )
-        let development = AppIdentity.quotioCLIVaultNamespace(for: "app.bytrong.quotio.dev")
-        XCTAssertNotEqual(development, "quotio-macos")
-        XCTAssertLessThanOrEqual(development.count, 32)
-        XCTAssertTrue(development.allSatisfy { $0.isLowercase || $0.isNumber || $0 == "-" })
+        let legacy = AppIdentity.quotioCLIVaultNamespace(for: "app.bytrong.quotio")
+        XCTAssertNotEqual(legacy, "quotio-macos")
+        XCTAssertLessThanOrEqual(legacy.count, 32)
+        XCTAssertTrue(legacy.allSatisfy { $0.isLowercase || $0.isNumber || $0 == "-" })
     }
 
     func testApplicationBundleContainsExecutableQuotioCLIHelper() {

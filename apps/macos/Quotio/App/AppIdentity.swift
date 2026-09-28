@@ -7,9 +7,12 @@ import Foundation
 import CryptoKit
 
 nonisolated enum AppIdentity {
-    static let productionBundleIdentifier = "app.bytrong.quotio"
+    // Fork identity: this fork ships as dev.quotio.desktop (inherited from
+    // the pre-rename app), so it must count as production for capability
+    // gates (legacy credential migration, keychain migration).
+    static let productionBundleIdentifier = "dev.quotio.desktop"
     static let legacyBundleIdentifiers = [
-        "dev.quotio.desktop",
+        "app.bytrong.quotio",
         "proseek.io.vn.Quotio",
     ]
 

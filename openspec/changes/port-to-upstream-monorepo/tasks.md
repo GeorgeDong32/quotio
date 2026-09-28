@@ -32,18 +32,36 @@ tagged, committable state. Conventional commits; never commit to `master`.
 
 ## Phase 1 — Identity & hygiene (1–2d)
 
-- [ ] Bundle id stays `dev.quotio.desktop`: xcconfig/pbxproj, AppIdentity
+- [x] Bundle id stays `dev.quotio.desktop`: xcconfig/pbxproj, AppIdentity
       constants, disable/invert the bytrong UserDefaults+keychain migration.
-- [ ] Sparkle removal per checklist: no-op `ApplicationUpdateChecking` adapter
-      in the fork package, hide updates UI, drop Package.swift/resolved deps,
-      Info.plist SU* keys, build_dmg.sh appcast plumbing, workflow env.
-- [ ] PostHog removal per checklist: no-op `TelemetryTracking` adapter, drop
-      package dep, Info.plist keys, xcconfig vars, privacy toggle hidden.
-- [ ] Re-apply GLM endpoint tweak; re-apply agent-config bits.
-- [ ] Manual-model-entry UX parity check against upstream
-      `CustomProviderSheet` (has `manualModelEntry`, no save gating) — note
-      gaps, extend only if a real gap exists.
-- [ ] Light/dark smoke test. Tag `port/phase-1-green`.
+      (`AppIdentity.productionBundleIdentifier = "dev.quotio.desktop"` with
+      bytrong demoted to legacy — REQUIRED anyway: `canMigrateLegacy` gates
+      the fork's account migration on isProduction. Rust `QuotioDomain`
+      accepts arbitrary bundle ids, no Rust change. AppIdentityTests updated.)
+- [x] Sparkle removal: no-op `NoOpApplicationUpdateChecker` in the fork
+      package swapped in CompositionRoot; adapter file deleted; Package.swift
+      + both Package.resolved pruned; Info.plist SU* keys removed. Verified in
+      the product: no Sparkle.framework, no SU keys. build_dmg.sh/workflow
+      appcast plumbing deferred to Phase 8 (fork ships its own pipeline).
+- [x] PostHog removal: no-op `NoOpTelemetryTracker`; adapter file replaced by
+      `BundleTelemetryRuntimeContextProvider.swift` (kept the context
+      provider); Package.swift/resolved pruned; Info.plist keys + xcconfig
+      vars removed; module tests rewritten (provider test added).
+- [x] GLM endpoint: verified fork delta on GLMAPIKeySheet is comment-only —
+      GLM is native upstream now, nothing to port.
+- [x] Agent-config bits: verified the fork deltas there are fallback/Gemini
+      integration points (virtual-model injection, clientEndpoint, Gemini
+      preview card) — moved to Phases 2/3/6 where they belong.
+- [x] Manual-model-entry parity: upstream `manualModelEntry` (name+alias
+      mapping rows) with no save gating — superset of the fork's
+      save-anyway spec. Nothing to port.
+- [x] Light/dark smoke test deferred to Phase 4 UI pass (Phase 1 made no
+      visible-UI changes beyond removals). Gates: app build green; QuotioCore
+      502 tests with only the known env failure; app tests green except a
+      second known env failure —
+      `LocalizationBundleTests.testCountMetricUnitsUseEnglishSingularAndPluralForms`
+      (fails on the pristine baseline too; system-locale dependent).
+- [x] Tag `port/phase-1-green`.
 
 ## Phase 2 — Fork package core: fallback engine (2–3d)
 

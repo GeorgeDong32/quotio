@@ -92,6 +92,9 @@ enum CompositionRoot {
                 RequestTracker.shared.addRequest(from: metadata)
             }
         }
+        // Start the tracker with the app (the fork started it with the proxy;
+        // without this, history only loads when the logs page first opens).
+        RequestTracker.shared.start()
         let proxyCoordinator = FallbackProxyLifecycleCoordinator(
             controller: proxyController,
             bridge: proxyBridge,

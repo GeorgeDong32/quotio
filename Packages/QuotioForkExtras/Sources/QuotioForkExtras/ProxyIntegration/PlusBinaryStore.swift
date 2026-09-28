@@ -129,9 +129,10 @@ public final class PlusBinaryStore: Sendable {
         guard fileManager.fileExists(atPath: versionDir.appendingPathComponent(Self.binaryName).path) else {
             throw PlusBinaryError.installationFailed("Version \(Self.plusLocalVersion) is not installed")
         }
-        if fileManager.fileExists(atPath: symlink.path) {
-            try fileManager.removeItem(at: symlink)
-        }
+        // fileExists resolves symlinks, so a DANGLING `current` link reports
+        // as absent and createSymbolicLink would then fail on the occupied
+        // path. Remove unconditionally — unlink works on dangling links too.
+        try? fileManager.removeItem(at: symlink)
         try fileManager.createSymbolicLink(at: symlink, withDestinationURL: versionDir)
     }
 

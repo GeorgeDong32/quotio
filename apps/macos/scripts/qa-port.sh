@@ -7,7 +7,7 @@ set -uo pipefail
 
 APP="${1:-$HOME/Coding/quotio/.portbuild/DerivedData/Build/Products/Debug/Quotio.app}"
 BRIDGE_PORT="${BRIDGE_PORT:-8080}"
-INTERNAL_PORT="${INTERNAL_PORT:-27080}"
+INTERNAL_PORT="${INTERNAL_PORT:-18080}"
 CONFIG="$HOME/Library/Application Support/Quotio/config.yaml"
 HISTORY="$HOME/Library/Application Support/Quotio/request-history.json"
 VIRTUAL_MODEL="${VIRTUAL_MODEL:-haiku}"

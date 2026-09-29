@@ -52,23 +52,14 @@ public struct APIKeysScreen: View {
             }
 
             Section {
-                TextField("apiKeys.newKeyPlaceholder".localized(), text: $newKey)
-                    .textFieldStyle(.roundedBorder)
-                    .font(.system(.body, design: .monospaced))
-                    .autocorrectionDisabled()
-                    .truncationMode(.middle)
-                    .frame(width: 380, alignment: .leading)
-                    .focused($keyFieldFocused)
-                HStack {
-                    Button("apiKeys.add".localized()) {
-                        Task {
-                            await model.add(key: newKey)
-                            newKey = ""
-                        }
-                    }
-                    .disabled(newKey.trimmingCharacters(in: .whitespaces).isEmpty)
-
-                    Spacer()
+                HStack(spacing: 8) {
+                    TextField("apiKeys.newKeyPlaceholder".localized(), text: $newKey)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.system(.body, design: .monospaced))
+                        .autocorrectionDisabled()
+                        .truncationMode(.middle)
+                        .frame(width: 300, alignment: .leading)
+                        .focused($keyFieldFocused)
 
                     Button("apiKeys.generate".localized()) {
                         // Draft mode: fill the field for review/editing;
@@ -76,6 +67,17 @@ public struct APIKeysScreen: View {
                         newKey = APIKeysScreenModel.generateKey()
                         keyFieldFocused = true
                     }
+
+                    Spacer()
+
+                    Button("apiKeys.add".localized()) {
+                        Task {
+                            await model.add(key: newKey)
+                            newKey = ""
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(newKey.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             } header: {
                 Text("apiKeys.addKey".localized())

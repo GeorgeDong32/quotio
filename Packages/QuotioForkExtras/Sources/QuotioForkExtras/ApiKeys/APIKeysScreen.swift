@@ -14,6 +14,7 @@ public struct APIKeysScreen: View {
 
     @Environment(APIKeysScreenModel.self) private var model
     @State private var newKey = ""
+    @FocusState private var keyFieldFocused: Bool
 
     public var body: some View {
         Form {
@@ -53,6 +54,7 @@ public struct APIKeysScreen: View {
             Section {
                 TextField("apiKeys.newKeyPlaceholder".localized(), text: $newKey)
                     .autocorrectionDisabled()
+                    .focused($keyFieldFocused)
                 HStack {
                     Button("apiKeys.add".localized()) {
                         Task {
@@ -65,11 +67,16 @@ public struct APIKeysScreen: View {
                     Spacer()
 
                     Button("apiKeys.generate".localized()) {
-                        Task { await model.addGeneratedKey() }
+                        // Draft mode: fill the field for review/editing;
+                        // nothing is saved until "Add" is clicked.
+                        newKey = APIKeysScreenModel.generateKey()
+                        keyFieldFocused = true
                     }
                 }
             } header: {
                 Text("apiKeys.addKey".localized())
+            } footer: {
+                Text("apiKeys.draftHint".localized())
             }
 
             if let error = model.lastError {

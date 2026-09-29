@@ -1,5 +1,7 @@
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Adapters/NoOpApplicationUpdateChecker.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Adapters/NoOpTelemetryTracker.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ApiKeys/APIKeysScreen.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ApiKeys/APIKeysScreenModel.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackFormatConverter.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackModels.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackProvider.swift
@@ -10,9 +12,6 @@
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ForkProviderIcon.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ProxyBridge.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift
-/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiCLIQuotaFetcher.swift
-/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreen.swift
-/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreenModel.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/BridgePortMetadataRepository.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/FallbackProxyLifecycleCoordinator.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/PlusBinaryStore.swift

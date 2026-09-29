@@ -762,6 +762,14 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ApiKeys/APIKeysScreen.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ApiKeys/APIKeysScreenModel.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackFormatConverter.swift"
         },
         {
@@ -799,18 +807,6 @@
         {
           "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiCLIQuotaFetcher.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreen.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreenModel.swift"
         },
         {
           "kind" : "file",
@@ -875,6 +871,8 @@
       "objects" : [
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/NoOpApplicationUpdateChecker.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/NoOpTelemetryTracker.swift.o",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/APIKeysScreen.swift.o",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/APIKeysScreenModel.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackFormatConverter.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackModels.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackProvider.swift.o",
@@ -885,9 +883,6 @@
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkProviderIcon.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ProxyBridge.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkExtras.swift.o",
-        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/GeminiCLIQuotaFetcher.swift.o",
-        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/GeminiQuotaScreen.swift.o",
-        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/GeminiQuotaScreenModel.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/BridgePortMetadataRepository.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackProxyLifecycleCoordinator.swift.o",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/PlusBinaryStore.swift.o",
@@ -958,6 +953,14 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/APIKeysScreen.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/APIKeysScreenModel.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/FallbackFormatConverter.swift.o"
         },
         {
@@ -995,18 +998,6 @@
         {
           "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkExtras.swift.o"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/GeminiCLIQuotaFetcher.swift.o"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/GeminiQuotaScreen.swift.o"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/GeminiQuotaScreenModel.swift.o"
         },
         {
           "kind" : "file",
@@ -1049,6 +1040,8 @@
       "sources" : [
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Adapters/NoOpApplicationUpdateChecker.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Adapters/NoOpTelemetryTracker.swift",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ApiKeys/APIKeysScreen.swift",
+        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ApiKeys/APIKeysScreenModel.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackFormatConverter.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackModels.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackProvider.swift",
@@ -1059,9 +1052,6 @@
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ForkProviderIcon.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ProxyBridge.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift",
-        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiCLIQuotaFetcher.swift",
-        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreen.swift",
-        "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreenModel.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/BridgePortMetadataRepository.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/FallbackProxyLifecycleCoordinator.swift",
         "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/PlusBinaryStore.swift",
@@ -3384,6 +3374,8 @@
       "-c",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Adapters/NoOpApplicationUpdateChecker.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Adapters/NoOpTelemetryTracker.swift",
+      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ApiKeys/APIKeysScreen.swift",
+      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ApiKeys/APIKeysScreenModel.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackFormatConverter.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackModels.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackProvider.swift",
@@ -3394,9 +3386,6 @@
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ForkProviderIcon.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/ProxyBridge.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift",
-      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiCLIQuotaFetcher.swift",
-      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreen.swift",
-      "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreenModel.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/BridgePortMetadataRepository.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/FallbackProxyLifecycleCoordinator.swift",
       "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/PlusBinaryStore.swift",
@@ -4248,6 +4237,14 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ApiKeys/APIKeysScreen.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ApiKeys/APIKeysScreenModel.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Fallback/FallbackFormatConverter.swift"
         },
         {
@@ -4285,18 +4282,6 @@
         {
           "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiCLIQuotaFetcher.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreen.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/Gemini/GeminiQuotaScreenModel.swift"
         },
         {
           "kind" : "file",
@@ -4580,6 +4565,14 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/APIKeysScreen.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/APIKeysScreenModel.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/BridgePortMetadataRepository.swift.o"
         },
         {
@@ -4625,18 +4618,6 @@
         {
           "kind" : "file",
           "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/ForkRemoteConnection.swift.o"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/GeminiCLIQuotaFetcher.swift.o"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/GeminiQuotaScreen.swift.o"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/.build/arm64-apple-macosx/debug/QuotioForkExtras.build/GeminiQuotaScreenModel.swift.o"
         },
         {
           "kind" : "file",

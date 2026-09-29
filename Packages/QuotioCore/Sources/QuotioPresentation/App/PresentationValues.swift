@@ -27,7 +27,6 @@ public enum NavigationPage: String, CaseIterable, Identifiable, Sendable {
     case fallback = "Fallback"
     case requestLogs = "Request Logs"
     case remoteConnection = "Remote Connection"
-    case geminiQuota = "Gemini Quota"
 
     public var id: String { rawValue }
 
@@ -50,7 +49,6 @@ public enum NavigationPage: String, CaseIterable, Identifiable, Sendable {
         case .fallback: "arrow.triangle.branch"
         case .requestLogs: "list.bullet.rectangle"
         case .remoteConnection: "point.3.connected.trianglepath.dotted"
-        case .geminiQuota: "sparkles"
         }
     }
 }

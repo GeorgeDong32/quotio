@@ -279,8 +279,6 @@ enum CompositionRoot {
         }
         let apiKeysScreenModel = APIKeysScreenModel(apiClientProvider: managementAPIClient)
         ForkPageRegistry.providers[.apiKeys] = { AnyView(APIKeysScreen().environment(apiKeysScreenModel)) }
-        let geminiScreenModel = GeminiQuotaScreenModel(apiClientProvider: managementAPIClient)
-        ForkPageRegistry.providers[.geminiQuota] = { AnyView(GeminiQuotaScreen().environment(geminiScreenModel)) }
         let services = ProductionAppRuntimeServices(
             quotaController: quotaController,
             proxyScreenModel: proxyScreenModel,

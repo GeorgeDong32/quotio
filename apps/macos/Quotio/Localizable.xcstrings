@@ -5824,6 +5824,22 @@
         }
       }
     },
+    "apiKeys.draftHint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Generated keys land here as an editable draft — review or tweak, then click Add to save."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "生成的密钥会填到这里作为可编辑草稿——检查或修改后，点击“添加”才会保存。"
+          }
+        }
+      }
+    },
     "apiKeys.edit": {
       "extractionState": "stale",
       "localizations": {
@@ -13115,134 +13131,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "虚拟模型映射到真实的提供商模型，当配额耗尽时自动回退。"
-          }
-        }
-      }
-    },
-    "gemini.diagnostics.noProject": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Google did not return a quota project for this account, so quota cannot be fetched."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Google 未返回该账户的配额项目，因此无法获取配额。"
-          }
-        }
-      }
-    },
-    "gemini.diagnostics.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gemini Status"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gemini 状态"
-          }
-        }
-      }
-    },
-    "gemini.lastUpdated": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Updated %@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "更新于 %@"
-          }
-        }
-      }
-    },
-    "gemini.noAccounts": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No Gemini Accounts"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "没有 Gemini 账户"
-          }
-        }
-      }
-    },
-    "gemini.noAccountsHint": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Log in with the Gemini CLI (~/.gemini) or add Gemini auth files to the proxy."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用 Gemini CLI 登录(~/.gemini)或向代理添加 Gemini 授权文件。"
-          }
-        }
-      }
-    },
-    "gemini.refresh": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Refresh Gemini quota"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "刷新 Gemini 配额"
-          }
-        }
-      }
-    },
-    "gemini.resets": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resets"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "重置时间"
-          }
-        }
-      }
-    },
-    "gemini.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gemini Quota"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gemini 配额"
           }
         }
       }

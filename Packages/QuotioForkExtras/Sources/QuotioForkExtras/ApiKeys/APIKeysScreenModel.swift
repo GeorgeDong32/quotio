@@ -50,10 +50,6 @@ public final class APIKeysScreenModel {
         }
     }
 
-    public func addGeneratedKey() async {
-        await add(key: Self.generateKey())
-    }
-
     public func delete(key: String) async {
         guard let apiClient = apiClientProvider() else { return }
         do {

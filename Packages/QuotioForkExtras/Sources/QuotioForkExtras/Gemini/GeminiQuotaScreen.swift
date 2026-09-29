@@ -15,7 +15,28 @@ public struct GeminiQuotaScreen: View {
 
     public var body: some View {
         Form {
-            if model.snapshots.isEmpty {
+            if let diagnostics = model.diagnostics {
+                Section {
+                    HStack(spacing: 10) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundStyle(.orange)
+                        VStack(alignment: .leading, spacing: 4) {
+                            if let tier = diagnostics.tierName {
+                                Text(diagnostics.account + " · " + tier)
+                                    .font(.callout.weight(.medium))
+                            }
+                            Text(diagnostics.message)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .textSelection(.enabled)
+                        }
+                    }
+                    .padding(.vertical, 2)
+                } header: {
+                    Text("gemini.diagnostics.title".localized())
+                }
+            }
+            if model.snapshots.isEmpty && model.diagnostics == nil {
                 Section {
                     ContentUnavailableView {
                         Label("gemini.noAccounts".localized(), systemImage: "sparkles")

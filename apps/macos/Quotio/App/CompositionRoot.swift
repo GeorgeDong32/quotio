@@ -259,25 +259,27 @@ enum CompositionRoot {
         ForkPageRegistry.providers[.fallback] = { AnyView(FallbackScreen()) }
         ForkPageRegistry.providers[.requestLogs] = { AnyView(RequestLogsScreen()) }
         ForkPageRegistry.providers[.remoteConnection] = { AnyView(RemoteConnectionScreen()) }
-        let geminiScreenModel = GeminiQuotaScreenModel(
-            apiClientProvider: { [weak proxyScreenModel] in
-                // Local proxy first, then the saved remote connection.
-                if let proxyScreenModel, proxyScreenModel.proxyStatus.running {
-                    return URLSessionProxyManagementAPI(connection: ProxyManagementConnection(
-                        baseURL: proxyScreenModel.managementURL,
-                        authKey: proxyScreenModel.managementKey
-                    ))
-                }
-                if let config = ForkRemoteConnectionManager.loadSavedConfig(),
-                   let key = ForkRemoteConnectionManager.savedManagementKey() {
-                    return URLSessionProxyManagementAPI(connection: ProxyManagementConnection(
-                        baseURL: config.managementBaseURL,
-                        authKey: key
-                    ))
-                }
-                return nil
+        // Shared management client source: local proxy first, then the
+        // saved remote connection (used by the API Keys and Gemini pages).
+        let managementAPIClient: @MainActor () -> (any ProxyManagementAPI)? = { [weak proxyScreenModel] in
+            if let proxyScreenModel, proxyScreenModel.proxyStatus.running {
+                return URLSessionProxyManagementAPI(connection: ProxyManagementConnection(
+                    baseURL: proxyScreenModel.managementURL,
+                    authKey: proxyScreenModel.managementKey
+                ))
             }
-        )
+            if let config = ForkRemoteConnectionManager.loadSavedConfig(),
+               let key = ForkRemoteConnectionManager.savedManagementKey() {
+                return URLSessionProxyManagementAPI(connection: ProxyManagementConnection(
+                    baseURL: config.managementBaseURL,
+                    authKey: key
+                ))
+            }
+            return nil
+        }
+        let apiKeysScreenModel = APIKeysScreenModel(apiClientProvider: managementAPIClient)
+        ForkPageRegistry.providers[.apiKeys] = { AnyView(APIKeysScreen().environment(apiKeysScreenModel)) }
+        let geminiScreenModel = GeminiQuotaScreenModel(apiClientProvider: managementAPIClient)
         ForkPageRegistry.providers[.geminiQuota] = { AnyView(GeminiQuotaScreen().environment(geminiScreenModel)) }
         let services = ProductionAppRuntimeServices(
             quotaController: quotaController,

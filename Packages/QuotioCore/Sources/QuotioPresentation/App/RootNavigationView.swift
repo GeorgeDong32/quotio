@@ -42,7 +42,7 @@ public struct RootNavigationView: View {
 }
 
 extension NavigationPage {
-    static let settingsPages: [Self] = [.general, .menuBar, .notifications, .privacy, .proxy, .fallback, .requestLogs, .remoteConnection, .geminiQuota, .updates]
+    static let settingsPages: [Self] = [.general, .menuBar, .notifications, .privacy, .proxy, .apiKeys, .fallback, .requestLogs, .remoteConnection, .geminiQuota, .updates]
 
     @MainActor var settingsTitle: String {
         switch self {
@@ -51,6 +51,7 @@ extension NavigationPage {
         case .notifications: "settings.notifications.title".localized()
         case .privacy: "connections.privacy".localized()
         case .proxy: "CLIProxyAPI"
+        case .apiKeys: "apiKeys.title".localized()
         case .fallback: "settings.fallback".localized()
         case .requestLogs: "settings.requestLogs".localized()
         case .remoteConnection: "remote.title".localized()

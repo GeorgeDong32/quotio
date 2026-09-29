@@ -5747,6 +5747,54 @@
         }
       }
     },
+    "apiKeys.addKey": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Key"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加密钥"
+          }
+        }
+      }
+    },
+    "apiKeys.copy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy key"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制密钥"
+          }
+        }
+      }
+    },
+    "apiKeys.delete": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete key"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除密钥"
+          }
+        }
+      }
+    },
     "apiKeys.description": {
       "extractionState": "stale",
       "localizations": {
@@ -5863,6 +5911,22 @@
         }
       }
     },
+    "apiKeys.footer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CLI agents authenticate against the local proxy with these keys."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CLI 代理工具使用这些密钥向本地代理进行认证。"
+          }
+        }
+      }
+    },
     "apiKeys.generate": {
       "extractionState": "stale",
       "localizations": {
@@ -5950,6 +6014,22 @@
         }
       }
     },
+    "apiKeys.keys": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Client Keys"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "客户端密钥"
+          }
+        }
+      }
+    },
     "apiKeys.list": {
       "extractionState": "stale",
       "localizations": {
@@ -5975,6 +6055,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "API 密钥"
+          }
+        }
+      }
+    },
+    "apiKeys.newKeyPlaceholder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom key"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义密钥"
           }
         }
       }
@@ -6008,6 +6104,22 @@
         }
       }
     },
+    "apiKeys.proxyNotRunning": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The proxy is not running and no remote connection is saved."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "代理未运行且未保存远程连接。"
+          }
+        }
+      }
+    },
     "apiKeys.proxyRequired": {
       "extractionState": "stale",
       "localizations": {
@@ -6033,6 +6145,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "启动代理以管理 API 密钥"
+          }
+        }
+      }
+    },
+    "apiKeys.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Keys"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API 密钥"
           }
         }
       }
@@ -12987,6 +13115,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "虚拟模型映射到真实的提供商模型，当配额耗尽时自动回退。"
+          }
+        }
+      }
+    },
+    "gemini.diagnostics.noProject": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google did not return a quota project for this account, so quota cannot be fetched."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google 未返回该账户的配额项目，因此无法获取配额。"
+          }
+        }
+      }
+    },
+    "gemini.diagnostics.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini Status"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini 状态"
           }
         }
       }

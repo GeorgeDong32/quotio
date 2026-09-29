@@ -46,6 +46,21 @@ public struct GeminiQuotaSnapshot: Equatable, Identifiable, Sendable {
     }
 }
 
+/// Tier/eligibility explanation when quota cannot be fetched (e.g. Google
+/// retired the free-tier quota API — UNSUPPORTED_CLIENT, migrate to
+/// Antigravity).
+public struct GeminiDiagnostics: Equatable, Sendable {
+    public let account: String
+    public let tierName: String?
+    public let message: String
+
+    public init(account: String, tierName: String?, message: String) {
+        self.account = account
+        self.tierName = tierName
+        self.message = message
+    }
+}
+
 // MARK: - Support types
 
 private extension String {
@@ -235,6 +250,46 @@ public actor GeminiCLIQuotaFetcher {
     /// Whether the native Gemini CLI login exists.
     public func hasNativeCredential() -> Bool {
         readAuthFile() != nil
+    }
+
+    /// Tier/eligibility diagnostics for the native login. Google retired
+    /// the free-tier quota API (UNSUPPORTED_CLIENT → migrate to Antigravity);
+    /// when that happens `loadCodeAssist` returns no project and quota
+    /// fetching is impossible — surface why instead of showing nothing.
+    public func nativeDiagnostics() async -> GeminiDiagnostics? {
+        guard let auth = readAuthFile() else { return nil }
+        var accessToken = auth.accessToken
+        if shouldRefresh(auth), let refreshToken = auth.refreshToken,
+           let refreshed = try? await refresh(refreshToken: refreshToken) {
+            accessToken = refreshed.accessToken
+        }
+        guard let accessToken,
+              let payload = try? await postJSON(url: codeAssistURL, accessToken: accessToken, body: [
+                  "metadata": [
+                      "ideType": "IDE_UNSPECIFIED",
+                      "platform": "PLATFORM_UNSPECIFIED",
+                      "pluginType": "GEMINI",
+                  ],
+              ]) else {
+            return nil
+        }
+        let account = getAccountInfo()?.email ?? "gemini-cli"
+        if let ineligible = payload["ineligibleTiers"] as? [[String: Any]],
+           let reason = stringValue(ineligible.first?["reasonMessage"]) {
+            return GeminiDiagnostics(
+                account: account,
+                tierName: stringValue(ineligible.first?["tierName"]),
+                message: reason
+            )
+        }
+        guard stringValue(payload["cloudaicompanionProject"] ?? payload["projectId"] ?? payload["project"]) == nil else {
+            return nil // quota should have worked; not a diagnostics case
+        }
+        return GeminiDiagnostics(
+            account: account,
+            tierName: stringValue((payload["allowedTiers"] as? [[String: Any]])?.first?["name"]),
+            message: "Google did not return a quota project for this account, so quota cannot be fetched."
+        )
     }
 
     // MARK: - Relay path

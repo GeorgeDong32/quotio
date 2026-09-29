@@ -14,6 +14,7 @@ import QuotioApplication
 @Observable
 public final class GeminiQuotaScreenModel {
     public private(set) var snapshots: [GeminiQuotaSnapshot] = []
+    public private(set) var diagnostics: GeminiDiagnostics?
     public private(set) var lastRefresh: Date?
     public private(set) var isRefreshing = false
     public private(set) var lastError: String?
@@ -29,12 +30,18 @@ public final class GeminiQuotaScreenModel {
         guard !isRefreshing else { return }
         isRefreshing = true
         lastError = nil
+        diagnostics = nil
         defer { isRefreshing = false }
 
         do {
             let results = await fetcher.fetchAll(apiClient: apiClientProvider())
             snapshots = results
             lastRefresh = Date()
+            if snapshots.isEmpty {
+                // Explain an empty result instead of showing a bare
+                // placeholder (e.g. Google retired the free-tier quota API).
+                diagnostics = await fetcher.nativeDiagnostics()
+            }
         } catch {
             lastError = error.localizedDescription
         }

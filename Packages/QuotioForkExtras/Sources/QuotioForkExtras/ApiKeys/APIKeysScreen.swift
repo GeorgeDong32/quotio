@@ -59,6 +59,7 @@ public struct APIKeysScreen: View {
                     .autocorrectionDisabled()
                     .truncationMode(.middle)
                     .frame(maxWidth: .infinity)
+                    .labelsHidden()
                     .focused($keyFieldFocused)
                 // Row 2: actions right-aligned.
                 HStack {

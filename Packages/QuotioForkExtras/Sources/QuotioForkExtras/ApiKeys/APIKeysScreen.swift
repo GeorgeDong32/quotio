@@ -58,7 +58,8 @@ public struct APIKeysScreen: View {
                         .font(.system(.body, design: .monospaced))
                         .autocorrectionDisabled()
                         .truncationMode(.middle)
-                        .frame(width: 300, alignment: .leading)
+                        .frame(width: 380)
+                        .fixedSize()
                         .focused($keyFieldFocused)
 
                     Button("apiKeys.generate".localized()) {

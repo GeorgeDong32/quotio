@@ -36,6 +36,7 @@ xcodebuild archive \
     -archivePath "${ARCHIVE_PATH}" \
     -derivedDataPath "${RELEASE_DERIVED_DATA}" \
     -destination "generic/platform=macOS" \
+    ARCHS=arm64 \
     SKIP_INSTALL=NO \
     BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
     CODE_SIGN_IDENTITY="-" \

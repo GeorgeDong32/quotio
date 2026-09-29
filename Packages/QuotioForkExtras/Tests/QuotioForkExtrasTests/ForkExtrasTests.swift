@@ -4,6 +4,6 @@ import XCTest
 
 final class ForkExtrasTests: XCTestCase {
     func testPortBaseMarker() {
-        XCTAssertEqual(QuotioForkExtras.portBase, "upstream-efe2f82")
+        XCTAssertEqual(ForkExtras.portBase, "upstream-efe2f82")
     }
 }

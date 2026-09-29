@@ -57,7 +57,7 @@ public struct APIKeysScreen: View {
                     .font(.system(.body, design: .monospaced))
                     .autocorrectionDisabled()
                     .truncationMode(.middle)
-                    .frame(maxWidth: .infinity)
+                    .frame(width: 380, alignment: .leading)
                     .focused($keyFieldFocused)
                 HStack {
                     Button("apiKeys.add".localized()) {

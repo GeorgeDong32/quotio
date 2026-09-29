@@ -53,6 +53,8 @@ public struct APIKeysScreen: View {
 
             Section {
                 TextField("apiKeys.newKeyPlaceholder".localized(), text: $newKey)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.system(.body, design: .monospaced))
                     .autocorrectionDisabled()
                     .focused($keyFieldFocused)
                 HStack {

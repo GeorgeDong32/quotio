@@ -52,25 +52,23 @@ public struct APIKeysScreen: View {
             }
 
             Section {
-                HStack(spacing: 8) {
-                    TextField("apiKeys.newKeyPlaceholder".localized(), text: $newKey)
-                        .textFieldStyle(.roundedBorder)
-                        .font(.system(.body, design: .monospaced))
-                        .autocorrectionDisabled()
-                        .truncationMode(.middle)
-                        .frame(width: 380)
-                        .fixedSize()
-                        .focused($keyFieldFocused)
-
+                // Row 1: the input fills the full width.
+                TextField("apiKeys.newKeyPlaceholder".localized(), text: $newKey)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.system(.body, design: .monospaced))
+                    .autocorrectionDisabled()
+                    .truncationMode(.middle)
+                    .frame(maxWidth: .infinity)
+                    .focused($keyFieldFocused)
+                // Row 2: actions right-aligned.
+                HStack {
+                    Spacer()
                     Button("apiKeys.generate".localized()) {
                         // Draft mode: fill the field for review/editing;
                         // nothing is saved until "Add" is clicked.
                         newKey = APIKeysScreenModel.generateKey()
                         keyFieldFocused = true
                     }
-
-                    Spacer()
-
                     Button("apiKeys.add".localized()) {
                         Task {
                             await model.add(key: newKey)

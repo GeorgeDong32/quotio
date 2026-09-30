@@ -261,10 +261,6 @@ enum CompositionRoot {
         ForkPageRegistry.providers[.fallback] = { AnyView(FallbackScreen()) }
         ForkPageRegistry.providers[.requestLogs] = { AnyView(RequestLogsScreen()) }
         ForkPageRegistry.providers[.remoteConnection] = { AnyView(RemoteConnectionScreen()) }
-        let proxySourceScreenModel = ProxyBinarySourceScreenModel(restartProxy: { [weak proxyScreenModel] in
-            try await proxyScreenModel?.restart()
-        })
-        ForkPageRegistry.providers[.proxySource] = { AnyView(ProxyBinarySourceScreen().environment(proxySourceScreenModel)) }
         // Shared management client source: local proxy first, then the
         // saved remote connection (used by the API Keys and Gemini pages).
         let managementAPIClient: @MainActor () -> (any ProxyManagementAPI)? = { [weak proxyScreenModel] in

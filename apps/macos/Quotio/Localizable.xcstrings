@@ -20061,102 +20061,6 @@
         }
       }
     },
-    "proxySource.footer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fallback routing works with either binary. The official build carries the full management API (e.g. usage-queue for CPA-Usage-Keeper) and updates from GitHub releases; the plus build is pinned inside the app and never changes."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "两种二进制都支持模型回退路由。官方版提供完整管理 API(含 CPA-Usage-Keeper 依赖的 usage-queue)并从 GitHub 安装更新;Plus 版随应用内置、版本固定。"
-          }
-        }
-      }
-    },
-    "proxySource.plusLocal": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bundled Plus build (fixed version)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "内置 Plus 版(固定版本)"
-          }
-        }
-      }
-    },
-    "proxySource.restarting": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restarting proxy to apply…"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在重启代理以应用更改…"
-          }
-        }
-      }
-    },
-    "proxySource.source": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Binary Source"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "二进制来源"
-          }
-        }
-      }
-    },
-    "proxySource.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Proxy Binary"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "代理二进制"
-          }
-        }
-      }
-    },
-    "proxySource.upstream": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Official CLIProxyAPI (GitHub, auto-updated)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "官方版 CLIProxyAPI(GitHub 安装并自动更新)"
-          }
-        }
-      }
-    },
     "quota.accounts": {
       "extractionState": "stale",
       "localizations": {
@@ -27428,22 +27332,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "代理设置"
-          }
-        }
-      }
-    },
-    "settings.proxySource": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Proxy Binary"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "代理二进制"
           }
         }
       }

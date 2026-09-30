@@ -80,7 +80,7 @@ public actor FallbackProxyLifecycleCoordinator: ProxyControlling {
     // MARK: - Lifecycle
 
     public func initialize() async {
-        if bridgeModeEnabled {
+        if bridgeModeEnabled, ForkProxyBinarySource.stored() == .plusLocal {
             // Install the bundled plus binary before the controller looks for it.
             try? PlusBinaryStore().ensureInstalled()
         }
@@ -121,19 +121,34 @@ public actor FallbackProxyLifecycleCoordinator: ProxyControlling {
         await controller.shutdown()
     }
 
-    // MARK: - Update surface (fork parity: fixed bundled binary)
+    // MARK: - Update surface
+    // Upstream source: real GitHub install/update through the controller.
+    // Plus source: fixed bundled binary, inert update surface.
 
     public func installLatest() async throws {
-        // The plus binary ships inside the app bundle and never auto-updates.
+        if ForkProxyBinarySource.stored() == .upstream {
+            try await controller.installLatest()
+            return
+        }
         try PlusBinaryStore().ensureInstalled()
     }
 
-    public func checkForUpgrade() async {}
+    public func checkForUpgrade() async {
+        if ForkProxyBinarySource.stored() == .upstream {
+            await controller.checkForUpgrade()
+        }
+    }
 
-    public func availableVersions(limit: Int) async throws -> [ProxyVersionInfo] { [] }
+    public func availableVersions(limit: Int) async throws -> [ProxyVersionInfo] {
+        guard ForkProxyBinarySource.stored() == .upstream else { return [] }
+        return try await controller.availableVersions(limit: limit)
+    }
 
     public func install(_ version: ProxyVersionInfo) async throws {
-        throw PlusBinaryError.installationFailed("The bundled plus binary cannot be replaced")
+        guard ForkProxyBinarySource.stored() == .upstream else {
+            throw PlusBinaryError.installationFailed("The bundled plus binary cannot be replaced")
+        }
+        try await controller.install(version)
     }
 
     public func activate(version: String) async throws {

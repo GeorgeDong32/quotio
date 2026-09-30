@@ -14,7 +14,9 @@
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ForkExtras.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/BridgePortMetadataRepository.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/FallbackProxyLifecycleCoordinator.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/ForkProxyBinarySource.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/PlusBinaryStore.swift
+/Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/ProxyIntegration/ProxyBinarySourceScreen.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RemoteMode/ForkRemoteConnection.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RemoteMode/RemoteConnectionScreen.swift
 /Users/gd32/Coding/quotio/Packages/QuotioForkExtras/Sources/QuotioForkExtras/RequestLogs/RequestLog.swift

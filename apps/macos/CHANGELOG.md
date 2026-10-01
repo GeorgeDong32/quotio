@@ -23,6 +23,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Restore cached quota after restart, keep healthy accounts visible when another source fails, and preserve disabled native sources across scans.
 - Improve account names and quota details for Codex, Copilot, Devin, Factory, Antigravity, Amp, and Grok.
 
+## [0.34.0] - 2026-10-01
+
+### Added
+
+- First fork release on the upstream monorepo base: model-fallback routing via ProxyBridge, request logging with history, remote CLIProxyAPI connection, and a fork-owned API Keys page (two-row entry, Generate as an editable draft saved on Add).
+- Proxy binary source selection: run the official CLIProxyAPI from GitHub releases (default) or the bundled, sha-pinned plus build. Versions install, roll back, and delete from the existing Settings → CLIProxyAPI manage-versions sheet.
+
+### Changed
+
+- Fork features now live in `Packages/QuotioForkExtras`; identity is `dev.quotio.desktop` (production).
+- Upgraded installs keep their configured proxy port via fork-default port seeding.
+
+### Removed
+
+- Sparkle auto-update framework and update UI; PostHog telemetry (both replaced by no-op adapters).
+- Gemini CLI quota page (Google retired the free-tier quota API).
+
 ## [0.33.0] - 2026-09-17
 
 ## [0.32.0] - 2026-09-16

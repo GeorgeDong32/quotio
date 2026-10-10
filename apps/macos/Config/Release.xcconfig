@@ -9,3 +9,7 @@
 PRODUCT_BUNDLE_IDENTIFIER = dev.quotio.desktop
 PRODUCT_NAME = Quotio
 ENABLE_HARDENED_RUNTIME = YES
+
+// Ship arm64-only (matches the shipped builds; the embedded Rust helper is
+// built per ARCHS and x86_64 std is not available on the build machine).
+ARCHS = arm64

@@ -21,6 +21,12 @@ DerivedData/
 *.dSYM.zip
 *.dSYM
 
+# Swift Package Manager build directories
+.build/
+
+# pi agent session artifacts
+.pi/
+
 # Build logs
 *.log
 

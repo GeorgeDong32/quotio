@@ -26,7 +26,13 @@ enum CompositionRoot {
             repository: customProviderRepository,
             discovery: customProviderTransport,
             connectionTester: customProviderTransport,
-            configurationSynchronizer: FileCustomProviderConfigurationSynchronizer()
+            // Fork: manual provider config mode — while enabled (Settings →
+            // Proxy Config), stop rewriting the provider/model sections of
+            // config.yaml on every proxy start; port and management-key
+            // write-backs stay active.
+            configurationSynchronizer: ManualModeConfigurationSynchronizer(
+                base: FileCustomProviderConfigurationSynchronizer()
+            )
         )
         let urlOpener = WorkspaceURLOpener()
         let applicationPlatform = AppKitApplicationPlatformAdapter()
@@ -261,6 +267,7 @@ enum CompositionRoot {
         ForkPageRegistry.providers[.fallback] = { AnyView(FallbackScreen()) }
         ForkPageRegistry.providers[.requestLogs] = { AnyView(RequestLogsScreen()) }
         ForkPageRegistry.providers[.remoteConnection] = { AnyView(RemoteConnectionScreen()) }
+        ForkPageRegistry.providers[.proxyConfig] = { AnyView(ProviderConfigScreen(configPath: paths.configPath)) }
         // Shared management client source: local proxy first, then the
         // saved remote connection (used by the API Keys and Gemini pages).
         let managementAPIClient: @MainActor () -> (any ProxyManagementAPI)? = { [weak proxyScreenModel] in

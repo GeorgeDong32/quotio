@@ -19,6 +19,7 @@ Living specifications for fork-owned capabilities live in
 | `ApiKeys/` | The fork-owned API Keys page (`APIKeysScreen` / `APIKeysScreenModel`). UX is frozen — see the contract below and the [`api-keys-page` spec](../../openspec/specs/api-keys-page/spec.md). |
 | `RequestLogs/` | Per-request logging and the request-history screen (`RequestTracker`, `RequestLog`). |
 | `RemoteMode/` | Remote CLIProxyAPI connection settings (`ForkRemoteConnection`, `RemoteConnectionScreen`) — point the app at a proxy running on another machine. |
+| `ManualConfig/` | Ownership of config.yaml provider/model sections: `ManualProviderConfigStore` + `ManualModeConfigurationSynchronizer` gate the managed-sections rewrite (manual provider config mode); `ProviderConfigScreen` is the Settings → Proxy Config page. Spec: [`proxy-config-ownership`](../../openspec/specs/proxy-config-ownership/spec.md). |
 | `Adapters/` | No-op stand-ins for upstream integrations the fork ships without: `NoOpApplicationUpdateChecker` (replaces Sparkle) and `NoOpTelemetryTracker` (replaces PostHog). |
 | `ForkExtras.swift` | Package-level entry point / re-exports. |
 
@@ -33,7 +34,7 @@ the bundled plus build.
 
 ## The fork contract — invariants for any upstream sync
 
-These five behaviors are fork-owned acceptance criteria. Sync conflicts here
+These six behaviors are fork-owned acceptance criteria. Sync conflicts here
 always resolve fork-side; never silently drop them.
 
 1. **HTTP 400 fallback suppression.** When a fallback is triggered by an
@@ -70,6 +71,14 @@ always resolve fork-side; never silently drop them.
    version; verify the bundled binary with
    `apps/macos/scripts/verify-bundled-proxy.sh`. Spec:
    [`proxy-binary-source`](../../openspec/specs/proxy-binary-source/spec.md).
+6. **Manual provider config mode gates only the section rewrite.** While
+   `manualProviderConfig` is set (Settings → Proxy Config), the fork's
+   `ManualModeConfigurationSynchronizer` must keep suppressing the
+   managed-sections rewrite of `config.yaml` (both the lifecycle supplement
+   and the Providers screen path) while port and management-key write-backs
+   stay active — never widen the gate to the whole configuration
+   repository, and never let the base synchronizer run while the mode is on.
+   Spec: [`proxy-config-ownership`](../../openspec/specs/proxy-config-ownership/spec.md).
 
 ### Deliberate absence: Gemini CLI quota
 
